@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+results/state/
+results/*.json
+*.log.tmp
+corpora/*.epd
+corpora/*.jsonl
+!corpora/PROVENANCE.md
+!corpora/fetch_corpora.py
+.venv/

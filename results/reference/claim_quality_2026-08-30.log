@@ -1,0 +1,58 @@
+  40 positions, depths 12,14,16,18
+  prover 20,000,000 | finder 20,000,000 | verify 1,000,000
+
+       1/40  d12  h18:- hsm:- mfi:12v
+       2/40  d12  h18:12v hsm:12v mfi:12v
+       3/40  d12  h18:12 hsm:12 mfi:-
+       4/40  d12  h18:12v hsm:12v mfi:12v
+       5/40  d12  h18:12v hsm:- mfi:12v
+       6/40  d12  h18:- hsm:- mfi:-
+       8/40  d12  h18:12v hsm:12v mfi:12v
+       9/40  d12  h18:12v hsm:- mfi:12v
+      11/40  d14  h18:14v hsm:- mfi:14v
+      12/40  d14  h18:14 hsm:14 mfi:-
+      13/40  d14  h18:14v hsm:14v mfi:14v
+      14/40  d14  h18:14 hsm:- mfi:-
+      15/40  d14  h18:14v hsm:14v mfi:14v
+      16/40  d14  h18:- hsm:14v mfi:14v
+      17/40  d14  h18:14 hsm:- mfi:-
+      18/40  d14  h18:- hsm:14 mfi:-
+      19/40  d14  h18:14 hsm:- mfi:-
+      20/40  d14  h18:14v hsm:14v mfi:14v
+      21/40  d16  h18:16 hsm:16 mfi:16
+      22/40  d16  h18:16v hsm:16v mfi:16v
+      23/40  d16  h18:16v hsm:- mfi:16v
+      24/40  d16  h18:- hsm:- mfi:-
+      25/40  d16  h18:16 hsm:16 mfi:-
+      26/40  d16  h18:16 hsm:16 mfi:16
+      27/40  d16  h18:16v hsm:16v mfi:-
+      28/40  d16  h18:16 hsm:16 mfi:16
+      29/40  d16  h18:16 hsm:- mfi:-
+      30/40  d16  h18:16 hsm:16 mfi:16
+      31/40  d18  h18:18 hsm:18 mfi:-
+      33/40  d18  h18:18v hsm:18v mfi:18v
+      34/40  d18  h18:18 hsm:- mfi:-
+      35/40  d18  h18:18 hsm:18 mfi:18
+      36/40  d18  h18:18 hsm:18 mfi:18
+      37/40  d18  h18:18v hsm:18v mfi:18v
+      38/40  d18  h18:18v hsm:18v mfi:18v
+      39/40  d18  h18:18v hsm:- mfi:18v
+      40/40  d18  h18:- hsm:- mfi:-
+
+  prover alone 3/40; 37 positions offered to the proposers
+
+  proposer         claimed  verified   precision certified
+  hunt18-clean          31        16        0.52        19
+  huntsman              23        12        0.52        15
+  matefish              23        17        0.74        20
+
+  union of all three: 18 verified -> 21/40 certified
+  best single arm:    matefish at 17
+  -> the proposers FAIL ON DIFFERENT POSITIONS: the union beats the
+     best single arm by +1, so a portfolio of proposers is worth
+     testing. Verification makes that free of soundness risk.
+
+  huntsman vs hunt18-clean: +1 / -5  (6 discordant)
+  matefish vs hunt18-clean: +2 / -1  (3 discordant)
+
+=== CLAIM QUALITY ENDED ===

@@ -1,0 +1,63 @@
+  43 positions, depths 20,24,28,32,36
+  prover 20,000,000 | finder 20,000,000 | verify 1,000,000
+
+       1/43  d20  h18:20 hsm:- mfi:-
+       2/43  d20  h18:- hsm:20 mfi:-
+       3/43  d20  h18:20 hsm:- mfi:-
+       4/43  d20  h18:- hsm:20v mfi:20v
+       5/43  d20  h18:20 hsm:20 mfi:20
+       6/43  d20  h18:20v hsm:20v mfi:20v
+       7/43  d20  h18:20v hsm:20v mfi:20v
+       8/43  d20  h18:20 hsm:20 mfi:-
+       9/43  d20  h18:20v hsm:20v mfi:20v
+      10/43  d20  h18:20 hsm:- mfi:-
+      11/43  d24  h18:- hsm:- mfi:-
+      12/43  d24  h18:24 hsm:- mfi:-
+      13/43  d24  h18:24 hsm:- mfi:-
+      14/43  d24  h18:- hsm:24 mfi:-
+      15/43  d24  h18:- hsm:24v mfi:24v
+      16/43  d24  h18:24 hsm:24 mfi:-
+      17/43  d24  h18:- hsm:- mfi:-
+      18/43  d24  h18:- hsm:24v mfi:24v
+      19/43  d24  h18:- hsm:- mfi:-
+      20/43  d24  h18:24 hsm:24 mfi:24
+      21/43  d28  h18:28v hsm:28v mfi:28v
+      22/43  d28  h18:28 hsm:28 mfi:-
+      23/43  d28  h18:- hsm:- mfi:-
+      24/43  d28  h18:- hsm:28 mfi:-
+      25/43  d28  h18:- hsm:- mfi:-
+      26/43  d28  h18:28v hsm:28v mfi:28v
+      27/43  d28  h18:- hsm:- mfi:-
+      28/43  d28  h18:- hsm:- mfi:-
+      29/43  d32  h18:32 hsm:32 mfi:-
+      30/43  d32  h18:- hsm:- mfi:-
+      31/43  d32  h18:- hsm:- mfi:-
+      32/43  d32  h18:- hsm:32 mfi:32
+      33/43  d32  h18:- hsm:- mfi:-
+      34/43  d32  h18:- hsm:- mfi:-
+      35/43  d32  h18:32 hsm:32 mfi:-
+      36/43  d32  h18:- hsm:32 mfi:32
+      37/43  d32  h18:- hsm:32 mfi:-
+      38/43  d32  h18:- hsm:- mfi:-
+      39/43  d36  h18:- hsm:- mfi:-
+      40/43  d36  h18:- hsm:- mfi:-
+      41/43  d36  h18:36v hsm:36v mfi:36v
+      42/43  d36  h18:36 hsm:36 mfi:36
+      43/43  d36  h18:36 hsm:36 mfi:-
+
+  prover alone 0/43; 43 positions offered to the proposers
+
+  proposer         claimed  verified   precision certified
+  hunt18-clean          20         6        0.30         6
+  huntsman              24         9        0.38         9
+  matefish              14         9        0.64         9
+
+  union of all three: 9 verified -> 9/43 certified
+  best single arm:    huntsman at 9
+  -> NO COMPLEMENTARITY. The union adds nothing over huntsman alone, so
+     the arms succeed on nested sets and a portfolio buys nothing.
+
+  huntsman vs hunt18-clean: +3 / -0  (3 discordant)
+  matefish vs hunt18-clean: +3 / -0  (3 discordant)
+
+=== CLAIM QUALITY ENDED ===

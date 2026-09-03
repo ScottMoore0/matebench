@@ -1,0 +1,18 @@
+  60 positions, --direct-depth baseline at 20,000,000 nodes, matefish proposer
+
+     10/60
+     20/60
+     30/60
+     40/60
+     50/60
+     60/60
+
+  mateprover --direct-depth alone     36/60
+  proposer claimed on                 5 of the 24 it missed
+  of those, VERIFIED                  0
+  lane total                          36/60  (+0)
+
+  -> THE PROPOSER ADDS NOTHING once the baseline asks the same
+     question. The published +24 was entirely the mode change.
+
+=== GENVERIFY CORRECTED ENDED ===

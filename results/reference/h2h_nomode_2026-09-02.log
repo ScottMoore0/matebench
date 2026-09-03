@@ -1,0 +1,51 @@
+  ChestUCI d>=14: 953 available, 400 sampled; 10,000,000 nodes, 1 thread each
+  400 arm-positions to run
+
+     40/400
+     80/400
+     120/400
+     160/400
+     200/400
+     240/400
+     280/400
+     320/400
+     360/400
+     400/400
+  matehunter  nps ~ 1,884,652
+  huntsman    nps ~ 1,659,442
+  matehunter-noeval nps ~ 1,338,672
+  matehunter-eval-nomode nps ~ 2,881,800
+
+  matehunter vs huntsman
+  band         n      MH-arm   huntsman   MH only   HS only        p
+  d14-17    196         157        147        24        14    0.143
+  d18-21     76          56         42        16         2    0.001
+  d22-25     30          14         14         6         6    1.000
+  d26-30     29           9         15         1         7    0.070
+  d31-99     65           9         13         3         7    0.344
+  ALL        400         245        231        50        36   0.1606
+  discordant 86: matehunter +50 / -36 -> not established
+
+  matehunter-noeval vs huntsman
+  band         n      MH-arm   huntsman   MH only   HS only        p
+  d14-17    196         101        147        16        62    0.000
+  d18-21     76          34         42         6        14    0.115
+  d22-25     30           7         14         1         8    0.039
+  d26-30     29           5         15         1        11    0.006
+  d31-99     65           7         13         1         7    0.070
+  ALL        400         154        231        25       102   0.0000
+  discordant 127: matehunter-noeval +25 / -102 -> huntsman AHEAD, p=0.0000
+
+  matehunter-eval-nomode vs huntsman
+  band         n      MH-arm   huntsman   MH only   HS only        p
+  d14-17    196         155        147        23        15    0.256
+  d18-21     76          55         42        15         2    0.002
+  d22-25     30          14         14         7         7    1.000
+  d26-30     29          12         15         2         5    0.453
+  d31-99     65          14         13         6         5    1.000
+  ALL        400         250        231        53        34   0.0530
+  discordant 87: matehunter-eval-nomode +53 / -34 -> not established
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== H2H CHESTUCI ENDED ===

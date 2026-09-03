@@ -1,0 +1,28 @@
+  ChestUCI d>=26: 234 available, 234 sampled; 10,000,000 nodes, 1 thread each
+  468 arm-positions to run
+
+     40/468
+     80/468
+     120/468
+     160/468
+     200/468
+     240/468
+     280/468
+     320/468
+     360/468
+     400/468
+     440/468
+     468/468
+  matehunter  nps ~ 1,970,868
+  huntsman    nps ~ 1,658,708
+
+  band         n  matehunter   huntsman   MH only   HS only        p
+  d26-30     65          19         28         2        11    0.022
+  d31-99    155          24         37         6        19    0.015
+  ALL        234          43         65         8        30   0.0005
+
+  discordant pairs 38: MateHunter +8 / -30
+  -> ESTABLISHED: Huntsman ahead, p = 0.0005. First result in this project to
+     separate the two engines. Check the band rows before generalising.
+
+=== H2H CHESTUCI ENDED ===

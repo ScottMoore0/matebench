@@ -1,0 +1,45 @@
+  45 positions, 20,000,000 nodes each, 9 arms (portfolio + 8 candidates)
+  candidates run WITHOUT --no-portfolio disabled? no - each is a single
+  restricted search, given the full budget the portfolio splits eight ways
+
+  405 arm-positions to run
+
+     25/405
+     50/405
+     75/405
+     100/405
+     125/405
+     150/405
+     175/405
+     200/405
+     225/405
+     250/405
+     275/405
+     300/405
+     325/405
+     350/405
+     375/405
+     400/405
+     405/405
+
+  arm              solved of portfolio's
+                          misses, rescued
+  portfolio (8)        25              -
+  K1                    2              1
+  K4                   23              0
+  X1                    2              0
+  X3                    9              0
+  C2                   15              2
+  C6                    6              1
+  R3                    3              0
+  R4                    3              0
+
+  portfolio solved 25/45, missed 20
+  positions rescued by AT LEAST ONE unshipped restriction: 3
+
+  -> HEADROOM EXISTS: 3 position(s) reachable by a restriction the
+     portfolio does not carry. How a lane is CHOSEN is therefore worth
+     improving, and a learned restriction is worth building. Note this
+     is an UPPER BOUND - a real lane holds a fraction of the budget.
+
+=== LANE9 HEADROOM ENDED ===

@@ -1,0 +1,19 @@
+  mate-in-14, 30 positions (skipping the first 60), 8,000,000 nodes each
+
+  lane0 share        solved   median s     wall s vs shipped
+  ------------------------------------------------------------
+  shipped (~30)       20/30        0.12      526.3          -
+  30 (control)        20/30        0.11      481.5         +0
+      control MATCHES the shipped weights (0 discordant)
+  50                  20/30        0.11      473.5         +0
+  70                  20/30        0.11      487.0         +0
+  90                  20/30        0.13      471.9         +0
+  NO portfolio        18/30        0.04      167.7         -2
+
+  POSITIVE CONTROL: disabling the portfolio costs -2 positions.
+     The instrument registers a known effect, so a null on
+     the weight arms is a real null, not a dead harness.
+
+  Rising with share -> 0.30 starves the complete lane, as the
+  alpha-beta side found. Flat or falling -> 0.30 is already right
+  and DFPN's complete lane does not behave like alpha-beta's.

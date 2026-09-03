@@ -1,0 +1,62 @@
+verify_budget.py --per-depth 10   (depths 12,14,16,18; 2026-08-30)
+prover 20,000,000 nodes; finder 20,000,000; verification ceiling 32,000,000
+
+  phase A: 40 positions
+     prover solved alone 1/40; finder claimed on 30 of the 39 missed
+
+  phase B
+     16/30 claims verified at the ceiling; 14 refuted or unreachable
+
+  phase C: control - re-run at exactly acn (expect ok) and acn-1 (expect fail)
+     acn 1,865      at:True  below:False ok
+     acn 2,252      at:True  below:False ok
+     acn 6,004      at:True  below:False ok
+     acn 6,302      at:True  below:False ok
+     acn 10,142     at:True  below:False ok
+     acn 34,546     at:True  below:False ok
+     control 6/6 consistent -> derived curve is usable
+
+  phase D: verified claims against budget   (base: prover alone 1/40)
+     budget       verified  of claims  total certified
+     1,000,000          13         30               14
+     2,000,000          13         30               14
+     4,000,000          13         30               14
+     8,000,000          14         30               15
+     16,000,000         15         30               16
+     32,000,000         16         30               17
+
+     median verification cost 90,362 nodes; max 20,420,687
+     at the shipped 4,000,000 default: 13 of 16 verified claims
+
+DERIVED (a ceiling is spent only on FAILURES; a success costs its own acn):
+     ceiling      verified  failures     nodes wasted
+     1,000,000          13        17       17,000,000
+     2,000,000          13        17       34,000,000
+     4,000,000          13        17       68,000,000
+     8,000,000          14        16      128,000,000
+     16,000,000         15        15      240,000,000
+     32,000,000         16        14      448,000,000
+
+CONCLUSION: 1,000,000 DOMINATES the shipped 4,000,000 - identical yield, a
+quarter of the waste. Verification cost is bimodal (median 90K, max 20.4M), so
+the ceiling does nothing for the typical claim and only ever buys the tail.
+
+CONTROL NOW COVERS THE TAIL (re-run 2026-08-30 with --control-select
+expensive). The first control sampled the six CHEAPEST verifications
+(acn 1.8K-34.5K), which confirmed the derivation only where it was never in
+doubt - the ceiling matters in the TAIL. Re-run at the expensive end:
+     acn 512,165     at:True  below:False  ok
+     acn 522,601     at:True  below:False  ok
+     acn 589,797     at:True  below:False  ok
+     acn 7,373,081   at:True  below:False  ok
+     acn 9,724,704   at:True  below:False  ok
+     acn 20,420,687  at:True  below:False  ok     <- the MAXIMUM
+6/6 again. The derivation now holds across the full range, 1.8K to 20.4M, so
+the budget curve and the 1M default stand without qualification.
+
+The whole run also reproduced the first one EXACTLY - same 1/40 solved, same
+30 claims, same 16 verified, same curve - which is a free determinism check.
+
+REPLICATION: this independently reproduces the generate-and-verify effect on a
+fresh sample. Claim rate 30/39 = 77% here against 41/53 = 77% originally;
+verification rate 16/30 = 53% against 24/41 = 59%.
