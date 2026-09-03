@@ -62,7 +62,7 @@ solution, 10 s a position:
 | stalemate | 792 | 725 | 761 |
 | helpmate | 546 | 491 | 513 |
 | helpstalemate | 431 | 308 | 363 |
-| selfmate | 903 | 318 | 389 (re-measurement under the final protocol in progress) |
+| selfmate | 903 | 407 | **643** (re-measured 2026-09-03 under the final protocol; `selfmate_final_2026-09-03.log`; 388 both solved, 3.02x total / 3.51x median) |
 | selfstalemate | 76 | 49 | 52 |
 
 ## Budgets and gates

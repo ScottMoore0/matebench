@@ -1,0 +1,78 @@
+selfmate_deep.jsonl: 903 distinct, goal selfmate, 10s a position, 46 chunks, 0 done
+  measurement 2e5ca9617d1c2242ac6b95e44dad662e
+  chunk 1/46: mateprover 19  chest 19  (42s)
+  chunk 2/46: mateprover 38  chest 39  (53s)
+  chunk 3/46: mateprover 55  chest 57  (87s)
+  chunk 4/46: mateprover 75  chest 77  (50s)
+  chunk 5/46: mateprover 95  chest 96  (47s)
+  chunk 6/46: mateprover 114  chest 115  (43s)
+  chunk 7/46: mateprover 134  chest 135  (29s)
+  chunk 8/46: mateprover 154  chest 152  (49s)
+  chunk 9/46: mateprover 172  chest 169  (131s)
+  chunk 10/46: mateprover 185  chest 180  (224s)
+  chunk 11/46: mateprover 200  chest 190  (177s)
+  chunk 12/46: mateprover 217  chest 203  (135s)
+  chunk 13/46: mateprover 236  chest 217  (146s)
+  chunk 14/46: mateprover 254  chest 228  (170s)
+  chunk 15/46: mateprover 270  chest 242  (151s)
+  chunk 16/46: mateprover 286  chest 258  (108s)
+  chunk 17/46: mateprover 294  chest 263  (303s)
+  chunk 18/46: mateprover 312  chest 273  (169s)
+  chunk 19/46: mateprover 330  chest 283  (182s)
+  chunk 20/46: mateprover 345  chest 289  (226s)
+  chunk 21/46: mateprover 361  chest 298  (188s)
+  chunk 22/46: mateprover 375  chest 307  (178s)
+  chunk 23/46: mateprover 393  chest 319  (144s)
+  chunk 24/46: mateprover 403  chest 323  (286s)
+  chunk 25/46: mateprover 413  chest 326  (299s)
+  chunk 26/46: mateprover 426  chest 331  (257s)
+  chunk 27/46: mateprover 441  chest 338  (229s)
+  chunk 28/46: mateprover 458  chest 347  (199s)
+  chunk 29/46: mateprover 475  chest 355  (199s)
+  chunk 30/46: mateprover 490  chest 361  (226s)
+  chunk 31/46: mateprover 501  chest 366  (276s)
+  chunk 32/46: mateprover 515  chest 369  (257s)
+  chunk 33/46: mateprover 530  chest 375  (225s)
+  chunk 34/46: mateprover 543  chest 378  (267s)
+  chunk 35/46: mateprover 553  chest 384  (281s)
+  chunk 36/46: mateprover 562  chest 387  (324s)
+  chunk 37/46: mateprover 570  chest 388  (333s)
+  chunk 38/46: mateprover 581  chest 391  (278s)
+  chunk 39/46: mateprover 588  chest 391  (343s)
+  chunk 40/46: mateprover 601  chest 394  (263s)
+  chunk 41/46: mateprover 613  chest 399  (269s)
+  chunk 42/46: mateprover 621  chest 402  (333s)
+  chunk 43/46: mateprover 624  chest 402  (383s)
+  chunk 44/46: mateprover 634  chest 404  (304s)
+  chunk 45/46: mateprover 642  chest 406  (329s)
+  chunk 46/46: mateprover 643  chest 407  (41s)
+
+COVERAGE over 903 distinct positions at 10s
+  fingerprint 0e7f36a597e4d72fcee0284b2e0b10fc
+  mateprover 643    chest 407
+  only mateprover 255    only chest 19
+  chest refused definitively (evidence about the CORPUS): 15
+    only chest: position sha256 e69979f830b25102
+    only chest: position sha256 9b674ee1045a5dc5
+    only chest: position sha256 f926f1f1e05e1d4b
+    only chest: position sha256 c6de437b5cb644f7
+    only chest: position sha256 981b2686043a76f5
+    only chest: position sha256 138898452a588818
+    only chest: position sha256 fab158ba267fb361
+    only chest: position sha256 3ce5656194ddde51
+    only chest: position sha256 bc47bd54583242a0
+    only chest: position sha256 948b8105587caee6
+    only chest: position sha256 5532e68992a316bb
+    only chest: position sha256 2311df02a0137a8b
+    only chest: position sha256 a15a0fe4b13ab160
+    only chest: position sha256 64cc1a16d7119ff6
+    only chest: position sha256 8c340572a1cd0284
+    only chest: position sha256 5fb8e19d20b453bc
+    only chest: position sha256 24d25d0e09c13078
+    only chest: position sha256 7f7d94dbf23d8f33
+    only chest: position sha256 ad159b7950285091
+
+SPEED on the 388 both solved
+  total   chest 826.3s  mateprover 274.0s  = 3.02x
+  median per-position speedup: 3.51x
+EXIT=0
