@@ -75,5 +75,5 @@ from.
 - A pooled total without its bands.
 - A speed figure measured on a loaded machine, or with a timeout in the ratio.
 - "Better than Chest" without saying which Chest and how it was configured -
-  the reference Chest is 3.19 (1999-era) with its endgame databases off, and
-  the reference results say so.
+  the reference Chest is 3.19 (1999-era), driven as `WinChest.exe` with its
+  endgame databases off, and the reference results say so.
