@@ -54,6 +54,18 @@ See `TRACKS.md`. In one line each:
 The last four tracks currently have one entrant. That is the point of listing
 them.
 
+## Running it
+
+    python bench/matebench.py --list
+    python bench/matebench.py fetch chestuci --chest-dir <ChestUCI install>
+    python bench/matebench.py verify-corpora
+    python bench/matebench.py lint my_measurement.py
+    python bench/matebench.py paired --help
+    python bench/matebench.py table
+
+Each command is a script in `bench/` or `corpora/` and can be run directly;
+the entry point only finds it and passes the arguments through.
+
 ## Reference results
 
 `results/reference/` holds the raw logs of every measurement the reference
@@ -66,9 +78,11 @@ says which.
 
     bench/          the harness: paired UCI comparison, verify-against-prover,
                     budget derivation, headroom gate, and the measurement lint
+    bench/matebench.py   the entry point; `--list` names every command
     corpora/        provenance and fetch script; no third-party data vendored
     results/        reference logs and summary
     docs/           methodology and the engineering findings behind it
+    docs/HELDOUT.md the rotating held-out set: salted split, commitment, rotation
     TRACKS.md       what is measured and how it is scored
     SUBMISSION.md   how to submit an engine or configuration
 
@@ -81,9 +95,10 @@ variables - nothing in the harness assumes a particular machine.
 ## Status
 
 Pre-release. The harness and reference numbers are real and were produced by
-the scripts here; the packaging (a single CLI entry point, a corpus fetcher
-with checksums, a results-table generator) is not finished. Nothing here has
-been published.
+the scripts here. `bench/matebench.py` is the single entry point; every fetch
+records its corpus checksum in `corpora/CHECKSUMS.json`; `results/reference/TABLES.md`
+is regenerated from the logs; the held-out design is in `docs/HELDOUT.md`.
+Nothing here has been published.
 
 ## Licence
 
