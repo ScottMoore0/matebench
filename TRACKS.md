@@ -87,5 +87,10 @@ one, converts to coverage as `log_r(S)` with r ≈ 3.7 per ply - a verified 1.22
 speedup produced +0 solves per hundred. A track that rewarded it would reward
 the wrong thing.
 
+**Unsound finders scored on their claims.** MateProver's own `--beam-defender`
+claimed more positions than the exhaustive search at every depth and verified
+fewer; 14-28% of its claims were false shorter mates. Counting claims would have
+ranked it first. See the reference results.
+
 **Unverified solve counts.** See track 1. The number every mate-solver
 benchmark has historically reported is the number this one refuses to.

@@ -1,0 +1,46 @@
+  100 positions (25 per band), 20,000,000 nodes, beams [2, 3, 5], verify 50,000,000 nodes
+     arms 25/400
+     arms 50/400
+     arms 75/400
+     arms 100/400
+     arms 125/400
+     arms 150/400
+     arms 175/400
+     arms 200/400
+     arms 225/400
+     arms 250/400
+     arms 275/400
+     arms 300/400
+     arms 325/400
+     arms 350/400
+     arms 375/400
+     arms 400/400
+  verifying 38 distinct beam claims at 50,000,000 nodes
+
+  beam K=2 vs plain --direct-depth, both 20,000,000 nodes
+  band        n  plain beam-clm  beam-VER beam only plain only     FALSE       p
+  d14-17    25     15       15         9         0         6         6   0.031
+  d18-21    25      8       10         5         0         3         5   0.250
+  d22-25    25      6       15         4         0         2        11   0.500
+  d26-40    25      2        6         0         0         2         6   0.500
+  ALL      discordant 13: beam-verified-only +0 / plain-only -13   p = 0.0002  -> PLAIN AHEAD
+
+  beam K=3 vs plain --direct-depth, both 20,000,000 nodes
+  band        n  plain beam-clm  beam-VER beam only plain only     FALSE       p
+  d14-17    25     15       15         9         0         6         6   0.031
+  d18-21    25      8        9         7         0         1         2   1.000
+  d22-25    25      6       14         5         0         1         9   1.000
+  d26-40    25      2        4         2         0         0         2   1.000
+  ALL      discordant 8: beam-verified-only +0 / plain-only -8   p = 0.0078  -> PLAIN AHEAD
+
+  beam K=5 vs plain --direct-depth, both 20,000,000 nodes
+  band        n  plain beam-clm  beam-VER beam only plain only     FALSE       p
+  d14-17    25     15       15        10         0         5         5   0.062
+  d18-21    25      8        9         8         0         0         1   1.000
+  d22-25    25      6       11         5         0         1         6   1.000
+  d26-40    25      2        4         2         0         0         2   1.000
+  ALL      discordant 6: beam-verified-only +0 / plain-only -6   p = 0.0312  -> PLAIN AHEAD
+
+  'FALSE' = a beam claim SHORTER than the stipulated depth that a 50,000,000-node plain search refuted.
+  A claim at the stipulated depth that did not verify is unconfirmed, not false, and is simply not counted.
+=== BEAM EXPERIMENT ENDED ===

@@ -73,6 +73,14 @@ solution, 10 s a position:
 - **Ninth portfolio lane** (`lane9_*.log`): at a real lane budget, 1 rescued
   position of 45 at both d10–14 and d16–20. The restriction family is exhausted.
 - **Lane-0 weight** (`lane0_sweep_2026-08-30.log`): flat 30–90%.
+- **Defender-reply pruning** (`beam_experiment_2026-09-04.log`, `bench/beam_experiment.py`):
+  MateProver `--beam-defender K` (keep the first K replies in the engine's own
+  ordering, unsound, every claim re-proved at 50M nodes) against plain
+  `--direct-depth` at 20M, 100 ChestUCI positions, four bands. **Zero verified
+  finds the exhaustive search missed, at K = 2, 3 or 5**; plain-only 13 / 8 / 6,
+  p = 0.0002 / 0.0078 / 0.031; false shorter claims 28% / 19% / 14%. The omitted
+  reply is the refutation of a shorter line, so the beam proves a false dm and
+  stops. Strictly dominated. The one lever that attacked the exponent, closed.
 - **Generate-and-verify** (`genverify_*.log`): **+0** against a correctly
   configured baseline. The earlier "+24" was the mode change.
 
