@@ -54,7 +54,7 @@ def record(name, path, source):
         "source": source,
         "recorded": datetime.date.today().isoformat(),
     }
-    CHECKSUMS.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    CHECKSUMS.write_text(json.dumps(data, indent=2, sort_keys=True) + chr(10), encoding="utf-8", newline=chr(10))
     print("  recorded in CHECKSUMS.json: %s sha256 %s, %d positions"
           % (data[name]["file"], data[name]["sha256"][:16], data[name]["positions"]))
 
