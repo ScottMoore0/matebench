@@ -22,6 +22,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+# The linter and the scripts it guards live beside this hook.
 HERE = Path(__file__).resolve().parent
 LINT = HERE / "lint_measurement.py"
 
@@ -42,13 +43,18 @@ if not cmd or "python" not in cmd:
 # heredoc DOCUMENTATION and blocked a memory-file write. A guard that trips on
 # prose gets switched off, which defeats it.
 SELF = {"lint_measurement.py", "preflight_hook.py"}
-names = re.findall(r"python[0-9.]*(?:\s+-[A-Za-z]+)*\s+([A-Za-z0-9_./\\-]+\.py)", cmd)
+names = re.findall(r"python[0-9.]*(?:\s+-[A-Za-z]+)*\s+([A-Za-z0-9_:./\\-]+\.py)", cmd)
 targets = []
 for n in names:
     base = Path(n).name
     if base in SELF:          # never lint the linter: its rule definitions
         continue              # contain the very literals they match on
-    p = HERE / base
+    # The path as written, if it resolves; otherwise the script of that name
+    # beside this hook. The first form lets the hook guard a script anywhere,
+    # the second keeps it working when only a bare name is invoked.
+    p = Path(n)
+    if not p.exists():
+        p = HERE / base
     if p.exists():
         targets.append(str(p))
 if not targets:

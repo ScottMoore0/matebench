@@ -81,7 +81,9 @@ def chestuci(args):
     print("  %s: %d positions, %d at d>=14" % (out.name, len(rows),
           sum(1 for l in rows if int(BM.search(l).group(1)) >= 14)))
     print("  Every bm #N here is a Chest PROOF: a claim of exactly N needs no further verification.")
-    record("chestuci", out, "local ChestUCI install: " + str(src))
+    # The source is recorded by kind, not by path: a local directory name is
+    # specific to one machine and useless to anyone rebuilding the corpus.
+    record("chestuci", out, "local ChestUCI 5.2 install")
 
 
 def generated(args):

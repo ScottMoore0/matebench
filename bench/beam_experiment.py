@@ -18,7 +18,9 @@ from concurrent.futures import ThreadPoolExecutor
 from math import comb
 from pathlib import Path
 
-MP = str(Path.home() / "mp_beam_build" / "mateprover")
+import config
+
+MP = config.engine("mateprover")
 EPD = config.corpus("chestuci.epd")
 BM = re.compile("bm #([0-9]+)"); DM = re.compile("dm ([0-9]+)"); PRUNED = re.compile("beam [0-9]+ (pruned|complete)")
 
