@@ -57,7 +57,8 @@ A dated log in the format of `results/reference/*.log`: per-band counts for
 your engine and each reference, discordant pairs, sign tests, verification
 counts (verified / unconfirmed / rejected), and - on the speed track - the
 paired time ratios. Plus the certificates, so you can re-run
-`tools/verify_proof.py` from the MateProver repository yourself.
+`tools/verify_proof.py` from the MateProver repository yourself
+(https://github.com/ScottMoore0/mateprover, v0.1.0).
 
 ## Before you submit
 

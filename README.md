@@ -81,16 +81,29 @@ says which.
     bench/matebench.py   the entry point; `--list` names every command
     corpora/        provenance and fetch script; no third-party data vendored
     results/        reference logs and summary
-    docs/           methodology and the engineering findings behind it
+    docs/           methodology: the measurement protocol and the held-out design
     docs/HELDOUT.md the rotating held-out set: salted split, commitment, rotation
     TRACKS.md       what is measured and how it is scored
     SUBMISSION.md   how to submit an engine or configuration
 
 ## Requirements
 
-Python 3.10+, `python-chess`, `numpy`; a MateProver binary for verification;
-the engines under test. `bench/config.py` reads the paths from environment
-variables - nothing in the harness assumes a particular machine.
+Python 3.10+, `python-chess`, `numpy`, and the engines under test.
+`bench/config.py` reads the paths from environment variables - nothing in the
+harness assumes a particular machine.
+
+**The verifier is MateProver, and which build answered is part of every
+result.** Every number in `results/reference/` was verified with **MateProver
+v0.1.0** (MIT), from https://github.com/ScottMoore0/mateprover.
+Clone it and build with CMake, or take a release binary; then point the
+harness at the checkout:
+
+    git clone --branch v0.1.0 https://github.com/ScottMoore0/mateprover
+    export MATEBENCH_MATEPROVER_REPO=/path/to/mateprover
+
+A submission verified with a different build must say so, because the
+verification budget and the certificate format are properties of that build
+rather than of this harness.
 
 ## Status
 

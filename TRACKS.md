@@ -27,7 +27,8 @@ It reports a mate distance `dm`. The claim is accepted only if:
   mated, and is not a solve (taking the absolute value of a mate score voided
   an entire workstream once);
 - MateProver `--direct-depth -z dm` re-proves it within the verification
-  budget, producing a certificate.
+  budget, producing a certificate. The reference results used MateProver
+  v0.1.0; the README says where to get it and why the build is recorded.
 
 Unverified-within-budget is reported as **unconfirmed**, not as false. The
 verification budget is 1,000,000 nodes: verification cost is bimodal (median

@@ -7,6 +7,7 @@ bench/:
     MATEBENCH_RESULTS   where logs and checkpoint state are written
     MATEBENCH_CORPORA   where fetch_corpora.py put the EPD files
     MATEBENCH_MATEPROVER_REPO   a MateProver checkout, for tools/verify_proof.py
+                                (https://github.com/ScottMoore0/mateprover, v0.1.0)
 """
 import os
 from pathlib import Path
