@@ -109,9 +109,10 @@ holds over the whole corpus, not just bench.
 - **It is not the pruning MateMode gates.** Switching razoring, futility and
   null-move pruning off under NNUE gains nothing (330 against 343, +73/−86,
   p = 0.34), so a flat evaluation is not merely disabling those three.
-- **Escape squares are the one term that adds.** Escape-squares-only beats the
-  constant evaluation (+88/−43, p = 0.0001) and the full evaluator (+89/−40,
-  p < 0.0001). The other four terms together cancel what escapes contribute.
+- **Escape squares beat the full evaluator but not a constant.** At d14+
+  escape-squares-only beat both (+89/−40 over the evaluator; +88/−43 over the
+  constant, p = 0.0001), but the second did NOT replicate at d10–13 (below), so
+  it is not a finding.
 - **Neither consumer alone reproduces it.** Main-search-only is level with stock
   and quiescence-only is slightly worse (+65/−91, p = 0.045). These two arms put
   two evaluation scales in one search - bench at depth 13 goes from 2.50M nodes
@@ -122,10 +123,35 @@ holds over the whole corpus, not just bench.
   also run about twice as fast per node (1.84M against 0.89M nps), so a
   time-budgeted comparison would widen the gap rather than close it.
 
-**Not yet replicated out of sample.** The d10–13 band, 1,524 positions this run
-did not touch, is the replication. Still open: which remaining consumer of the
-static evaluation carries the effect - shallow move-count and futility pruning of
-individual moves, LMR adjustments, quiescence stand-pat, or aspiration windows.
+### Replication, out of sample (`vs_stockfish_d10-13_2026-09-13.log`)
+
+ChestUCI d10–13, 1,524 positions the run above did not use, same budget and arms.
+
+| arm | solved | paired |
+|---|---|---|
+| stock Stockfish 19 | 757 | - |
+| NNUE with razoring, futility and null-move pruning off | 730 | +119/−146 vs stock, p = 0.11 |
+| full king-danger evaluator (shipped) | 1,176 | +478/−59 vs stock |
+| escape squares only | 1,210 | +116/−82 vs full evaluator, p = 0.019 |
+| **constant evaluation** | **1,225** | **+520/−52 vs stock; +145/−96 vs full evaluator, p = 0.002** |
+
+What replicates, and is therefore the finding:
+
+1. **MateHunter's gain over stock Stockfish 19 is real and large** at both depth
+   ranges: +279/−36 at d14+, +478/−59 at d10–13.
+2. **It comes from replacing NNUE's evaluation with a flat one.** A constant
+   evaluation matches the full evaluator at d14+ and beats it at d10–13. The
+   king-danger terms the fork was built around add nothing, and at shallower depth
+   they cost positions.
+3. **It is not razoring, futility or null-move pruning.** Turning those off under
+   NNUE gains nothing at either depth range.
+4. Escape squares alone are at least as good as the full evaluator; that they beat
+   a constant did not replicate.
+
+Still open: which consumer of the static evaluation carries the effect. The three
+pruning steps MateMode gates are ruled out; the candidates left are per-move
+futility and move-count pruning, LMR adjustments, quiescence stand-pat and
+aspiration windows around the root score.
 
 ## All six goals - MateProver vs Chest 3.19
 

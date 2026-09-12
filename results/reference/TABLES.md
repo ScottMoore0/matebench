@@ -25,6 +25,7 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `verify_budget_2026-08-30.log` | 62 | 2026-09-03 |
 | `vs_matefish_2026-09-12.log` | 36 | 2026-09-12 |
 | `vs_stockfish_2026-09-12.log` | 279 | 2026-09-13 |
+| `vs_stockfish_d10-13_2026-09-13.log` | 190 | 2026-09-13 |
 
 ## `beam_experiment_2026-09-04.log`
 
@@ -311,6 +312,41 @@ verification rate 16/30 = 53% against 24/41 = 59%.
   d26-30      65       26       14       14        2   0.0042
   d31-+      169       35       15       24        4   0.0002
   ALL         953      586      330      284       28   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
+```
+
+## `vs_stockfish_d10-13_2026-09-13.log`
+
+```text
+  mh19-escapes solved 1210/1524   nps ~ 2,127,895
+  mh19-noprune solved  730/1524   nps ~ 976,766
+
+  MateHunter (shipped profile) against stock Stockfish 19
+  mh19 vs sf19
+  band          n     mh19     sf19   x only   y only        p
+  d10-13    1524     1176      757      478       59   0.0000
+  ALL        1524     1176      757      478       59   0.0000
+
+  MECHANISM: what the king-danger signal adds over a constant evaluation
+  mh19 vs mh19-null
+  band          n     mh19 mh19-nul   x only   y only        p
+  d10-13    1524     1176     1225       96      145   0.0019
+  ALL        1524     1176     1225       96      145   0.0019
+
+  MECHANISM: escape squares alone against the full evaluator
+  mh19-escapes vs mh19
+  band          n mh19-esc     mh19   x only   y only        p
+  d10-13    1524     1210     1176      116       82   0.0188
+  ALL        1524     1210     1176      116       82   0.0188
+
+  MECHANISM: MateEval against simply switching that pruning off
+  mh19 vs mh19-noprune
+  band          n     mh19 mh19-nop   x only   y only        p
+  d10-13    1524     1176      730      501       55   0.0000
+  ALL        1524     1176      730      501       55   0.0000
 
   Read the BAND rows. A pooled null can be two opposite effects cancelling.
 
