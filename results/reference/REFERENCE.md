@@ -8,8 +8,8 @@ not their defaults, because their defaults switch the mate solver off.
 ## Engines and configurations
 
 **What a third party can obtain.** MateProver is public and pinned below.
-Chest, Matefish and Huntsman are distributed by their own authors, and the
-table below says where. **MateHunter is not distributed**: it is a private
+Chest, Matefish, Huntsman and Stockfish are distributed by their own authors,
+and the table below says where. **MateHunter is not distributed**: it is a private
 Stockfish fork, so every row naming it is recorded for the protocol's sake and
 cannot be reproduced by anyone else. The tracks and budgets do not depend on
 it.
@@ -18,6 +18,8 @@ it.
 |---|---|---|---|
 | MateProver 0.1.0 | own DFPN | defaults; `--direct-depth` on finding tracks, `--iterative-depth` on minimality | emits certificates; MIT, https://github.com/ScottMoore0/mateprover at tag v0.1.0 |
 | MateHunter 18 | Stockfish 18 fork | `MateEval=true`, `MateMode=false` | shipped default as of 2026-09-02; `MateMode=true` costs 21/234 at d26+ |
+| MateHunter 19 | Stockfish 19 fork | `MateEval=true`, `MateMode=false`, every other mate option set off explicitly | port of the 18 fork; with every mate option off it is node-for-node identical to stock (bench 2,497,913) |
+| Stockfish 19 | own (NNUE) | defaults with `Threads=1`, `Hash=256` | https://stockfishchess.org; built from the release source with the fork's compiler and flags |
 | Huntsman 1 | Stockfish fork | `MateSearch=true` (its default) | over-claims; echoes toward the bound; by joergoster, https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary used self-identifies as `The Huntsman 1`) |
 | Matefish 170826 | Stockfish + PNS | `ProofNumberSearch=true`, `PNS Hash=4096` | **both default off/small**; at defaults it abandons a d14 search in 0.2 s |
 | Chest 3.19 | own | `WinChest.exe`, job on stdin, 2048 MB, `UseDatabase=false` | 1999-era; endgame databases off (they reach ~1% of proof nodes here). **Not `ChestUCI.exe`**: that is the GUI/UCI wrapper, and fed a job it spins with no output, which a harness scores as a timeout |
@@ -69,6 +71,61 @@ Two opposite, established effects. **With `MateMode=false`** the deep rows
 become 64 vs 65 (+17/−18, p = 1.0) and the d18–21 lead holds (+15/−2, p = 0.002);
 MateHunter against itself on the 234 deep positions: +28/−7, p = 0.0005. With
 `MateEval=false` it loses everywhere (154 vs 231 on the 400-sample).
+
+## Finding - MateHunter 19 vs stock Stockfish 19 (`vs_stockfish_2026-09-12.log`)
+
+ChestUCI, all 953 positions at d14+ (neither engine tuned on it), 10M nodes,
+1 thread, paired. MateHunter is a Stockfish 19 derivative on the same source,
+network, compiler and flags. With every mate option off it is node-for-node
+identical to stock, and here 343 = 343 with zero discordant positions: the control
+holds over the whole corpus, not just bench.
+
+| band | n | MateHunter 19 | Stockfish 19 | MH only | SF only | p |
+|---|---|---|---|---|---|---|
+| d14–17 | 449 | 349 | 220 | 148 | 19 | <0.0001 |
+| d18–21 | 186 | 123 | 69 | 61 | 7 | <0.0001 |
+| d22–25 | 84 | 53 | 26 | 31 | 4 | <0.0001 |
+| d26–30 | 65 | 26 | 11 | 18 | 3 | 0.0015 |
+| d31+ | 169 | 35 | 17 | 21 | 3 | 0.0003 |
+| **total** | **953** | **586** | **343** | **279** | **36** | **<0.0001** |
+
+### Why MateEval works: mostly the absence of an evaluation
+
+| arm (same 953 positions, 10M nodes) | solved |
+|---|---|
+| stock Stockfish 19 | 343 |
+| NNUE with razoring, futility and null-move pruning off | 330 |
+| king danger in the main search only | 343 |
+| king danger in quiescence only | 317 |
+| **constant evaluation, 0 everywhere** | **590** |
+| full king-danger evaluator (shipped) | 586 |
+| **escape squares only** | **635** |
+
+- **A constant evaluation does as well as the full evaluator:** 590 against 586,
+  +68/−64 paired, p = 0.79. Nearly all of the gain over stock comes from *not*
+  using NNUE's game-outcome evaluation, not from knowledge of king danger. The
+  earlier account - MateEval works because it ignores material while measuring
+  king danger - is half right, and the half that matters is ignoring material.
+- **It is not the pruning MateMode gates.** Switching razoring, futility and
+  null-move pruning off under NNUE gains nothing (330 against 343, +73/−86,
+  p = 0.34), so a flat evaluation is not merely disabling those three.
+- **Escape squares are the one term that adds.** Escape-squares-only beats the
+  constant evaluation (+88/−43, p = 0.0001) and the full evaluator (+89/−40,
+  p < 0.0001). The other four terms together cancel what escapes contribute.
+- **Neither consumer alone reproduces it.** Main-search-only is level with stock
+  and quiescence-only is slightly worse (+65/−91, p = 0.045). These two arms put
+  two evaluation scales in one search - bench at depth 13 goes from 2.50M nodes
+  for stock to 60.0M for main-search-only - so what they show is that the
+  evaluation must be consistent across the search, not which consumer carries
+  the effect.
+- Node-budgeted, so speed plays no part in these counts. The flat-evaluation arms
+  also run about twice as fast per node (1.84M against 0.89M nps), so a
+  time-budgeted comparison would widen the gap rather than close it.
+
+**Not yet replicated out of sample.** The d10–13 band, 1,524 positions this run
+did not touch, is the replication. Still open: which remaining consumer of the
+static evaluation carries the effect - shallow move-count and futility pruning of
+individual moves, LMR adjustments, quiescence stand-pat, or aspiration windows.
 
 ## All six goals - MateProver vs Chest 3.19
 

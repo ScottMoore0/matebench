@@ -24,6 +24,7 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `selfmate_final_2026-09-03.log` | 78 | 2026-09-04 |
 | `verify_budget_2026-08-30.log` | 62 | 2026-09-03 |
 | `vs_matefish_2026-09-12.log` | 36 | 2026-09-12 |
+| `vs_stockfish_2026-09-12.log` | 279 | 2026-09-13 |
 
 ## `beam_experiment_2026-09-04.log`
 
@@ -279,4 +280,39 @@ verification rate 16/30 = 53% against 24/41 = 59%.
   TOTAL     60             14          n/a
 
 === VS MATEFISH ENDED ===
+```
+
+## `vs_stockfish_2026-09-12.log`
+
+```text
+  d14-17     449      372      349       41       18   0.0038
+  d18-21     186      138      123       23        8   0.0107
+  d22-25      84       59       53        8        2   0.1094
+  d26-30      65       24       26        4        6   0.7539
+  d31-+      169       42       35       13        6   0.1671
+  ALL         953      635      586       89       40   0.0000
+
+  MECHANISM: NNUE with eval-based pruning switched off
+  mh19-noprune vs mh19-off
+  band          n mh19-nop mh19-off   x only   y only        p
+  d14-17     449      211      220       40       49   0.3966
+  d18-21     186       67       69       18       20   0.8714
+  d22-25      84       23       26        5        8   0.5811
+  d26-30      65       14       11        5        2   0.4531
+  d31-+      169       15       17        5        7   0.7744
+  ALL         953      330      343       73       86   0.3413
+
+  MECHANISM: MateEval against simply switching that pruning off
+  mh19 vs mh19-noprune
+  band          n     mh19 mh19-nop   x only   y only        p
+  d14-17     449      349      211      153       15   0.0000
+  d18-21     186      123       67       62        6   0.0000
+  d22-25      84       53       23       31        1   0.0000
+  d26-30      65       26       14       14        2   0.0042
+  d31-+      169       35       15       24        4   0.0002
+  ALL         953      586      330      284       28   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
 ```

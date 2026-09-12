@@ -28,6 +28,7 @@ COMMANDS = {
     "lint":           ("bench/lint_measurement.py","pre-flight lint: refuses a script that repeats a known-fatal measurement error", []),
     "paired":         ("bench/paired_uci.py",      "tracks 1-2 within a family: two UCI arms, node budget, paired per band", []),
     "vs-prover":      ("bench/vs_prover.py",       "tracks 1-2 across families: a UCI arm against MateProver, wall-clock, claims verified", []),
+    "vs-stockfish":   ("bench/vs_stockfish.py",    "MateHunter against stock Stockfish 19 on ChestUCI, with the MateEval channel arms", []),
     "verify-budget":  ("bench/verify_budget.py",   "re-derive the verification ceiling (bimodal cost; 1M nodes)", []),
     "headroom":       ("bench/lane_headroom.py",   "headroom of a candidate portfolio lane at a real lane budget", []),
     "beam":           ("bench/beam_experiment.py", "the defender-pruning control; reference result: strictly dominated", []),
