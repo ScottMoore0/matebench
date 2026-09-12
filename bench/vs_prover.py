@@ -86,7 +86,25 @@ def mateprover(fen, depth, mode, seconds):
             text=True, errors="replace", timeout=seconds * 6 + 120)
     except subprocess.TimeoutExpired:
         return False, time.time() - t0
-    return bool(DM.search(p.stdout or "")), time.time() - t0
+    out = p.stdout or ""
+    solved = bool(DM.search(out))
+    # MINIMALITY will not accept a restricted lane's answer.
+    #
+    # A --time-limit is set on every call here, and that is exactly the
+    # condition under which mateprover engages its restriction portfolio. A
+    # restricted lane searches the REQUESTED depth directly and never walks the
+    # shallower ones, so it can prove "a mate within N" and cannot prove "the
+    # shortest mate is N". It says so: OUTPUT_FORMAT.md specifies the opcode
+    # `via <name>` on exactly those lines, and documents them as real mates that
+    # may not be the shortest.
+    #
+    # So a `via` line answers the FINDING question and not the MINIMALITY one.
+    # Counting it would inflate the single column matefish has no counterpart
+    # for -- the categorical claim in this file's header -- which is the one
+    # place an overstatement would be least defensible.
+    if solved and mode == "--iterative-depth" and "; via " in out:
+        solved = False
+    return solved, time.time() - t0
 
 
 def matefish(fen, depth, seconds):
