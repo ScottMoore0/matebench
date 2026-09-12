@@ -8,16 +8,17 @@ not their defaults, because their defaults switch the mate solver off.
 ## Engines and configurations
 
 **What a third party can obtain.** MateProver is public and pinned below.
-Chest and Matefish are distributed by their own authors. **MateHunter is not
-distributed**: it is a private Stockfish fork, so every row naming it is
-recorded for the protocol's sake and cannot be reproduced by anyone else. The
-tracks and budgets do not depend on it.
+Chest, Matefish and Huntsman are distributed by their own authors, and the
+table below says where. **MateHunter is not distributed**: it is a private
+Stockfish fork, so every row naming it is recorded for the protocol's sake and
+cannot be reproduced by anyone else. The tracks and budgets do not depend on
+it.
 
 | engine | base | manifest used | notes |
 |---|---|---|---|
 | MateProver 0.1.0 | own DFPN | defaults; `--direct-depth` on finding tracks, `--iterative-depth` on minimality | emits certificates; MIT, https://github.com/ScottMoore0/mateprover at tag v0.1.0 |
 | MateHunter 18 | Stockfish 18 fork | `MateEval=true`, `MateMode=false` | shipped default as of 2026-09-02; `MateMode=true` costs 21/234 at d26+ |
-| Huntsman 1 | Stockfish fork | `MateSearch=true` (its default) | over-claims; echoes toward the bound |
+| Huntsman 1 | Stockfish fork | `MateSearch=true` (its default) | over-claims; echoes toward the bound; by joergoster, https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary used self-identifies as `The Huntsman 1`) |
 | Matefish 170826 | Stockfish + PNS | `ProofNumberSearch=true`, `PNS Hash=4096` | **both default off/small**; at defaults it abandons a d14 search in 0.2 s |
 | Chest 3.19 | own | `WinChest.exe`, job on stdin, 2048 MB, `UseDatabase=false` | 1999-era; endgame databases off (they reach ~1% of proof nodes here). **Not `ChestUCI.exe`**: that is the GUI/UCI wrapper, and fed a job it spins with no output, which a harness scores as a timeout |
 
