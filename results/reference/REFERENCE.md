@@ -21,23 +21,36 @@ tracks and budgets do not depend on it.
 | Matefish 170826 | Stockfish + PNS | `ProofNumberSearch=true`, `PNS Hash=4096` | **both default off/small**; at defaults it abandons a d14 search in 0.2 s |
 | Chest 3.19 | own | `WinChest.exe`, job on stdin, 2048 MB, `UseDatabase=false` | 1999-era; endgame databases off (they reach ~1% of proof nodes here). **Not `ChestUCI.exe`**: that is the GUI/UCI wrapper, and fed a job it spins with no output, which a harness scores as a timeout |
 
-## Finding, verified - MateProver vs Matefish (`vs_matefish_2026-09-02.log`)
+## Finding, verified - MateProver vs Matefish (`vs_matefish_2026-09-12.log`)
 
-60 positions, d8–16, 10 s each, single-threaded, idle machine. Claims verified
-by MateProver `--direct-depth`.
+60 positions, d8–16, 10 s each, single-threaded. Claims verified by MateProver
+`--direct-depth`. Re-measured 2026-09-12; the minimality row of the previous
+run was not measuring minimality, see the retraction below.
 
 | band | n | MateProver | Matefish claimed | Matefish verified |
 |---|---|---|---|---|
 | d8 | 12 | 10 | 10 | 10 |
 | d10 | 12 | 10 | 11 | 10 |
 | d12 | 12 | 10 | 10 | 9 |
-| d14 | 12 | 7 | 8 | 6 |
+| d14 | 12 | 7 | 8 | 5 |
 | d16 | 12 | 8 | 7 | 7 |
-| **total** | **60** | **45** | 46 | **42** |
+| **total** | **60** | **45** | 46 | **41** |
 
-Paired: Matefish +1/−4, 5 discordant, **p = 0.375 - parity, not established
-either way**. Speed on the 41 both solved: MateProver faster on 32, p = 0.0004,
-median 1.49×. Minimality: MateProver 41/60; Matefish n/a (echoes the bound).
+Paired: Matefish +0/−4, 4 discordant, **p = 0.125 - parity, not established
+either way**.
+
+**Minimality: MateProver 14/60**, by band 7/3/3/1/0 across d8–d16; Matefish n/a
+(echoes the bound). The minimality lane runs `--no-portfolio`: a restricted
+lane searches the requested depth directly and cannot establish a shortest
+mate, so leaving the portfolio on spends the budget on lanes that are
+structurally unable to answer.
+
+Speed on the 41 both solved: MateProver faster on 36, p < 0.0001, median 3.84×.
+**This row is not comparable with the pre-2026-09-12 one.** The script that
+produced the earlier speed figure is not in the tree and its method cannot be
+recovered, and this run was taken under WSL rather than natively. The counts
+above are proof counts and are platform-independent; these two numbers are wall
+clock and are not.
 
 ## Finding - MateHunter vs Huntsman (`h2h_chestuci_*.log`, `h2h_deep_*.log`)
 
@@ -91,6 +104,17 @@ solution, 10 s a position:
   configured baseline. The earlier "+24" was the mode change.
 
 ## Retracted, and why it is recorded
+
+**Minimality: MateProver 41/60** (vs Matefish, before 2026-09-12) is retracted.
+It was 0/60. Every position that solved under that protocol came back marked
+`via`, 60 of 60 - a restricted portfolio lane searches the requested depth
+directly and proves "a mate within N", never "the shortest mate is N", and the
+harness counted any reported depth. So the lane that could answer was outrun on
+every position by lanes that could not. The figure was not an overstatement of
+a real measurement; there was no measurement. Re-run with `--no-portfolio` on
+that lane alone, the honest number is 14/60. The failure shape is the one at 98
+and 61: a result that is sound for the question a restricted lane IS asked,
+counted against a question it is not.
 
 The +24 finder-lane figure, "MateHunter is behind Huntsman", "Matefish is a
 weak proposer", and the −998 x=5 record were each retracted here. Each was a

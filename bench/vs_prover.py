@@ -75,7 +75,23 @@ def mateprover(fen, depth, mode, seconds):
     t0 = time.time()
     try:
         p = subprocess.run(
-            [MP, "-z", str(depth), mode, "--threads", "1",
+            [MP, "-z", str(depth), mode, "--threads", "1"]
+            # MINIMALITY runs WITHOUT the restriction portfolio.
+            #
+            # A --time-limit engages the portfolio, and its restricted lanes
+            # search the requested depth directly: they can prove "a mate within
+            # N" and are structurally incapable of proving "the shortest mate is
+            # N". Measured on this very pool, every position that solved under
+            # the portfolio came back marked `via`, 60 of 60 -- so the lane that
+            # could have answered was outrun by lanes that could not, and the
+            # budget went to them.
+            #
+            # Turning the portfolio off puts the whole budget on the one lane
+            # whose iterative deepening establishes minimality. The finding lane
+            # keeps the portfolio: "a mate within N" is exactly what a restricted
+            # lane answers correctly, and it is the question that lane is asked.
+            + (["--no-portfolio"] if mode == "--iterative-depth" else [])
+            + [
              # LINT-OK: WALL-CLOCK - a node budget is the right rule WITHIN
              # one engine, but a DFPN node and an alpha-beta node are not the
              # same unit, so across engines it would hand the advantage to
@@ -233,6 +249,28 @@ unver = sum(1 for r in rows if r["claim"] and not r["verified"])
 print("\n  %d of %d matefish claims did not verify within %.0fs. That is NOT the"
       % (unver, tot[2], a.verify_seconds))
 print("  same as false: unverified within a budget only means unconfirmed.")
+
+# SPEED, on the positions BOTH engines actually solved.
+#
+# Restricted to that set on purpose. A position one engine never solved has no
+# comparable time -- its "time" is the budget, which measures the budget. The
+# reference block quotes this figure, so the harness has to print it, or the
+# number sits in a table with no log behind it.
+both = [r for r in rows if r["direct"] and r["verified"]]
+if both:
+    faster = sum(1 for r in both if r["t_direct"] < r["t_mf"])
+    ratios = sorted(r["t_mf"] / r["t_direct"] for r in both if r["t_direct"] > 0)
+    mid = len(ratios) // 2
+    median = ratios[mid] if len(ratios) % 2 else (ratios[mid - 1] + ratios[mid]) / 2.0
+    from math import comb
+    nb = len(both)
+    kb = min(faster, nb - faster)
+    pb = min(1.0, 2 * sum(comb(nb, i) for i in range(kb + 1)) / 2**nb)
+    print("")
+    print("  SPEED on the %d both solved:" % nb)
+    print("     mateprover faster on %d of %d, sign test p = %.4f -> %s"
+          % (faster, nb, pb, "significant" if pb <= 0.05 else "NOT established"))
+    print("     median matefish/mateprover time ratio: %.2fx" % median)
 
 print("\n  MINIMALITY - the shortest mate. Matefish has no counterpart: it")
 print("  echoes the bound it is given and cannot answer this at all.")

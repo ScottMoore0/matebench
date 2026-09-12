@@ -23,6 +23,7 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `lane9_headroom.log` | 45 | 2026-09-03 |
 | `selfmate_final_2026-09-03.log` | 78 | 2026-09-04 |
 | `verify_budget_2026-08-30.log` | 62 | 2026-09-03 |
+| `vs_matefish_2026-09-12.log` | 36 | 2026-09-12 |
 
 ## `beam_experiment_2026-09-04.log`
 
@@ -258,4 +259,24 @@ The whole run also reproduced the first one EXACTLY - same 1/40 solved, same
 REPLICATION: this independently reproduces the generate-and-verify effect on a
 fresh sample. Claim rate 30/39 = 77% here against 41/53 = 77% originally;
 verification rate 16/30 = 53% against 24/41 = 59%.
+```
+
+## `vs_matefish_2026-09-12.log`
+
+```text
+  SPEED on the 41 both solved:
+     mateprover faster on 36 of 41, sign test p = 0.0000 -> significant
+     median matefish/mateprover time ratio: 3.84x
+
+  MINIMALITY - the shortest mate. Matefish has no counterpart: it
+  echoes the bound it is given and cannot answer this at all.
+  band       n     mateprover     matefish
+  d8        12              7          n/a
+  d10       12              3          n/a
+  d12       12              3          n/a
+  d14       12              1          n/a
+  d16       12              0          n/a
+  TOTAL     60             14          n/a
+
+=== VS MATEFISH ENDED ===
 ```
