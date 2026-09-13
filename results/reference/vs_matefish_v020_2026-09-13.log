@@ -1,0 +1,48 @@
+  60 positions, 10s per engine per position, single-threaded
+  matefish: ProofNumberSearch=true, Hash=256
+
+     5/60
+     10/60
+     15/60
+     20/60
+     25/60
+     30/60
+     35/60
+     40/60
+     45/60
+     50/60
+     55/60
+     60/60
+
+  FINDING - a mate within N. Matched claims, the comparable table.
+  band       n     mateprover     matefish     matefish
+               --direct-depth      claimed     VERIFIED
+  d8        12             10           10           10
+  d10       12             10           11           10
+  d12       12             10           10            9
+  d14       12              8            8            6
+  d16       12              8            7            7
+  TOTAL     60             46           46           42
+
+  paired, verified matefish against mateprover --direct-depth:
+     matefish +0 / -4   (4 discordant)
+     sign test p = 0.1250 -> NOT established
+
+  4 of 46 matefish claims did not verify within 10s. That is NOT the
+  same as false: unverified within a budget only means unconfirmed.
+
+  SPEED on the 42 both solved:
+     mateprover faster on 36 of 42, sign test p = 0.0000 -> significant
+     median matefish/mateprover time ratio: 2.90x
+
+  MINIMALITY - the shortest mate. Matefish has no counterpart: it
+  echoes the bound it is given and cannot answer this at all.
+  band       n     mateprover     matefish
+  d8        12              7          n/a
+  d10       12              3          n/a
+  d12       12              3          n/a
+  d14       12              1          n/a
+  d16       12              0          n/a
+  TOTAL     60             14          n/a
+
+=== VS MATEFISH ENDED ===

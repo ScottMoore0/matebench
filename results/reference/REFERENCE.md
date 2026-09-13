@@ -16,7 +16,7 @@ it.
 
 | engine | base | manifest used | notes |
 |---|---|---|---|
-| MateProver 0.1.0 | own DFPN | defaults; `--direct-depth` on finding tracks, `--iterative-depth` on minimality | emits certificates; MIT, https://github.com/ScottMoore0/mateprover at tag v0.1.0 |
+| MateProver 0.2.0 | own DFPN | defaults; `--direct-depth` on finding tracks, `--iterative-depth` on minimality | emits certificates; MIT, https://github.com/ScottMoore0/mateprover at tag v0.2.0. Search unchanged from 0.1.0: with the portfolio off, output is byte-identical to 0.1.0 on 30 ChestUCI positions in both modes, and `genverify_control` reproduces exactly. With the portfolio on, lanes race, so lines and node counts vary run to run in both versions while solved positions and mate lengths do not |
 | MateHunter 18 | Stockfish 18 fork | `MateEval=true`, `MateMode=false` | shipped default as of 2026-09-02; `MateMode=true` costs 21/234 at d26+ |
 | MateHunter 19 | Stockfish 19 fork | `MateEval=true`, `MateMode=false`, every other mate option set off explicitly | port of the 18 fork; with every mate option off it is node-for-node identical to stock (bench 2,497,913). Recommended profile from 2026-09-13 adds `MateEvalNull=true`, and is the engine's default from the same date; see "Recommended profile" |
 | Stockfish 19 | own (NNUE) | defaults with `Threads=1`, `Hash=256` | https://stockfishchess.org; built from the release source with the fork's compiler and flags |
@@ -24,23 +24,26 @@ it.
 | Matefish 170826 | Stockfish + PNS | `ProofNumberSearch=true`, `PNS Hash=4096` | **both default off/small**; at defaults it abandons a d14 search in 0.2 s |
 | Chest 3.19 | own | `WinChest.exe`, job on stdin, 2048 MB, `UseDatabase=false` | 1999-era; endgame databases off (they reach ~1% of proof nodes here). **Not `ChestUCI.exe`**: that is the GUI/UCI wrapper, and fed a job it spins with no output, which a harness scores as a timeout |
 
-## Finding, verified - MateProver vs Matefish (`vs_matefish_2026-09-12.log`)
+## Finding, verified - MateProver vs Matefish (`vs_matefish_v020_2026-09-13.log`)
 
 60 positions, d8–16, 10 s each, single-threaded. Claims verified by MateProver
-`--direct-depth`. Re-measured 2026-09-12; the minimality row of the previous
-run was not measuring minimality, see the retraction below.
+`--direct-depth`. Re-measured 2026-09-13 with MateProver 0.2.0; the 2026-09-12
+run with 0.1.0 (`vs_matefish_2026-09-12.log`) used the same protocol, and the
+minimality row of the run before that was not measuring minimality, see the
+retraction below.
 
 | band | n | MateProver | Matefish claimed | Matefish verified |
 |---|---|---|---|---|
 | d8 | 12 | 10 | 10 | 10 |
 | d10 | 12 | 10 | 11 | 10 |
 | d12 | 12 | 10 | 10 | 9 |
-| d14 | 12 | 7 | 8 | 5 |
+| d14 | 12 | 8 | 8 | 6 |
 | d16 | 12 | 8 | 7 | 7 |
-| **total** | **60** | **45** | 46 | **41** |
+| **total** | **60** | **46** | 46 | **42** |
 
 Paired: Matefish +0/−4, 4 discordant, **p = 0.125 - parity, not established
-either way**.
+either way**. The 0.1.0 run gave 45 and 41 with the same paired result: one d14
+position for each engine sits on the edge of the 10-second clock.
 
 **Minimality: MateProver 14/60**, by band 7/3/3/1/0 across d8–d16; Matefish n/a
 (echoes the bound). The minimality lane runs `--no-portfolio`: a restricted
@@ -48,7 +51,9 @@ lane searches the requested depth directly and cannot establish a shortest
 mate, so leaving the portfolio on spends the budget on lanes that are
 structurally unable to answer.
 
-Speed on the 41 both solved: MateProver faster on 36, p < 0.0001, median 3.84×.
+Speed on the 42 both solved: MateProver faster on 36, p < 0.0001, median 2.90×
+(3.84× in the 0.1.0 run; a wall-clock ratio moves with machine load, so it is
+not compared across runs).
 **This row is not comparable with the pre-2026-09-12 one.** The script that
 produced the earlier speed figure is not in the tree and its method cannot be
 recovered, and this run was taken under WSL rather than natively. The counts

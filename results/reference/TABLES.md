@@ -12,6 +12,7 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `claim_quality_deep_2026-08-30.log` | 63 | 2026-09-03 |
 | `dtm_pilot_2026-09-13.log` | 51 | 2026-09-13 |
 | `genverify_control_2026-08-30.log` | 23 | 2026-09-03 |
+| `genverify_control_v020_2026-09-13.log` | 23 | 2026-09-13 |
 | `genverify_corrected_2026-08-30.log` | 18 | 2026-09-03 |
 | `h2h_chestuci_2026-09-02.log` | 39 | 2026-09-03 |
 | `h2h_deep_2026-09-02.log` | 28 | 2026-09-03 |
@@ -30,6 +31,7 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `selfmate_final_2026-09-03.log` | 78 | 2026-09-04 |
 | `verify_budget_2026-08-30.log` | 62 | 2026-09-03 |
 | `vs_matefish_2026-09-12.log` | 36 | 2026-09-12 |
+| `vs_matefish_v020_2026-09-13.log` | 48 | 2026-09-13 |
 | `vs_stockfish_2026-09-12.log` | 279 | 2026-09-13 |
 | `vs_stockfish_consumers_d10-13_2026-09-13.log` | 384 | 2026-09-13 |
 | `vs_stockfish_consumers_d14+_2026-09-13.log` | 682 | 2026-09-13 |
@@ -155,6 +157,17 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 ```
 
 ## `genverify_control_2026-08-30.log`
+
+```text
+  dropping minimality alone is worth +29 positions.
+  The published lane figure was 7 -> 31, i.e. +24 attributed to the
+  finder. Of that, 29 belongs to the MODE CHANGE, leaving about -5
+  for the proposer - IF 31 is reproduced on this same set.
+
+=== GENVERIFY CONTROL ENDED ===
+```
+
+## `genverify_control_v020_2026-09-13.log`
 
 ```text
   dropping minimality alone is worth +29 positions.
@@ -365,6 +378,26 @@ verification rate 16/30 = 53% against 24/41 = 59%.
   SPEED on the 41 both solved:
      mateprover faster on 36 of 41, sign test p = 0.0000 -> significant
      median matefish/mateprover time ratio: 3.84x
+
+  MINIMALITY - the shortest mate. Matefish has no counterpart: it
+  echoes the bound it is given and cannot answer this at all.
+  band       n     mateprover     matefish
+  d8        12              7          n/a
+  d10       12              3          n/a
+  d12       12              3          n/a
+  d14       12              1          n/a
+  d16       12              0          n/a
+  TOTAL     60             14          n/a
+
+=== VS MATEFISH ENDED ===
+```
+
+## `vs_matefish_v020_2026-09-13.log`
+
+```text
+  SPEED on the 42 both solved:
+     mateprover faster on 36 of 42, sign test p = 0.0000 -> significant
+     median matefish/mateprover time ratio: 2.90x
 
   MINIMALITY - the shortest mate. Matefish has no counterpart: it
   echoes the bound it is given and cannot answer this at all.
