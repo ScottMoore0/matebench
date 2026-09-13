@@ -282,6 +282,53 @@ What this changes: with the current finder, 1M verifies one claim fewer than
 published claim set and is one claim short on the current one, so read the
 ceiling as "1M loses at most one verification in sixteen", not "1M loses none".
 
+## Tablebase positions as a corpus - pilot (`dtm_pilot_2026-09-13.log`, `vs_stockfish_dtm_pilot_2026-09-13.log`)
+
+`docs/HELDOUT.md` needs a pool with exact depths and free terms. A DTM tablebase
+gives exact depths with no search, so the question was whether its positions
+measure the same thing as composed problems. `bench/dtm_pilot.py` drew 526
+positions from the 3-4 man Gaviota tables present locally (six materials, mate
+in 10 to 35, at most 40 per material and depth band), and each engine ran them
+at the same budget it used on ChestUCI d10+.
+
+Ground truth holds: on 40 sampled positions MateProver's proved shortest mate
+equals the tablebase depth on all 24 it finished, none shorter and none longer;
+16 did not finish at 64M nodes.
+
+| engine | ChestUCI d10+ (2,477) | tablebase pilot (526) |
+|---|---|---|
+| MateProver, `--direct-depth`, 4M nodes | **70.9%** | 36.9% |
+| MateHunter 19, recommended profile, 10M nodes | 73.3% | 53.8% |
+| Stockfish 19, 10M nodes | 44.4% | **60.3%** |
+
+Paired, MateProver against Stockfish 19 is +851/−196 on ChestUCI and +11/−134
+on the tablebase set; MateHunter against Stockfish 19 is +803/−88 on ChestUCI and
++30/−64 on the tablebase set.
+
+| material | positions | MateProver | MateHunter | Stockfish 19 |
+|---|---|---|---|---|
+| KQvKR | 160 | 39 | 55 | 71 |
+| KRvKR | 120 | 44 | 77 | 96 |
+| KBBvK | 120 | 25 | 46 | 42 |
+| KRvK | 80 | 40 | 61 | 62 |
+| KQvKQ | 40 | 40 | 38 | 40 |
+| KQvK | 6 | 6 | 6 | 6 |
+
+1. **The ranking reverses.** Both engines that lead on composed problems trail on
+   tablebase endgames, and the engine last on ChestUCI is first here.
+2. **MateProver is hit hardest beyond mate in 13:** 17 of 160 at d14–17 and 0 of
+   120 at d18–21, against MateHunter's 87 and 19. Its source already notes that
+   proof numbers carry no signal with this little material; this measures it on
+   directmate.
+3. **Stockfish 19's lead is where the defender keeps a piece** (KRvKR, KQvKR),
+   the endgames in which NNUE's knowledge of the material decides the line.
+
+**Verdict: not fit for the held-out pool**, and `docs/HELDOUT.md` now says so.
+Budgets differ between engines, but each engine had the same budget on both
+corpora, so the reversal belongs to the positions. Five-man tables would add
+material variety but would not turn a reversal this large around, so they are
+not needed for this decision.
+
 ## Retracted, and why it is recorded
 
 **Minimality: MateProver 41/60** (vs Matefish, before 2026-09-12) is retracted.

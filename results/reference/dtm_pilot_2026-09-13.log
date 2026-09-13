@@ -1,0 +1,51 @@
+dtm_pilot.py -- tablebase positions as a corpus, pilot on local 3-4 man Gaviota tables (2026-09-13)
+
+generate (seed dtm-pilot, 40 per material and band):
+  KQvKR  d10-13 40  d14-17 40  d18-21 40  d22-+ 40
+  KBBvK  d10-13 40  d14-17 40  d18-21 40  d22-+ 0
+  KRvKR  d10-13 40  d14-17 40  d18-21 40  d22-+ 0
+  KQvKQ  d10-13 40  d14-17 0  d18-21 0  d22-+ 0
+  KRvK   d10-13 40  d14-17 40  d18-21 0  d22-+ 0
+  KQvK   d10-13 6  d14-17 0  d18-21 0  d22-+ 0
+  wrote 526 positions to dtm_pilot.epd
+
+ground truth: MateProver --iterative-depth --no-portfolio, 64,000,000 nodes, 40 sampled positions
+  check: 40 positions -- exact 24, engine shorter 0, engine longer 0, timeout 16
+
+  dtm_pilot.epd -- MateProver --direct-depth 4,000,000 nodes against mh19-null 10,000,000 nodes
+  band         n   prover   hunter   p only   h only        p
+  d10-13     206      177      177       17       17   1.0000
+  d14-17     160       17       87        1       71   0.0000
+  d18-21     120        0       19        0       19   0.0000
+  d22-+       40        0        0        0        0   1.0000
+  ALL        526      194      283       18      107   0.0000
+  solve rate: prover 36.9%, hunter 53.8%
+
+  chestuci.epd -- MateProver --direct-depth 4,000,000 nodes against mh19-null 10,000,000 nodes
+  band         n   prover   hunter   p only   h only        p
+  d10-13    1524     1284     1225      199      140   0.0016
+  d14-17     449      295      364       38      107   0.0000
+  d18-21     186      109      121       30       42   0.1945
+  d22-+      318       67      105       30       68   0.0002
+  ALL       2477     1755     1815      297      357   0.0210
+  solve rate: prover 70.9%, hunter 73.3%
+
+  dtm_pilot.epd -- MateProver --direct-depth 4,000,000 nodes against sf19 10,000,000 nodes
+  band         n   prover   hunter   p only   h only        p
+  d10-13     206      177      183        9       15   0.3075
+  d14-17     160       17       92        2       77   0.0000
+  d18-21     120        0       42        0       42   0.0000
+  d22-+       40        0        0        0        0   1.0000
+  ALL        526      194      317       11      134   0.0000
+  solve rate: prover 36.9%, hunter 60.3%
+
+  chestuci.epd -- MateProver --direct-depth 4,000,000 nodes against sf19 10,000,000 nodes
+  band         n   prover   hunter   p only   h only        p
+  d10-13    1524     1284      757      611       84   0.0000
+  d14-17     449      295      220      137       62   0.0000
+  d18-21     186      109       69       61       21   0.0000
+  d22-+      318       67       54       42       29   0.1539
+  ALL       2477     1755     1100      851      196   0.0000
+  solve rate: prover 70.9%, hunter 44.4%
+
+=== DTM PILOT ENDED ===

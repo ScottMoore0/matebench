@@ -185,6 +185,7 @@ ap.add_argument("--max-depth", type=int, default=999)
 ap.add_argument("--n", type=int, default=0, help="0 = every position in the depth range")
 ap.add_argument("--seed", default="chestuci-h2h")
 ap.add_argument("--nodes", type=int, default=10_000_000)
+ap.add_argument("--corpus", default="chestuci.epd", help="an EPD file in the corpora directory")
 ap.add_argument("--movetime", type=int, default=0,
                 help="milliseconds per position; replaces --nodes when set")
 ap.add_argument("--jobs", type=int, default=12)
@@ -213,7 +214,7 @@ Path(a.state).parent.mkdir(parents=True, exist_ok=True)
 st = json.loads(Path(a.state).read_text()) if Path(a.state).exists() else {}
 
 pool = []
-for line in EPD.read_text(encoding="utf-8", errors="replace").splitlines():
+for line in config.corpus(a.corpus).read_text(encoding="utf-8", errors="replace").splitlines():
     m = BM.search(line)
     if not m or line.startswith("%"):
         continue
@@ -225,8 +226,8 @@ cases = pool[:a.n] if a.n else pool
 budget = ("movetime %d" % a.movetime) if a.movetime else ("nodes %d" % a.nodes)
 budget_key = ("t%d" % a.movetime) if a.movetime else str(a.nodes)
 key = lambda f, arm: "%s|%s|%s" % (f, arm, budget_key)
-print("  ChestUCI d%d-%s: %d positions; %s, 1 thread, arms %s"
-      % (a.min_depth, "max" if a.max_depth >= 999 else a.max_depth, len(cases),
+print("  %s d%d-%s: %d positions; %s, 1 thread, arms %s"
+      % (a.corpus, a.min_depth, "max" if a.max_depth >= 999 else a.max_depth, len(cases),
          ("%d ms a position" % a.movetime) if a.movetime else ("{:,} nodes".format(a.nodes)),
          ",".join(arms)), flush=True)
 

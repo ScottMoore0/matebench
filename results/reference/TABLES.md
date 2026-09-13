@@ -10,6 +10,7 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `chessdb_x4_2026-09-02.log` | 49 | 2026-09-03 |
 | `claim_quality_2026-08-30.log` | 58 | 2026-09-03 |
 | `claim_quality_deep_2026-08-30.log` | 63 | 2026-09-03 |
+| `dtm_pilot_2026-09-13.log` | 51 | 2026-09-13 |
 | `genverify_control_2026-08-30.log` | 23 | 2026-09-03 |
 | `genverify_corrected_2026-08-30.log` | 18 | 2026-09-03 |
 | `h2h_chestuci_2026-09-02.log` | 39 | 2026-09-03 |
@@ -34,6 +35,7 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `vs_stockfish_consumers_d14+_2026-09-13.log` | 682 | 2026-09-13 |
 | `vs_stockfish_correval_d14+_2026-09-13.log` | 103 | 2026-09-13 |
 | `vs_stockfish_d10-13_2026-09-13.log` | 190 | 2026-09-13 |
+| `vs_stockfish_dtm_pilot_2026-09-13.log` | 65 | 2026-09-13 |
 | `vs_stockfish_t5000_d10-13_2026-09-13.log` | 115 | 2026-09-13 |
 | `vs_stockfish_t5000_d14+_2026-09-13.log` | 89 | 2026-09-13 |
 
@@ -115,6 +117,41 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
   matefish vs hunt18-clean: +3 / -0  (3 discordant)
 
 === CLAIM QUALITY ENDED ===
+```
+
+## `dtm_pilot_2026-09-13.log`
+
+```text
+  solve rate: prover 36.9%, hunter 53.8%
+
+  chestuci.epd -- MateProver --direct-depth 4,000,000 nodes against mh19-null 10,000,000 nodes
+  band         n   prover   hunter   p only   h only        p
+  d10-13    1524     1284     1225      199      140   0.0016
+  d14-17     449      295      364       38      107   0.0000
+  d18-21     186      109      121       30       42   0.1945
+  d22-+      318       67      105       30       68   0.0002
+  ALL       2477     1755     1815      297      357   0.0210
+  solve rate: prover 70.9%, hunter 73.3%
+
+  dtm_pilot.epd -- MateProver --direct-depth 4,000,000 nodes against sf19 10,000,000 nodes
+  band         n   prover   hunter   p only   h only        p
+  d10-13     206      177      183        9       15   0.3075
+  d14-17     160       17       92        2       77   0.0000
+  d18-21     120        0       42        0       42   0.0000
+  d22-+       40        0        0        0        0   1.0000
+  ALL        526      194      317       11      134   0.0000
+  solve rate: prover 36.9%, hunter 60.3%
+
+  chestuci.epd -- MateProver --direct-depth 4,000,000 nodes against sf19 10,000,000 nodes
+  band         n   prover   hunter   p only   h only        p
+  d10-13    1524     1284      757      611       84   0.0000
+  d14-17     449      295      220      137       62   0.0000
+  d18-21     186      109       69       61       21   0.0000
+  d22-+      318       67       54       42       29   0.1539
+  ALL       2477     1755     1100      851      196   0.0000
+  solve rate: prover 70.9%, hunter 44.4%
+
+=== DTM PILOT ENDED ===
 ```
 
 ## `genverify_control_2026-08-30.log`
@@ -511,6 +548,41 @@ verification rate 16/30 = 53% against 24/41 = 59%.
   band          n     mh19 mh19-nop   x only   y only        p
   d10-13    1524     1176      730      501       55   0.0000
   ALL        1524     1176      730      501       55   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
+```
+
+## `vs_stockfish_dtm_pilot_2026-09-13.log`
+
+```text
+
+  sf19       solved  317/526   nps ~ 1,862,110
+  mh19       solved  282/526   nps ~ 2,339,194
+  mh19-null  solved  283/526   nps ~ 2,427,142
+
+  MateHunter (shipped profile) against stock Stockfish 19
+  mh19 vs sf19
+  band          n     mh19     sf19   x only   y only        p
+  d10-13     206      175      183       10       18   0.1849
+  d14-17     160       86       92       19       25   0.4514
+  d18-21     120       21       42        5       26   0.0002
+  d22-25      17        0        0        0        0   1.0000
+  d26-30      19        0        0        0        0   1.0000
+  d31-+        4        0        0        0        0   1.0000
+  ALL         526      282      317       34       69   0.0007
+
+  MECHANISM: what the king-danger signal adds over a constant evaluation
+  mh19 vs mh19-null
+  band          n     mh19 mh19-nul   x only   y only        p
+  d10-13     206      175      177       12       14   0.8450
+  d14-17     160       86       87       20       21   1.0000
+  d18-21     120       21       19       14       12   0.8450
+  d22-25      17        0        0        0        0   1.0000
+  d26-30      19        0        0        0        0   1.0000
+  d31-+        4        0        0        0        0   1.0000
+  ALL         526      282      283       46       47   1.0000
 
   Read the BAND rows. A pooled null can be two opposite effects cancelling.
 

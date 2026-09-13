@@ -1,0 +1,65 @@
+  dtm_pilot.epd d10-max: 526 positions; 10,000,000 nodes, 1 thread, arms sf19,mh19,mh19-null
+  1578 arm-positions to run
+
+     50/1578
+     100/1578
+     150/1578
+     200/1578
+     250/1578
+     300/1578
+     350/1578
+     400/1578
+     450/1578
+     500/1578
+     550/1578
+     600/1578
+     650/1578
+     700/1578
+     750/1578
+     800/1578
+     850/1578
+     900/1578
+     950/1578
+     1000/1578
+     1050/1578
+     1100/1578
+     1150/1578
+     1200/1578
+     1250/1578
+     1300/1578
+     1350/1578
+     1400/1578
+     1450/1578
+     1500/1578
+     1550/1578
+     1578/1578
+
+  sf19       solved  317/526   nps ~ 1,862,110
+  mh19       solved  282/526   nps ~ 2,339,194
+  mh19-null  solved  283/526   nps ~ 2,427,142
+
+  MateHunter (shipped profile) against stock Stockfish 19
+  mh19 vs sf19
+  band          n     mh19     sf19   x only   y only        p
+  d10-13     206      175      183       10       18   0.1849
+  d14-17     160       86       92       19       25   0.4514
+  d18-21     120       21       42        5       26   0.0002
+  d22-25      17        0        0        0        0   1.0000
+  d26-30      19        0        0        0        0   1.0000
+  d31-+        4        0        0        0        0   1.0000
+  ALL         526      282      317       34       69   0.0007
+
+  MECHANISM: what the king-danger signal adds over a constant evaluation
+  mh19 vs mh19-null
+  band          n     mh19 mh19-nul   x only   y only        p
+  d10-13     206      175      177       12       14   0.8450
+  d14-17     160       86       87       20       21   1.0000
+  d18-21     120       21       19       14       12   0.8450
+  d22-25      17        0        0        0        0   1.0000
+  d26-30      19        0        0        0        0   1.0000
+  d31-+        4        0        0        0        0   1.0000
+  ALL         526      282      283       46       47   1.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===

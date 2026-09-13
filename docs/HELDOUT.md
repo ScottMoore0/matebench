@@ -40,6 +40,13 @@ A round has a **salt**: a secret string chosen by the round's maintainer.
 - **Not matetrack** for any engine that was tuned on it. The manifest's
   `notes` field is where a submitter declares tuning corpora, and a declared
   corpus is excluded from that submission's held-out pool by position hash.
+- **Not tablebase positions**, whatever their terms. Exact depths come free from
+  a DTM tablebase, but a pilot on 3-4 man Gaviota positions
+  (`results/reference/dtm_pilot_2026-09-13.log`) reversed the ranking of every
+  engine measured: MateProver 71% to 37%, Stockfish 19 44% to 60%, against
+  ChestUCI positions of the same depths. A pool containing them would measure
+  endgame technique, not problem solving. They belong, if anywhere, in a separate
+  track reported under its own name.
 
 ## What a submitter sees
 
