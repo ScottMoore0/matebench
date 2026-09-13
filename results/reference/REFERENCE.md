@@ -18,7 +18,7 @@ it.
 |---|---|---|---|
 | MateProver 0.1.0 | own DFPN | defaults; `--direct-depth` on finding tracks, `--iterative-depth` on minimality | emits certificates; MIT, https://github.com/ScottMoore0/mateprover at tag v0.1.0 |
 | MateHunter 18 | Stockfish 18 fork | `MateEval=true`, `MateMode=false` | shipped default as of 2026-09-02; `MateMode=true` costs 21/234 at d26+ |
-| MateHunter 19 | Stockfish 19 fork | `MateEval=true`, `MateMode=false`, every other mate option set off explicitly | port of the 18 fork; with every mate option off it is node-for-node identical to stock (bench 2,497,913). Recommended profile from 2026-09-13 adds `MateEvalNull=true`; see "Recommended profile" |
+| MateHunter 19 | Stockfish 19 fork | `MateEval=true`, `MateMode=false`, every other mate option set off explicitly | port of the 18 fork; with every mate option off it is node-for-node identical to stock (bench 2,497,913). Recommended profile from 2026-09-13 adds `MateEvalNull=true`, and is the engine's default from the same date; see "Recommended profile" |
 | Stockfish 19 | own (NNUE) | defaults with `Threads=1`, `Hash=256` | https://stockfishchess.org; built from the release source with the fork's compiler and flags |
 | Huntsman 1 | Stockfish fork | `MateSearch=true` (its default) | over-claims; echoes toward the bound; by joergoster, https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary used self-identifies as `The Huntsman 1`) |
 | Matefish 170826 | Stockfish + PNS | `ProofNumberSearch=true`, `PNS Hash=4096` | **both default off/small**; at defaults it abandons a d14 search in 0.2 s |
@@ -217,7 +217,9 @@ not a separate measurement.
 king-danger evaluator. It matches the evaluator at d14+ and beats it at d10–13,
 under a node budget (590 vs 586; 1,225 vs 1,176, p = 0.002) and under a clock
 (606 vs 592; 1,244 vs 1,195, p = 0.0013), and what it does can now be stated
-exactly. The engine's defaults are unchanged; the harness sets every toggle
+exactly. Since 2026-09-13 it is also the engine's default (bench at defaults
+5,314,178 nodes; with every mate option off, still stock's 2,497,913). The
+harness sets every toggle
 explicitly and so should anyone reproducing these numbers.
 
 ## All six goals - MateProver vs Chest 3.19
