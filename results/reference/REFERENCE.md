@@ -18,7 +18,7 @@ it.
 |---|---|---|---|
 | MateProver 0.1.0 | own DFPN | defaults; `--direct-depth` on finding tracks, `--iterative-depth` on minimality | emits certificates; MIT, https://github.com/ScottMoore0/mateprover at tag v0.1.0 |
 | MateHunter 18 | Stockfish 18 fork | `MateEval=true`, `MateMode=false` | shipped default as of 2026-09-02; `MateMode=true` costs 21/234 at d26+ |
-| MateHunter 19 | Stockfish 19 fork | `MateEval=true`, `MateMode=false`, every other mate option set off explicitly | port of the 18 fork; with every mate option off it is node-for-node identical to stock (bench 2,497,913) |
+| MateHunter 19 | Stockfish 19 fork | `MateEval=true`, `MateMode=false`, every other mate option set off explicitly | port of the 18 fork; with every mate option off it is node-for-node identical to stock (bench 2,497,913). Recommended profile from 2026-09-13 adds `MateEvalNull=true`; see "Recommended profile" |
 | Stockfish 19 | own (NNUE) | defaults with `Threads=1`, `Hash=256` | https://stockfishchess.org; built from the release source with the fork's compiler and flags |
 | Huntsman 1 | Stockfish fork | `MateSearch=true` (its default) | over-claims; echoes toward the bound; by joergoster, https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary used self-identifies as `The Huntsman 1`) |
 | Matefish 170826 | Stockfish + PNS | `ProofNumberSearch=true`, `PNS Hash=4096` | **both default off/small**; at defaults it abandons a d14 search in 0.2 s |
@@ -166,10 +166,59 @@ positions at a time on an otherwise idle machine.
   to twice stock's nodes per second), but barely changes the gap between the two
   flat evaluations, which differ in speed by about 9%.
 
-Still open: which consumer of the static evaluation carries the effect. The three
-pruning steps MateMode gates are ruled out; the candidates left are per-move
-futility and move-count pruning, LMR adjustments, quiescence stand-pat and
-aspiration windows around the root score.
+### Which consumer carries it (`vs_stockfish_consumers_*_2026-09-13.log`, `vs_stockfish_correval_d14+_2026-09-13.log`)
+
+`MateEvalOff` switches off one consumer of the static evaluation per bit. Every
+switch was run at 10M nodes on d14+ twice: under the constant evaluation
+(against the constant evaluation) and under NNUE (against the all-off control).
+The switches that moved anything were re-run on d10–13.
+
+| switched off | constant, d14+ | constant, d10–13 | NNUE, d14+ | NNUE, d10–13 |
+|---|---|---|---|---|
+| nothing | 590 | 1,225 | 343 | 757 |
+| correction history in the static evaluation only | **169** (+5/−426) | **732** (+45/−538) | 293 (+22/−72) | 710 (+60/−107) |
+| correction history everywhere | 159 (+8/−439) | 677 (+48/−596) | 300 (+30/−73) | 689 (+66/−134) |
+| quiet-move futility pruning | 556 (+47/−81, p = 0.003) | 1,181 (+77/−121, p = 0.002) | 288 (+28/−83) | 673 (+66/−150) |
+| improving flags | 542 (+42/−90) | 1,194 (+88/−119, p = 0.037) | 314 (+39/−68, p = 0.007) | 737 (+71/−91, p = 0.14) |
+| aspiration windows | 567 (+64/−87, p = 0.07) | - | 309 (+43/−77, p = 0.002) | 719 (+76/−114, p = 0.007) |
+| each of the other seven | 570–587, none p < 0.05 | - | 323–334 | - |
+
+The other seven are eval-difference move ordering, ProbCut, capture futility,
+move-count pruning, the LMR eval term, quiescence futility and history bonus
+scaling.
+
+What replicates, and is therefore the finding:
+
+1. **The "constant evaluation" is not flat.** With the evaluation fixed at 0,
+   what the search sees as the static evaluation is the correction-history term
+   alone: the adjustment Stockfish learns during the search from how search
+   results differ from the static evaluation, keyed by pawn structure, minor
+   pieces, non-pawn material and the preceding moves. Take that term out of the
+   static evaluation and the arm falls from 590 to 169 at d14+ and from 1,225 to
+   732 at d10–13 - below stock both times. **A genuinely flat evaluation is
+   worse than NNUE.**
+2. **So MateHunter's gain comes from replacing NNUE's evaluation with one learned
+   inside the current search.** Removing correction history from the evaluation
+   costs nearly as much as removing it everywhere, so its other uses (margins
+   and reductions) are not what matters.
+3. **No consumer is misled by NNUE on its own.** Switching any single one off
+   under NNUE recovers none of the gain; every NNUE arm is at or below the
+   control.
+4. Under the learned evaluation, quiet-move futility pruning and the improving
+   flags both help, at both depth ranges.
+
+The interpretation - that inside a forced-mate search the search's own results
+are a better guide than a game-outcome network - is a reading of these numbers,
+not a separate measurement.
+
+### Recommended profile
+
+**`MateEval=true`, `MateEvalNull=true`, `MateMode=false`**, replacing the full
+king-danger evaluator. It matches the evaluator at d14+ and beats it at d10–13,
+under a node budget (590 vs 586; 1,225 vs 1,176, p = 0.002) and under a clock
+(606 vs 592; 1,244 vs 1,195, p = 0.0013), and what it does can now be stated
+exactly. The engine's defaults are unchanged; the harness sets every toggle
+explicitly and so should anyone reproducing these numbers.
 
 ## All six goals - MateProver vs Chest 3.19
 

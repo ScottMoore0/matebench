@@ -1,0 +1,103 @@
+  ChestUCI d14-max: 953 positions; 10,000,000 nodes, 1 thread, arms mh19-off,mh19-null,null-no-corrhist,nnue-no-corrhist,null-no-correval,nnue-no-correval
+  1906 arm-positions to run
+
+     50/1906
+     100/1906
+     150/1906
+     200/1906
+     250/1906
+     300/1906
+     350/1906
+     400/1906
+     450/1906
+     500/1906
+     550/1906
+     600/1906
+     650/1906
+     700/1906
+     750/1906
+     800/1906
+     850/1906
+     900/1906
+     950/1906
+     1000/1906
+     1050/1906
+     1100/1906
+     1150/1906
+     1200/1906
+     1250/1906
+     1300/1906
+     1350/1906
+     1400/1906
+     1450/1906
+     1500/1906
+     1550/1906
+     1600/1906
+     1650/1906
+     1700/1906
+     1750/1906
+     1800/1906
+     1850/1906
+     1900/1906
+     1906/1906
+
+  mh19-off   solved  343/953   nps ~ 941,635
+  mh19-null  solved  590/953   nps ~ 2,004,585
+  null-no-corrhist solved  159/953   nps ~ 2,547,197
+  nnue-no-corrhist solved  300/953   nps ~ 1,292,272
+  null-no-correval solved  169/953   nps ~ 2,436,193
+  nnue-no-correval solved  293/953   nps ~ 1,202,213
+
+  MECHANISM: a constant evaluation -- is it just the absence of NNUE?
+  mh19-null vs mh19-off
+  band          n mh19-nul mh19-off   x only   y only        p
+  d14-17     449      364      220      161       17   0.0000
+  d18-21     186      121       69       59        7   0.0000
+  d22-25      84       51       26       29        4   0.0000
+  d26-30      65       23       11       16        4   0.0118
+  d31-+      169       31       17       18        4   0.0043
+  ALL         953      590      343      283       36   0.0000
+
+  CONSUMER, constant evaluation: corrhist switched off
+  null-no-corrhist vs mh19-null
+  band          n null-no- mh19-nul   x only   y only        p
+  d14-17     449      113      364        5      256   0.0000
+  d18-21     186       29      121        3       95   0.0000
+  d22-25      84       12       51        0       39   0.0000
+  d26-30      65        2       23        0       21   0.0000
+  d31-+      169        3       31        0       28   0.0000
+  ALL         953      159      590        8      439   0.0000
+
+  CONSUMER, NNUE: corrhist switched off
+  nnue-no-corrhist vs mh19-off
+  band          n nnue-no- mh19-off   x only   y only        p
+  d14-17     449      192      220       14       42   0.0002
+  d18-21     186       56       69        5       18   0.0106
+  d22-25      84       25       26        6        7   1.0000
+  d26-30      65       13       11        3        1   0.6250
+  d31-+      169       14       17        2        5   0.4531
+  ALL         953      300      343       30       73   0.0000
+
+  CONSUMER, constant evaluation: correval switched off
+  null-no-correval vs mh19-null
+  band          n null-no- mh19-nul   x only   y only        p
+  d14-17     449      128      364        4      240   0.0000
+  d18-21     186       25      121        1       97   0.0000
+  d22-25      84       14       51        0       37   0.0000
+  d26-30      65        2       23        0       21   0.0000
+  d31-+      169        0       31        0       31   0.0000
+  ALL         953      169      590        5      426   0.0000
+
+  CONSUMER, NNUE: correval switched off
+  nnue-no-correval vs mh19-off
+  band          n nnue-no- mh19-off   x only   y only        p
+  d14-17     449      189      220       12       43   0.0000
+  d18-21     186       55       69        2       16   0.0013
+  d22-25      84       23       26        3        6   0.5078
+  d26-30      65       13       11        4        2   0.6875
+  d31-+      169       13       17        1        5   0.2188
+  ALL         953      293      343       22       72   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===

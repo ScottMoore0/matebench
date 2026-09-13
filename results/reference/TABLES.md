@@ -30,6 +30,9 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `verify_budget_2026-08-30.log` | 62 | 2026-09-03 |
 | `vs_matefish_2026-09-12.log` | 36 | 2026-09-12 |
 | `vs_stockfish_2026-09-12.log` | 279 | 2026-09-13 |
+| `vs_stockfish_consumers_d10-13_2026-09-13.log` | 384 | 2026-09-13 |
+| `vs_stockfish_consumers_d14+_2026-09-13.log` | 682 | 2026-09-13 |
+| `vs_stockfish_correval_d14+_2026-09-13.log` | 103 | 2026-09-13 |
 | `vs_stockfish_d10-13_2026-09-13.log` | 190 | 2026-09-13 |
 | `vs_stockfish_t5000_d10-13_2026-09-13.log` | 115 | 2026-09-13 |
 | `vs_stockfish_t5000_d14+_2026-09-13.log` | 89 | 2026-09-13 |
@@ -368,6 +371,111 @@ verification rate 16/30 = 53% against 24/41 = 59%.
   d26-30      65       26       14       14        2   0.0042
   d31-+      169       35       15       24        4   0.0002
   ALL         953      586      330      284       28   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
+```
+
+## `vs_stockfish_consumers_d10-13_2026-09-13.log`
+
+```text
+  d10-13    1524      677     1225       48      596   0.0000
+  ALL        1524      677     1225       48      596   0.0000
+
+  CONSUMER, NNUE: corrhist switched off
+  nnue-no-corrhist vs mh19-off
+  band          n nnue-no- mh19-off   x only   y only        p
+  d10-13    1524      689      757       66      134   0.0000
+  ALL        1524      689      757       66      134   0.0000
+
+  CONSUMER, NNUE: aspiration switched off
+  nnue-no-aspiration vs mh19-off
+  band          n nnue-no- mh19-off   x only   y only        p
+  d10-13    1524      719      757       76      114   0.0071
+  ALL        1524      719      757       76      114   0.0071
+
+  CONSUMER, constant evaluation: correval switched off
+  null-no-correval vs mh19-null
+  band          n null-no- mh19-nul   x only   y only        p
+  d10-13    1524      732     1225       45      538   0.0000
+  ALL        1524      732     1225       45      538   0.0000
+
+  CONSUMER, NNUE: correval switched off
+  nnue-no-correval vs mh19-off
+  band          n nnue-no- mh19-off   x only   y only        p
+  d10-13    1524      710      757       60      107   0.0003
+  ALL        1524      710      757       60      107   0.0003
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
+```
+
+## `vs_stockfish_consumers_d14+_2026-09-13.log`
+
+```text
+  d14-17     449      207      220       25       38   0.1299
+  d18-21     186       56       69        8       21   0.0241
+  d22-25      84       23       26        5        8   0.5811
+  d26-30      65       10       11        2        3   1.0000
+  d31-+      169       13       17        3        7   0.3438
+  ALL         953      309      343       43       77   0.0024
+
+  CONSUMER, constant evaluation: bonusscale switched off
+  null-no-bonusscale vs mh19-null
+  band          n null-no- mh19-nul   x only   y only        p
+  d14-17     449      364      364       26       26   1.0000
+  d18-21     186      118      121       10       13   0.6776
+  d22-25      84       52       51        8        7   1.0000
+  d26-30      65       19       23        4        8   0.3877
+  d31-+      169       31       31        6        6   1.0000
+  ALL         953      584      590       54       60   0.6398
+
+  CONSUMER, NNUE: bonusscale switched off
+  nnue-no-bonusscale vs mh19-off
+  band          n nnue-no- mh19-off   x only   y only        p
+  d14-17     449      212      220       24       32   0.3497
+  d18-21     186       64       69        3        8   0.2266
+  d22-25      84       24       26        3        5   0.7266
+  d26-30      65       14       11        4        1   0.3750
+  d31-+      169       17       17        4        4   1.0000
+  ALL         953      331      343       38       50   0.2408
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
+```
+
+## `vs_stockfish_correval_d14+_2026-09-13.log`
+
+```text
+  d14-17     449      192      220       14       42   0.0002
+  d18-21     186       56       69        5       18   0.0106
+  d22-25      84       25       26        6        7   1.0000
+  d26-30      65       13       11        3        1   0.6250
+  d31-+      169       14       17        2        5   0.4531
+  ALL         953      300      343       30       73   0.0000
+
+  CONSUMER, constant evaluation: correval switched off
+  null-no-correval vs mh19-null
+  band          n null-no- mh19-nul   x only   y only        p
+  d14-17     449      128      364        4      240   0.0000
+  d18-21     186       25      121        1       97   0.0000
+  d22-25      84       14       51        0       37   0.0000
+  d26-30      65        2       23        0       21   0.0000
+  d31-+      169        0       31        0       31   0.0000
+  ALL         953      169      590        5      426   0.0000
+
+  CONSUMER, NNUE: correval switched off
+  nnue-no-correval vs mh19-off
+  band          n nnue-no- mh19-off   x only   y only        p
+  d14-17     449      189      220       12       43   0.0000
+  d18-21     186       55       69        2       16   0.0013
+  d22-25      84       23       26        3        6   0.5078
+  d26-30      65       13       11        4        2   0.6875
+  d31-+      169       13       17        1        5   0.2188
+  ALL         953      293      343       22       72   0.0000
 
   Read the BAND rows. A pooled null can be two opposite effects cancelling.
 

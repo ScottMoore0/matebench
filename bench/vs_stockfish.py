@@ -117,7 +117,7 @@ COMPARISONS = [
 CORE_ARMS = list(ARMS)
 EVAL_OFF = {1: "improving", 2: "ordering", 4: "probcut", 8: "capfut", 16: "quietfut",
             32: "movecount", 64: "lmreval", 128: "qsfut", 256: "corrhist", 512: "aspiration",
-            1024: "bonusscale"}
+            1024: "bonusscale", 2048: "correval"}
 for bit, tag in EVAL_OFF.items():
     ARMS["null-no-" + tag] = ("matehunter19", dict(ARMS["mh19-null"][1], MateEvalOff=bit))
     ARMS["nnue-no-" + tag] = ("matehunter19", dict(MH_OFF, MateEvalOff=bit))
