@@ -30,8 +30,11 @@ CHECKSUMS = HERE / "CHECKSUMS.json"
 BM = re.compile(r"bm[ ]+#([0-9]+)")
 
 
-def sha(p):
-    return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def sha(path):
+    # Line endings are normalised before hashing. The same corpus written on
+    # Windows has CRLF and written anywhere else has LF, and hashing raw bytes
+    # pinned ChestUCI to the platform that happened to record it.
+    return hashlib.sha256(Path(path).read_bytes().replace(bytes([13, 10]), bytes([10]))).hexdigest()
 
 
 def count_positions(p):
@@ -73,11 +76,13 @@ def chestuci(args):
     src = Path(args.chest_dir) / "ChestUCI.epd"
     if not src.exists():
         sys.exit("  ChestUCI.epd not found under %s. It ships with ChestUCI; it is not fetched, "
-                 "because redistribution needs the authors' permission." % args.chest_dir)
+                 "because redistribution needs the authors' permission. Use the ChestUCI.epd that ships "
+                 "with ChestUCI 5.2 (see corpora/PROVENANCE.md); matetrack's ChestUCI_23102018.epd is "
+                 "a different suite and will not match the recorded checksum." % args.chest_dir)
     out = HERE / "chestuci.epd"
     rows = [l for l in src.read_text(encoding="utf-8", errors="replace").splitlines()
             if BM.search(l) and not l.startswith("%")]
-    out.write_text(chr(10).join(rows) + chr(10), encoding="utf-8")
+    out.write_text(chr(10).join(rows) + chr(10), encoding="utf-8", newline=chr(10))
     print("  %s: %d positions, %d at d>=14" % (out.name, len(rows),
           sum(1 for l in rows if int(BM.search(l).group(1)) >= 14)))
     print("  Every bm #N here is a Chest PROOF: a claim of exactly N needs no further verification.")

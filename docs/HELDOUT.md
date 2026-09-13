@@ -34,9 +34,16 @@ A round has a **salt**: a secret string chosen by the round's maintainer.
 - **The generated corpus** first: its terms permit anything and its generator
   is in the MateProver repository, so a round can grow the pool with positions
   that have never existed before.
-- **ChestUCI** only with the authors' permission for the positions to be
-  redistributed as a held-out set; without it the round can still use the set,
-  but only reporting results, not the positions.
+- **ChestUCI, supplied by whoever runs or checks the round, never by this
+  repository.** Its authors' permission is needed to redistribute it, so nothing
+  here ships it. The maintainer runs the round from their own copy of the
+  `ChestUCI.epd` that ships with ChestUCI 5.2, rebuilt with
+  `fetch_corpora.py chestuci` and checked against `CHECKSUMS.json`; anyone
+  checking the round afterwards does the same with theirs. Results name its
+  positions by id (`heldout.py --ids`: the first 16 hex digits of the sha256 of
+  the position), never by FEN, so publishing a round's results does not publish
+  the positions. Where to find the file, and which look-alikes do not match, is
+  in `corpora/PROVENANCE.md`.
 - **Not matetrack** for any engine that was tuned on it. The manifest's
   `notes` field is where a submitter declares tuning corpora, and a declared
   corpus is excluded from that submission's held-out pool by position hash.
@@ -53,7 +60,9 @@ A round has a **salt**: a secret string chosen by the round's maintainer.
 Before the round: the commitment, the corpus checksums, the band profile of
 the held-out set, and the track budgets. After the round: the salt, their
 per-band results paired against every reference engine, and their
-certificates. Never, during a round, the held-out positions.
+certificates. Never, during a round, the held-out positions - and for a corpus
+that may not be redistributed, never at all: results identify those positions
+by id, which anyone holding the corpus can map back to a position.
 
 ## What is not solved by this
 

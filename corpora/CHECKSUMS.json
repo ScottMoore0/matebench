@@ -2,8 +2,8 @@
   "chestuci": {
     "file": "chestuci.epd",
     "positions": 6545,
-    "recorded": "2026-09-04",
-    "sha256": "a33932635b9aaad247277f8587aa05ac95d7764641e74632caa2dcb3ee489e8b",
+    "recorded": "2026-09-14",
+    "sha256": "89bb4dc4ac357751e335d725ea9bd909c1852814170a61fd0ffd2d5d6dbd5063",
     "source": "local ChestUCI 5.2 install"
   },
   "matetrack": {

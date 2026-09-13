@@ -36,6 +36,13 @@ def fen_key(line):
     return " ".join(line.split()[:4])
 
 
+def position_id(line):
+    # Names a position without revealing it. Results on a corpus that may not be
+    # redistributed (ChestUCI) publish this instead of the FEN; anyone holding the
+    # corpus can map it back, and nobody else can.
+    return hashlib.sha256(fen_key(line).encode("utf-8")).hexdigest()[:16]
+
+
 def is_heldout(salt, line, fraction):
     h = hashlib.sha256((salt + "|" + fen_key(line)).encode("utf-8")).digest()
     u = int.from_bytes(h[:8], "big") / float(1 << 64)
@@ -48,6 +55,9 @@ def main():
     ap.add_argument("--salt", required=True, help="the round's secret salt (commit sha256(salt) first)")
     ap.add_argument("--fraction", type=float, default=0.2, help="held-out share (default 0.2)")
     ap.add_argument("--out-dir", default="", help="where to write the two files (default: beside the input)")
+    ap.add_argument("--ids", action="store_true",
+                    help="also write <stem>.heldout.ids: position id, band and stated mate length for each "
+                         "held-out position, and nothing that reveals the position itself")
     a = ap.parse_args()
     if not (0 < a.fraction < 1):
         sys.exit("--fraction must be strictly between 0 and 1")
@@ -63,6 +73,15 @@ def main():
     for name, part in (("dev", dev), ("heldout", held)):
         p = out_dir / ("%s.%s.epd" % (stem, name))
         p.write_text(chr(10).join(part) + chr(10), encoding="utf-8")
+    if a.ids:
+        p = out_dir / ("%s.heldout.ids" % stem)
+        ids = []
+        for l in held:
+            m = BM.search(l)
+            n = int(m.group(1)) if m else None
+            ids.append("%s %s %s" % (position_id(l), band(n) if n is not None else "?", n if n is not None else "?"))
+        p.write_text(chr(10).join(ids) + chr(10), encoding="utf-8")
+        print("wrote %d position ids to %s" % (len(ids), p))
     commit = hashlib.sha256(a.salt.encode("utf-8")).hexdigest()
     print("salt commitment sha256(salt) = %s" % commit)
     print("%s: %d positions -> dev %d, held-out %d (fraction %.2f)" % (src.name, len(rows), len(dev), len(held), a.fraction))
