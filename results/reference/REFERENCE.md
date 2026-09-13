@@ -119,9 +119,8 @@ holds over the whole corpus, not just bench.
   for stock to 60.0M for main-search-only - so what they show is that the
   evaluation must be consistent across the search, not which consumer carries
   the effect.
-- Node-budgeted, so speed plays no part in these counts. The flat-evaluation arms
-  also run about twice as fast per node (1.84M against 0.89M nps), so a
-  time-budgeted comparison would widen the gap rather than close it.
+- Node-budgeted, so speed plays no part in these counts. How speed changes them
+  is measured under a clock below.
 
 ### Replication, out of sample (`vs_stockfish_d10-13_2026-09-13.log`)
 
@@ -147,6 +146,25 @@ What replicates, and is therefore the finding:
    NNUE gains nothing at either depth range.
 4. Escape squares alone are at least as good as the full evaluator; that they beat
    a constant did not replicate.
+
+### Under a clock (`vs_stockfish_t5000_*_2026-09-13.log`)
+
+The same positions at 5 seconds a position instead of 10M nodes, one thread, 12
+positions at a time on an otherwise idle machine.
+
+| arm | d14+, 953 | d10–13, 1,524 | nps (d14+) |
+|---|---|---|---|
+| stock Stockfish 19 | 324 | 715 | 1.44M |
+| full king-danger evaluator (shipped) | 592 | 1,195 | 2.57M |
+| **constant evaluation** | **606** | **1,244** | 2.80M |
+
+- **The constant evaluation is still at least as good as the full evaluator:**
+  +72/−58 at d14+ (p = 0.25; the d14–17 band alone +37/−20, p = 0.033) and
+  +136/−87 at d10–13 (p = 0.0013).
+- Against stock it is +308/−26 at d14+ and +565/−36 at d10–13.
+- The clock widens the gap over **stock** (both mate-oriented arms search close
+  to twice stock's nodes per second), but barely changes the gap between the two
+  flat evaluations, which differ in speed by about 9%.
 
 Still open: which consumer of the static evaluation carries the effect. The three
 pruning steps MateMode gates are ruled out; the candidates left are per-move

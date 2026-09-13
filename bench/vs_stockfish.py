@@ -42,6 +42,19 @@ evaluation throughout separate the explanations instead:
   mh19-noprune   NNUE with razoring, futility and null-move pruning off: is
                  MateEval simply suppressing eval-based pruning?
 
+ROUND 3 -- WHICH CONSUMER. The constant evaluation matching the full evaluator
+means the gain is the absence of NNUE's evaluation, so the question becomes which
+of the search's consumers of that evaluation NNUE misleads. `MateEvalOff` switches
+them off one bit at a time. Each is run twice: under the constant evaluation
+(`null-no-*` against `mh19-null`) and under NNUE (`nnue-no-*` against `mh19-off`).
+A consumer that carries the effect should recover part of the gain when switched
+off under NNUE. None of these arms is in the default set; name them in --arms.
+
+TIME BUDGETS. `--movetime` replaces the node budget with a clock. The constant
+evaluation also searches faster, so a node budget understates it; a clock does
+not, but a clock makes the result depend on machine load, so run it on an
+otherwise idle machine and keep --jobs below the physical core count.
+
 PAIRED, node-budgeted, single-threaded, scored with the mate-sign check
 (0 < dm <= N). Node budgets make the result independent of machine load, so
 arms run many-wide without one poisoning another. Discordant pairs and a
@@ -74,7 +87,8 @@ BASE = {"Threads": 1, "Hash": 256}
 # Every mate toggle is set EXPLICITLY. MateEval defaults TRUE in the fork, so
 # relying on a default is how an "off" arm silently runs as the shipped profile.
 MH_OFF = dict(BASE, MateMode="false", MateEval="false", MateEvalMain="false", MateEvalQS="false",
-              MateEvalNull="false", MateNoRazor="false", MateNoFutility="false", MateNoNull="false")
+              MateEvalNull="false", MateNoRazor="false", MateNoFutility="false", MateNoNull="false",
+              MateEvalOff=0)
 ARMS = {
     "sf19":      ("sf19", dict(BASE)),
     "mh19-off":  ("matehunter19", dict(MH_OFF)),
@@ -100,10 +114,21 @@ COMPARISONS = [
     ("mh19-noprune", "mh19-off", "MECHANISM: NNUE with eval-based pruning switched off"),
     ("mh19", "mh19-noprune", "MECHANISM: MateEval against simply switching that pruning off"),
 ]
+CORE_ARMS = list(ARMS)
+EVAL_OFF = {1: "improving", 2: "ordering", 4: "probcut", 8: "capfut", 16: "quietfut",
+            32: "movecount", 64: "lmreval", 128: "qsfut", 256: "corrhist", 512: "aspiration",
+            1024: "bonusscale"}
+for bit, tag in EVAL_OFF.items():
+    ARMS["null-no-" + tag] = ("matehunter19", dict(ARMS["mh19-null"][1], MateEvalOff=bit))
+    ARMS["nnue-no-" + tag] = ("matehunter19", dict(MH_OFF, MateEvalOff=bit))
+    COMPARISONS.append(("null-no-" + tag, "mh19-null",
+                        "CONSUMER, constant evaluation: %s switched off" % tag))
+    COMPARISONS.append(("nnue-no-" + tag, "mh19-off",
+                        "CONSUMER, NNUE: %s switched off" % tag))
 BANDS = [(10, 13), (14, 17), (18, 21), (22, 25), (26, 30), (31, 999)]
 
 
-def go(arm, fen, depth, nodes):
+def go(arm, fen, depth, budget):
     binary, opts = ARMS[arm]
     p = subprocess.Popen([str(BIN / binary)], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                          stderr=subprocess.DEVNULL, text=True, bufsize=1, errors="replace")
@@ -119,7 +144,7 @@ def go(arm, fen, depth, nodes):
             done.set()
     threading.Thread(target=rd, daemon=True).start()
     cmds = (["uci", "isready"] + ["setoption name %s value %s" % kv for kv in opts.items()]
-            + ["isready", "ucinewgame", "position fen %s 0 1" % fen, "go mate %d nodes %d" % (depth, nodes)])
+            + ["isready", "ucinewgame", "position fen %s 0 1" % fen, "go mate %d %s" % (depth, budget)])
     try:
         p.stdin.write("\n".join(cmds) + "\n")
         p.stdin.flush()
@@ -160,8 +185,10 @@ ap.add_argument("--max-depth", type=int, default=999)
 ap.add_argument("--n", type=int, default=0, help="0 = every position in the depth range")
 ap.add_argument("--seed", default="chestuci-h2h")
 ap.add_argument("--nodes", type=int, default=10_000_000)
+ap.add_argument("--movetime", type=int, default=0,
+                help="milliseconds per position; replaces --nodes when set")
 ap.add_argument("--jobs", type=int, default=12)
-ap.add_argument("--arms", default=",".join(ARMS))
+ap.add_argument("--arms", default=",".join(CORE_ARMS))
 ap.add_argument("--state", default=config.results("vs_stockfish_state.json"))
 a = ap.parse_args()
 arms = [x for x in a.arms.split(",") if x]
@@ -178,7 +205,7 @@ for binary in sorted({ARMS[x][0] for x in arms}):
 if any(ARMS[x][0] == "matehunter19" for x in arms):
     probe = subprocess.run([str(BIN / "matehunter19")], input="uci\nquit\n",
                            capture_output=True, text=True, errors="replace", timeout=30).stdout
-    for needed in ("MateEval ", "MateEvalMain", "MateEvalQS"):
+    for needed in ("MateEval ", "MateEvalMain", "MateEvalQS", "MateEvalOff"):
         if needed not in probe:
             sys.exit("FAIL: matehunter19 does not advertise %s" % needed.strip())
 
@@ -195,10 +222,13 @@ for line in EPD.read_text(encoding="utf-8", errors="replace").splitlines():
         pool.append((" ".join(line.split(" bm ")[0].split()[:4]), d))
 random.Random(a.seed).shuffle(pool)
 cases = pool[:a.n] if a.n else pool
-key = lambda f, arm: "%s|%s|%d" % (f, arm, a.nodes)
-print("  ChestUCI d%d-%s: %d positions; %s nodes, 1 thread, arms %s"
+budget = ("movetime %d" % a.movetime) if a.movetime else ("nodes %d" % a.nodes)
+budget_key = ("t%d" % a.movetime) if a.movetime else str(a.nodes)
+key = lambda f, arm: "%s|%s|%s" % (f, arm, budget_key)
+print("  ChestUCI d%d-%s: %d positions; %s, 1 thread, arms %s"
       % (a.min_depth, "max" if a.max_depth >= 999 else a.max_depth, len(cases),
-         "{:,}".format(a.nodes), ",".join(arms)), flush=True)
+         ("%d ms a position" % a.movetime) if a.movetime else ("{:,} nodes".format(a.nodes)),
+         ",".join(arms)), flush=True)
 
 jobs = [(f, d, arm) for f, d in cases for arm in arms if key(f, arm) not in st]
 print("  %d arm-positions to run\n" % len(jobs), flush=True)
@@ -206,7 +236,7 @@ print("  %d arm-positions to run\n" % len(jobs), flush=True)
 
 def work(j):
     f, d, arm = j
-    dm, nodes, ms = go(arm, f, d, a.nodes)
+    dm, nodes, ms = go(arm, f, d, budget)
     return key(f, arm), {"dm": dm, "nodes": nodes, "ms": ms}
 
 

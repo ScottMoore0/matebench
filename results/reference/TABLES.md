@@ -31,6 +31,8 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `vs_matefish_2026-09-12.log` | 36 | 2026-09-12 |
 | `vs_stockfish_2026-09-12.log` | 279 | 2026-09-13 |
 | `vs_stockfish_d10-13_2026-09-13.log` | 190 | 2026-09-13 |
+| `vs_stockfish_t5000_d10-13_2026-09-13.log` | 115 | 2026-09-13 |
+| `vs_stockfish_t5000_d14+_2026-09-13.log` | 89 | 2026-09-13 |
 
 ## `beam_experiment_2026-09-04.log`
 
@@ -401,6 +403,76 @@ verification rate 16/30 = 53% against 24/41 = 59%.
   band          n     mh19 mh19-nop   x only   y only        p
   d10-13    1524     1176      730      501       55   0.0000
   ALL        1524     1176      730      501       55   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
+```
+
+## `vs_stockfish_t5000_d10-13_2026-09-13.log`
+
+```text
+     4150/4572
+     4200/4572
+     4250/4572
+     4300/4572
+     4350/4572
+     4400/4572
+     4450/4572
+     4500/4572
+     4550/4572
+     4572/4572
+
+  sf19       solved  715/1524   nps ~ 1,341,728
+  mh19       solved 1195/1524   nps ~ 2,452,565
+  mh19-null  solved 1244/1524   nps ~ 2,651,658
+
+  MateHunter (shipped profile) against stock Stockfish 19
+  mh19 vs sf19
+  band          n     mh19     sf19   x only   y only        p
+  d10-13    1524     1195      715      522       42   0.0000
+  ALL        1524     1195      715      522       42   0.0000
+
+  MECHANISM: what the king-danger signal adds over a constant evaluation
+  mh19 vs mh19-null
+  band          n     mh19 mh19-nul   x only   y only        p
+  d10-13    1524     1195     1244       87      136   0.0013
+  ALL        1524     1195     1244       87      136   0.0013
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
+```
+
+## `vs_stockfish_t5000_d14+_2026-09-13.log`
+
+```text
+     2850/2859
+     2859/2859
+
+  sf19       solved  324/953   nps ~ 1,441,579
+  mh19       solved  592/953   nps ~ 2,572,870
+  mh19-null  solved  606/953   nps ~ 2,795,287
+
+  MateHunter (shipped profile) against stock Stockfish 19
+  mh19 vs sf19
+  band          n     mh19     sf19   x only   y only        p
+  d14-17     449      349      209      159       19   0.0000
+  d18-21     186      123       65       64        6   0.0000
+  d22-25      84       55       24       34        3   0.0000
+  d26-30      65       29       11       21        3   0.0003
+  d31-+      169       36       15       24        3   0.0000
+  ALL         953      592      324      302       34   0.0000
+
+  MECHANISM: what the king-danger signal adds over a constant evaluation
+  mh19 vs mh19-null
+  band          n     mh19 mh19-nul   x only   y only        p
+  d14-17     449      349      366       20       37   0.0331
+  d18-21     186      123      124       16       17   1.0000
+  d22-25      84       55       56        5        6   1.0000
+  d26-30      65       29       26        6        3   0.5078
+  d31-+      169       36       34       11        9   0.8238
+  ALL         953      592      606       58       72   0.2541
 
   Read the BAND rows. A pooled null can be two opposite effects cancelling.
 
