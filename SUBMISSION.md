@@ -58,7 +58,7 @@ your engine and each reference, discordant pairs, sign tests, verification
 counts (verified / unconfirmed / rejected), and - on the speed track - the
 paired time ratios. Plus the certificates, so you can re-run
 `tools/verify_proof.py` from the MateProver repository yourself
-(https://github.com/ScottMoore0/mateprover, v0.1.0).
+(https://github.com/ScottMoore0/mateprover, v0.2.0).
 
 ## Before you submit
 

@@ -93,12 +93,13 @@ Python 3.10+, `python-chess`, `numpy`, and the engines under test.
 harness assumes a particular machine.
 
 **The verifier is MateProver, and which build answered is part of every
-result.** Every number in `results/reference/` was verified with **MateProver
-v0.1.0** (MIT), from https://github.com/ScottMoore0/mateprover.
+result.** Numbers in `results/reference/` were verified with **MateProver
+v0.2.0** (MIT), from https://github.com/ScottMoore0/mateprover, or, in logs dated
+before 2026-09-13, with v0.1.0, whose search and checker 0.2.0 leaves unchanged.
 Clone it and build with CMake, or take a release binary; then point the
 harness at the checkout:
 
-    git clone --branch v0.1.0 https://github.com/ScottMoore0/mateprover
+    git clone --branch v0.2.0 https://github.com/ScottMoore0/mateprover
     export MATEBENCH_MATEPROVER_REPO=/path/to/mateprover
 
 A submission verified with a different build must say so, because the
