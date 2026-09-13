@@ -1,0 +1,23 @@
+  60 positions (seed 'genver' - the same set), 20,000,000 nodes, --no-portfolio
+  120 arm-positions to run
+
+     12/120
+     24/120
+     36/120
+     48/120
+     60/120
+     72/120
+     84/120
+     96/120
+     108/120
+     120/120
+
+  --iterative-depth (published base) 7/60
+  --direct-depth (honest base)       36/60
+
+  dropping minimality alone is worth +29 positions.
+  The published lane figure was 7 -> 31, i.e. +24 attributed to the
+  finder. Of that, 29 belongs to the MODE CHANGE, leaving about -5
+  for the proposer - IF 31 is reproduced on this same set.
+
+=== GENVERIFY CONTROL ENDED ===

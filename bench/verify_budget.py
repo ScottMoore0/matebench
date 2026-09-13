@@ -126,6 +126,9 @@ ap.add_argument("--control-select", choices=("cheap", "expensive", "spread"),
                      "'cheap' and so confirmed the derivation only where it "
                      "was never in doubt - the ceiling matters in the TAIL, "
                      "which is exactly where a cheap sample says nothing.")
+ap.add_argument("--finder-matemode", choices=("false", "true"), default="false",
+                help="the finder's MateMode. The published 2026-08-30 run used true; the "
+                     "option was switched off on 2026-09-02, which changes 7 of its 39 claims")
 # NOT /tmp: WSL wipes it when the distro idles, which destroyed one run's
 # per-claim data after it had finished.
 ap.add_argument("--state",
@@ -133,6 +136,8 @@ ap.add_argument("--state",
 a = ap.parse_args()
 
 Path(a.state).parent.mkdir(parents=True, exist_ok=True)
+OPTS["MateMode"] = a.finder_matemode
+print("  finder hunt18-clean, MateMode=%s, MateEval=%s" % (OPTS["MateMode"], OPTS["MateEval"]), flush=True)
 st = load(a.state)
 st.setdefault("claims", {})     # fen -> {"depth","claim"}
 st.setdefault("verify", {})     # fen -> {"ok","acn"}

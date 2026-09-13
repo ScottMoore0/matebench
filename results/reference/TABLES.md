@@ -21,6 +21,11 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `lane0_sweep_2026-08-30.log` | 19 | 2026-09-03 |
 | `lane9_deep_2026-09-02.log` | 45 | 2026-09-03 |
 | `lane9_headroom.log` | 45 | 2026-09-03 |
+| `rerun_genverify_control_2026-09-13.log` | 23 | 2026-09-13 |
+| `rerun_genverify_corrected_2026-09-13.log` | 18 | 2026-09-13 |
+| `rerun_lane_headroom_2026-09-13.log` | 45 | 2026-09-13 |
+| `rerun_verify_budget_2026-09-13.log` | 29 | 2026-09-13 |
+| `rerun_verify_budget_matemode-on_2026-09-13.log` | 30 | 2026-09-13 |
 | `selfmate_final_2026-09-03.log` | 78 | 2026-09-04 |
 | `verify_budget_2026-08-30.log` | 62 | 2026-09-03 |
 | `vs_matefish_2026-09-12.log` | 36 | 2026-09-12 |
@@ -241,6 +246,55 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
      is an UPPER BOUND - a real lane holds a fraction of the budget.
 
 === LANE9 HEADROOM ENDED ===
+```
+
+## `rerun_genverify_control_2026-09-13.log`
+
+```text
+  dropping minimality alone is worth +29 positions.
+  The published lane figure was 7 -> 31, i.e. +24 attributed to the
+  finder. Of that, 29 belongs to the MODE CHANGE, leaving about -5
+  for the proposer - IF 31 is reproduced on this same set.
+
+=== GENVERIFY CONTROL ENDED ===
+```
+
+## `rerun_genverify_corrected_2026-09-13.log`
+
+```text
+  -> THE PROPOSER ADDS NOTHING once the baseline asks the same
+     question. The published +24 was entirely the mode change.
+
+=== GENVERIFY CORRECTED ENDED ===
+```
+
+## `rerun_lane_headroom_2026-09-13.log`
+
+```text
+  -> HEADROOM EXISTS: 1 position(s) reachable by a restriction the
+     portfolio does not carry. How a lane is CHOSEN is therefore worth
+     improving, and a learned restriction is worth building. Note this
+     is an UPPER BOUND - a real lane holds a fraction of the budget.
+
+=== LANE9 HEADROOM ENDED ===
+```
+
+## `rerun_verify_budget_2026-09-13.log`
+
+```text
+     median verification cost 216,053 nodes; max 20,420,687
+     at the shipped 4,000,000 default: 14 of 16 verified claims
+
+=== VERIFY BUDGET ENDED ===
+```
+
+## `rerun_verify_budget_matemode-on_2026-09-13.log`
+
+```text
+     median verification cost 90,362 nodes; max 20,420,687
+     at the shipped 4,000,000 default: 13 of 16 verified claims
+
+=== VERIFY BUDGET ENDED ===
 ```
 
 ## `selfmate_final_2026-09-03.log`

@@ -1,0 +1,29 @@
+  phase A: 40 positions, prover 20,000,000 nodes, finder 20,000,000 nodes
+     prover solved alone 1/40; finder claimed on 31 of the 39 missed
+
+  phase B: verifying 31 claims at up to 32,000,000 nodes
+     16/31 claims verified at the ceiling; 15 refuted or unreachable
+
+  phase C: control - re-run at exactly acn (expect ok) and acn-1 (expect fail)
+     selecting expensive: acn 512,165, 522,601, 589,797, 2,376,139, 9,724,704, 20,420,687
+     acn 512,165    at:True  below:False ok
+     acn 522,601    at:True  below:False ok
+     acn 589,797    at:True  below:False ok
+     acn 2,376,139  at:True  below:False ok
+     acn 9,724,704  at:True  below:False ok
+     acn 20,420,687 at:True  below:False ok
+     control 6/6 consistent -> derived curve is usable
+
+  phase D: verified claims against budget  (base: prover alone 1/40)
+     budget       verified  of claims total certified
+     1,000,000          13         31           14
+     2,000,000          13         31           14
+     4,000,000          14         31           15
+     8,000,000          14         31           15
+     16,000,000         15         31           16
+     32,000,000         16         31           17
+
+     median verification cost 216,053 nodes; max 20,420,687
+     at the shipped 4,000,000 default: 14 of 16 verified claims
+
+=== VERIFY BUDGET ENDED ===

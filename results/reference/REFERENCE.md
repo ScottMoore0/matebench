@@ -187,6 +187,34 @@ solution, 10 s a position:
 - **Generate-and-verify** (`genverify_*.log`): **+0** against a correctly
   configured baseline. The earlier "+24" was the mode change.
 
+### Re-run 2026-09-13, after `bench/pools.py` was restored
+
+All four scripts that draw from `pools.py` were re-run end to end against the
+published logs (`rerun_*_2026-09-13.log`).
+
+| script | published | re-run |
+|---|---|---|
+| `genverify_control` | iterative 7/60, direct 36/60 | identical |
+| `genverify_corrected` | 36/60, proposer +0 | identical |
+| `lane_headroom` | portfolio 37/45, 1 rescued | identical, every arm |
+| `verify_budget` | 30 claims, 16 verified, 13 at both 1M and 4M | **31 claims, 16 verified, 13 at 1M, 14 at 4M** |
+
+`verify_budget` did not diverge; its finder changed. The published run used
+`hunt18-clean` with `MateMode=true`, and the script was switched to
+`MateMode=false` on 2026-09-02, after MateMode was measured as the cause of the
+deep deficit. The finder is deterministic (the new setting gave the same 31
+claims twice), `MateMode=true` alters 7 of the 39 claims, and every archived
+MateProver binary proves the one claim whose cost looked moved in the same
+number of nodes. Re-run with `--finder-matemode true`
+(`rerun_verify_budget_matemode-on_2026-09-13.log`), the published log is
+reproduced exactly: 30 claims, 16 verified, the same six control costs, median
+90,362 nodes.
+
+What this changes: with the current finder, 1M verifies one claim fewer than
+4M (13 against 14 of 16). "1M verifies as many claims as 4M" holds for the
+published claim set and is one claim short on the current one, so read the
+ceiling as "1M loses at most one verification in sixteen", not "1M loses none".
+
 ## Retracted, and why it is recorded
 
 **Minimality: MateProver 41/60** (vs Matefish, before 2026-09-12) is retracted.
