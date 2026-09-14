@@ -9,10 +9,13 @@ not their defaults, because their defaults switch the mate solver off.
 
 **What a third party can obtain.** MateProver is public and pinned below.
 Chest, Matefish, Huntsman and Stockfish are distributed by their own authors,
-and the table below says where. **MateHunter is not distributed**: it is a private
-Stockfish fork, so every row naming it is recorded for the protocol's sake and
-cannot be reproduced by anyone else. The tracks and budgets do not depend on
-it.
+and the table below says where. **MateHunter 19 is public** as MateHunter 0.1.0:
+GPL-3, a patch against Stockfish 19, https://github.com/ScottMoore0/matehunter at
+tag v0.1.0. Its rows here were measured with the development build, whose search
+the release reproduces: `bench` reports the same node count under 13 option
+settings covering every option the release keeps. MateHunter 18 is not
+distributed, so its rows are recorded for the protocol's sake and cannot be
+reproduced by anyone else. The tracks and budgets do not depend on either.
 
 | engine | base | manifest used | notes |
 |---|---|---|---|
