@@ -1,0 +1,73 @@
+  chestuci.epd d10-13: 1524 positions; 10,000,000 nodes, 1 thread, arms sf19,mh19,mh19-null,huntsman
+  1524 arm-positions to run
+
+     50/1524
+     100/1524
+     150/1524
+     200/1524
+     250/1524
+     300/1524
+     350/1524
+     400/1524
+     450/1524
+     500/1524
+     550/1524
+     600/1524
+     650/1524
+     700/1524
+     750/1524
+     800/1524
+     850/1524
+     900/1524
+     950/1524
+     1000/1524
+     1050/1524
+     1100/1524
+     1150/1524
+     1200/1524
+     1250/1524
+     1300/1524
+     1350/1524
+     1400/1524
+     1450/1524
+     1500/1524
+     1524/1524
+
+  sf19       solved  757/1524   nps ~ 1,056,120
+  mh19       solved 1176/1524   nps ~ 2,113,907
+  mh19-null  solved 1225/1524   nps ~ 2,291,119
+  huntsman   solved 1101/1524   nps ~ 2,165,938
+
+  MateHunter (shipped profile) against stock Stockfish 19
+  mh19 vs sf19
+  band          n     mh19     sf19   x only   y only        p
+  d10-13    1524     1176      757      478       59   0.0000
+  ALL        1524     1176      757      478       59   0.0000
+
+  MECHANISM: what the king-danger signal adds over a constant evaluation
+  mh19 vs mh19-null
+  band          n     mh19 mh19-nul   x only   y only        p
+  d10-13    1524     1176     1225       96      145   0.0019
+  ALL        1524     1176     1225       96      145   0.0019
+
+  MateHunter 19 (recommended profile) against Huntsman 1
+  mh19-null vs huntsman
+  band          n mh19-nul huntsman   x only   y only        p
+  d10-13    1524     1225     1101      239      115   0.0000
+  ALL        1524     1225     1101      239      115   0.0000
+
+  MateHunter 19 (full king-danger evaluator) against Huntsman 1
+  mh19 vs huntsman
+  band          n     mh19 huntsman   x only   y only        p
+  d10-13    1524     1176     1101      198      123   0.0000
+  ALL        1524     1176     1101      198      123   0.0000
+
+  Huntsman 1 against stock Stockfish 19
+  huntsman vs sf19
+  band          n huntsman     sf19   x only   y only        p
+  d10-13    1524     1101      757      443       99   0.0000
+  ALL        1524     1101      757      443       99   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===

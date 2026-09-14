@@ -1,0 +1,41 @@
+  chestuci.epd d10-max: 2477 paired positions; mh19-null-only claims 370, huntsman-only claims 198, shared 1445 (sampling 100)
+  MateProver --direct-depth --no-portfolio at the claimed length, 20,000,000 nodes; 768 proofs to run
+
+     50/768
+     100/768
+     150/768
+     200/768
+     250/768
+     300/768
+     350/768
+     400/768
+     450/768
+     500/768
+     550/768
+     600/768
+     650/768
+     700/768
+     750/768
+     768/768
+  claims only one arm made
+  arm        claims  verified  refuted  unconfirmed  error
+  mh19-null    370       220        0          150      0
+  huntsman     198        97        0          101      0
+
+  claims both made (sample of 100)
+  mh19-null    100        74        0           26      0
+  huntsman     100        73        0           27      0
+
+  paired, on VERIFIED discordant claims only: mh19-null against huntsman
+  band        a only   b only        p
+  d10-13         177       73   0.0000
+  d14-17          31        8   0.0003
+  d18-21           9        9   1.0000
+  d22-25           2        4   0.6875
+  d26-30           1        2   1.0000
+  d31-+            0        1   1.0000
+  ALL            220       97   0.0000
+
+  Refuted claims were counted as solved by vs_stockfish.py; unconfirmed ones may be either.
+
+=== VERIFY CLAIMS ENDED ===

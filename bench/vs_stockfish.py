@@ -100,6 +100,9 @@ ARMS = {
                                           MateDefendW=0, MateAttackW=0, MateNearW=0)),
     "mh19-noprune": ("matehunter19", dict(MH_OFF, MateNoRazor="true", MateNoFutility="true",
                                           MateNoNull="true")),
+    # Huntsman 1 at the settings paired_uci.py used on 2026-09-02. It is recorded as
+    # over-claiming, so a result against it needs bench/verify_claims.py as well.
+    "huntsman":  ("huntsman", {"Threads": 1, "Hash": 256, "MateSearch": "true"}),
 }
 COMPARISONS = [
     ("mh19", "sf19", "MateHunter (shipped profile) against stock Stockfish 19"),
@@ -113,6 +116,9 @@ COMPARISONS = [
     ("mh19-escapes", "mh19", "MECHANISM: escape squares alone against the full evaluator"),
     ("mh19-noprune", "mh19-off", "MECHANISM: NNUE with eval-based pruning switched off"),
     ("mh19", "mh19-noprune", "MECHANISM: MateEval against simply switching that pruning off"),
+    ("mh19-null", "huntsman", "MateHunter 19 (recommended profile) against Huntsman 1"),
+    ("mh19", "huntsman", "MateHunter 19 (full king-danger evaluator) against Huntsman 1"),
+    ("huntsman", "sf19", "Huntsman 1 against stock Stockfish 19"),
 ]
 CORE_ARMS = list(ARMS)
 EVAL_OFF = {1: "improving", 2: "ordering", 4: "probcut", 8: "capfut", 16: "quietfut",

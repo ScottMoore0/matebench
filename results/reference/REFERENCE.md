@@ -20,7 +20,7 @@ it.
 | MateHunter 18 | Stockfish 18 fork | `MateEval=true`, `MateMode=false` | shipped default as of 2026-09-02; `MateMode=true` costs 21/234 at d26+ |
 | MateHunter 19 | Stockfish 19 fork | `MateEval=true`, `MateMode=false`, every other mate option set off explicitly | port of the 18 fork; with every mate option off it is node-for-node identical to stock (bench 2,497,913). Recommended profile from 2026-09-13 adds `MateEvalNull=true`, and is the engine's default from the same date; see "Recommended profile" |
 | Stockfish 19 | own (NNUE) | defaults with `Threads=1`, `Hash=256` | https://stockfishchess.org; built from the release source with the fork's compiler and flags |
-| Huntsman 1 | Stockfish fork | `MateSearch=true` (its default) | over-claims; echoes toward the bound; by joergoster, https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary used self-identifies as `The Huntsman 1`) |
+| Huntsman 1 | Stockfish fork | `MateSearch=true` (its default) | recorded as over-claiming and echoing toward the bound, though none of the 298 of its claims re-proved on 2026-09-14 was refuted; by joergoster, https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary used self-identifies as `The Huntsman 1`) |
 | Matefish 170826 | Stockfish + PNS | `ProofNumberSearch=true`, `PNS Hash=4096` | **both default off/small**; at defaults it abandons a d14 search in 0.2 s |
 | Chest 3.19 | own | `WinChest.exe`, job on stdin, 2048 MB, `UseDatabase=false` | 1999-era; endgame databases off (they reach ~1% of proof nodes here). **Not `ChestUCI.exe`**: that is the GUI/UCI wrapper, and fed a job it spins with no output, which a harness scores as a timeout |
 
@@ -60,7 +60,7 @@ recovered, and this run was taken under WSL rather than natively. The counts
 above are proof counts and are platform-independent; these two numbers are wall
 clock and are not.
 
-## Finding - MateHunter vs Huntsman (`h2h_chestuci_*.log`, `h2h_deep_*.log`)
+## Finding - MateHunter 18 vs Huntsman, 2026-09-02 (`h2h_chestuci_*.log`, `h2h_deep_*.log`)
 
 ChestUCI corpus (neither engine tuned on it), 10M nodes, 1 thread, paired.
 
@@ -76,6 +76,46 @@ Two opposite, established effects. **With `MateMode=false`** the deep rows
 become 64 vs 65 (+17/−18, p = 1.0) and the d18–21 lead holds (+15/−2, p = 0.002);
 MateHunter against itself on the 234 deep positions: +28/−7, p = 0.0005. With
 `MateEval=false` it loses everywhere (154 vs 231 on the 400-sample).
+
+## Finding - MateHunter 19 vs Huntsman 1 (`vs_huntsman_*_2026-09-14.log`, `verify_claims_*_huntsman_2026-09-14.log`)
+
+ChestUCI, all 2,477 positions at d10+, 10M nodes, one thread, paired, with
+Huntsman at `MateSearch=true` as in the Stockfish 18 comparison above.
+
+| positions | MateHunter 19, recommended | MateHunter 19, full evaluator | Huntsman 1 | Stockfish 19 |
+|---|---|---|---|---|
+| d14+, 953 | **590** | 586 | 542 | 343 |
+| d10–13, 1,524 | **1,225** | 1,176 | 1,101 | 757 |
+
+On reported mates, the recommended profile against Huntsman is +131/−83 at d14+
+(p = 0.0013) and +239/−115 at d10–13 (p < 0.0001). By band at d14+: d14–17
++71/−28, d18–21 +28/−17 (p = 0.14), d22–25 +15/−10, d26–30 +6/−11, d31+ +11/−17,
+none of the last three below p = 0.3.
+
+**Claims re-proved** (`bench/verify_claims.py`: MateProver 0.2.0 `--direct-depth
+--no-portfolio` at the claimed length, 20M nodes): every claim only one engine
+made, and a seeded sample of 100 both made.
+
+| claims | verified | refuted | unconfirmed |
+|---|---|---|---|
+| MateHunter 19 only, 370 | 220 | 0 | 150 |
+| Huntsman only, 198 | 97 | 0 | 101 |
+| both made, 100 (MateHunter / Huntsman) | 74 / 73 | 0 / 0 | 26 / 27 |
+
+On verified discordant claims only: **+220/−97 (p < 0.0001)** - d10–13 +177/−73,
+d14–17 +31/−8 (p = 0.0003), d18–21 +9/−9, d22+ +3/−7. The full king-danger
+evaluator gives the same picture: +193/−105 verified (+132/−88 reported at d14+,
++198/−123 at d10–13).
+
+1. **MateHunter 19 is clearly ahead of Huntsman from mate in 10 to 17**, on
+   reported and verified claims alike.
+2. **From mate in 18 it is level**, and from mate in 26 Huntsman reports slightly
+   more mates, not significantly. Too few claims that deep verify within budget
+   to say more.
+3. **No claim by either engine was refuted.** Huntsman's recorded over-claiming did
+   not appear under this protocol (node-limited `go mate N`, scored 0 < dm <= N),
+   and the unconfirmed share is about the same for both engines, so verification
+   favours neither.
 
 ## Finding - MateHunter 19 vs stock Stockfish 19 (`vs_stockfish_2026-09-12.log`)
 

@@ -1,0 +1,82 @@
+  chestuci.epd d14-max: 953 positions; 10,000,000 nodes, 1 thread, arms sf19,mh19,mh19-null,huntsman
+  953 arm-positions to run
+
+     50/953
+     100/953
+     150/953
+     200/953
+     250/953
+     300/953
+     350/953
+     400/953
+     450/953
+     500/953
+     550/953
+     600/953
+     650/953
+     700/953
+     750/953
+     800/953
+     850/953
+     900/953
+     950/953
+     953/953
+
+  sf19       solved  343/953   nps ~ 887,133
+  mh19       solved  586/953   nps ~ 1,836,378
+  mh19-null  solved  590/953   nps ~ 2,004,585
+  huntsman   solved  542/953   nps ~ 2,152,510
+
+  MateHunter (shipped profile) against stock Stockfish 19
+  mh19 vs sf19
+  band          n     mh19     sf19   x only   y only        p
+  d14-17     449      349      220      148       19   0.0000
+  d18-21     186      123       69       61        7   0.0000
+  d22-25      84       53       26       31        4   0.0000
+  d26-30      65       26       11       18        3   0.0015
+  d31-+      169       35       17       21        3   0.0003
+  ALL         953      586      343      279       36   0.0000
+
+  MECHANISM: what the king-danger signal adds over a constant evaluation
+  mh19 vs mh19-null
+  band          n     mh19 mh19-nul   x only   y only        p
+  d14-17     449      349      364       20       35   0.0581
+  d18-21     186      123      121       19       17   0.8679
+  d22-25      84       53       51        7        5   0.7744
+  d26-30      65       26       23        6        3   0.5078
+  d31-+      169       35       31       12        8   0.5034
+  ALL         953      586      590       64       68   0.7941
+
+  MateHunter 19 (recommended profile) against Huntsman 1
+  mh19-null vs huntsman
+  band          n mh19-nul huntsman   x only   y only        p
+  d14-17     449      364      321       71       28   0.0000
+  d18-21     186      121      110       28       17   0.1352
+  d22-25      84       51       46       15       10   0.4244
+  d26-30      65       23       28        6       11   0.3323
+  d31-+      169       31       37       11       17   0.3449
+  ALL         953      590      542      131       83   0.0013
+
+  MateHunter 19 (full king-danger evaluator) against Huntsman 1
+  mh19 vs huntsman
+  band          n     mh19 huntsman   x only   y only        p
+  d14-17     449      349      321       65       37   0.0072
+  d18-21     186      123      110       33       20   0.0984
+  d22-25      84       53       46       15        8   0.2100
+  d26-30      65       26       28        8       10   0.8145
+  d31-+      169       35       37       11       13   0.8388
+  ALL         953      586      542      132       88   0.0036
+
+  Huntsman 1 against stock Stockfish 19
+  huntsman vs sf19
+  band          n huntsman     sf19   x only   y only        p
+  d14-17     449      321      220      135       34   0.0000
+  d18-21     186      110       69       48        7   0.0000
+  d22-25      84       46       26       25        5   0.0003
+  d26-30      65       28       11       18        1   0.0001
+  d31-+      169       37       17       24        4   0.0002
+  ALL         953      542      343      250       51   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===

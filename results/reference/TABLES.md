@@ -30,6 +30,10 @@ final result marker. The tables in REFERENCE.md are transcribed from these.
 | `rerun_verify_budget_matemode-on_2026-09-13.log` | 30 | 2026-09-13 |
 | `selfmate_final_2026-09-03.log` | 78 | 2026-09-04 |
 | `verify_budget_2026-08-30.log` | 62 | 2026-09-03 |
+| `verify_claims_mh19_huntsman_2026-09-14.log` | 38 | 2026-09-14 |
+| `verify_claims_mh19null_huntsman_2026-09-14.log` | 41 | 2026-09-14 |
+| `vs_huntsman_d10-13_2026-09-14.log` | 73 | 2026-09-14 |
+| `vs_huntsman_d14+_2026-09-14.log` | 82 | 2026-09-14 |
 | `vs_matefish_2026-09-12.log` | 36 | 2026-09-12 |
 | `vs_matefish_v020_2026-09-13.log` | 48 | 2026-09-13 |
 | `vs_stockfish_2026-09-12.log` | 279 | 2026-09-13 |
@@ -370,6 +374,112 @@ The whole run also reproduced the first one EXACTLY - same 1/40 solved, same
 REPLICATION: this independently reproduces the generate-and-verify effect on a
 fresh sample. Claim rate 30/39 = 77% here against 41/53 = 77% originally;
 verification rate 16/30 = 53% against 24/41 = 59%.
+```
+
+## `verify_claims_mh19_huntsman_2026-09-14.log`
+
+```text
+  paired, on VERIFIED discordant claims only: mh19 against huntsman
+  band        a only   b only        p
+  d10-13         150       75   0.0000
+  d14-17          26       15   0.1173
+  d18-21          14       10   0.5413
+  d22-25           1        3   0.6250
+  d26-30           1        2   1.0000
+  d31-+            1        0   1.0000
+  ALL            193      105   0.0000
+
+  Refuted claims were counted as solved by vs_stockfish.py; unconfirmed ones may be either.
+
+=== VERIFY CLAIMS ENDED ===
+```
+
+## `verify_claims_mh19null_huntsman_2026-09-14.log`
+
+```text
+  paired, on VERIFIED discordant claims only: mh19-null against huntsman
+  band        a only   b only        p
+  d10-13         177       73   0.0000
+  d14-17          31        8   0.0003
+  d18-21           9        9   1.0000
+  d22-25           2        4   0.6875
+  d26-30           1        2   1.0000
+  d31-+            0        1   1.0000
+  ALL            220       97   0.0000
+
+  Refuted claims were counted as solved by vs_stockfish.py; unconfirmed ones may be either.
+
+=== VERIFY CLAIMS ENDED ===
+```
+
+## `vs_huntsman_d10-13_2026-09-14.log`
+
+```text
+  d10-13    1524     1176      757      478       59   0.0000
+  ALL        1524     1176      757      478       59   0.0000
+
+  MECHANISM: what the king-danger signal adds over a constant evaluation
+  mh19 vs mh19-null
+  band          n     mh19 mh19-nul   x only   y only        p
+  d10-13    1524     1176     1225       96      145   0.0019
+  ALL        1524     1176     1225       96      145   0.0019
+
+  MateHunter 19 (recommended profile) against Huntsman 1
+  mh19-null vs huntsman
+  band          n mh19-nul huntsman   x only   y only        p
+  d10-13    1524     1225     1101      239      115   0.0000
+  ALL        1524     1225     1101      239      115   0.0000
+
+  MateHunter 19 (full king-danger evaluator) against Huntsman 1
+  mh19 vs huntsman
+  band          n     mh19 huntsman   x only   y only        p
+  d10-13    1524     1176     1101      198      123   0.0000
+  ALL        1524     1176     1101      198      123   0.0000
+
+  Huntsman 1 against stock Stockfish 19
+  huntsman vs sf19
+  band          n huntsman     sf19   x only   y only        p
+  d10-13    1524     1101      757      443       99   0.0000
+  ALL        1524     1101      757      443       99   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
+```
+
+## `vs_huntsman_d14+_2026-09-14.log`
+
+```text
+  d14-17     449      364      321       71       28   0.0000
+  d18-21     186      121      110       28       17   0.1352
+  d22-25      84       51       46       15       10   0.4244
+  d26-30      65       23       28        6       11   0.3323
+  d31-+      169       31       37       11       17   0.3449
+  ALL         953      590      542      131       83   0.0013
+
+  MateHunter 19 (full king-danger evaluator) against Huntsman 1
+  mh19 vs huntsman
+  band          n     mh19 huntsman   x only   y only        p
+  d14-17     449      349      321       65       37   0.0072
+  d18-21     186      123      110       33       20   0.0984
+  d22-25      84       53       46       15        8   0.2100
+  d26-30      65       26       28        8       10   0.8145
+  d31-+      169       35       37       11       13   0.8388
+  ALL         953      586      542      132       88   0.0036
+
+  Huntsman 1 against stock Stockfish 19
+  huntsman vs sf19
+  band          n huntsman     sf19   x only   y only        p
+  d14-17     449      321      220      135       34   0.0000
+  d18-21     186      110       69       48        7   0.0000
+  d22-25      84       46       26       25        5   0.0003
+  d26-30      65       28       11       18        1   0.0001
+  d31-+      169       37       17       24        4   0.0002
+  ALL         953      542      343      250       51   0.0000
+
+  Read the BAND rows. A pooled null can be two opposite effects cancelling.
+
+=== VS STOCKFISH ENDED ===
 ```
 
 ## `vs_matefish_2026-09-12.log`
