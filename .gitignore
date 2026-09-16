@@ -4,6 +4,7 @@ results/state/
 results/*.json
 *.log.tmp
 corpora/*.epd
+!corpora/generated.epd
 corpora/*.jsonl
 !corpora/PROVENANCE.md
 !corpora/fetch_corpora.py

@@ -1,0 +1,126 @@
+{
+  "file": "generated.epd",
+  "sha256": "16711d754b0d1798b6547c764980fd5dacace334ce3e760a693d1ea4e6607713",
+  "positions": 4934,
+  "created": "2026-09-16T21:34:28",
+  "seed": "round-1-pool",
+  "synthetic_checkmates": 60,
+  "max_depth": 14,
+  "frontier": 150,
+  "candidates_per_level": 900,
+  "per_position": 6,
+  "nodes_per_proof": 1000000,
+  "excluded": {
+    "matetrack.epd": "8ba5712234ba0cb2a1f1b1934872d1d30ba5e01c80482844dccccd4bc2eefd72",
+    "chestuci.epd": "89bb4dc4ac357751e335d725ea9bd909c1852814170a61fd0ffd2d5d6dbd5063"
+  },
+  "mateprover": "mateprover 0.2.0",
+  "levels": [
+    {
+      "depth": 1,
+      "frontier": 60,
+      "candidates": 260,
+      "exact": 260,
+      "shorter": 0,
+      "unproved": 0,
+      "seconds": 0.8
+    },
+    {
+      "depth": 2,
+      "frontier": 150,
+      "candidates": 874,
+      "exact": 205,
+      "shorter": 390,
+      "unproved": 279,
+      "seconds": 2.7
+    },
+    {
+      "depth": 3,
+      "frontier": 150,
+      "candidates": 863,
+      "exact": 124,
+      "shorter": 476,
+      "unproved": 263,
+      "seconds": 2.7
+    },
+    {
+      "depth": 4,
+      "frontier": 150,
+      "candidates": 881,
+      "exact": 124,
+      "shorter": 544,
+      "unproved": 213,
+      "seconds": 4.1
+    },
+    {
+      "depth": 5,
+      "frontier": 150,
+      "candidates": 872,
+      "exact": 110,
+      "shorter": 526,
+      "unproved": 236,
+      "seconds": 48.0
+    },
+    {
+      "depth": 6,
+      "frontier": 150,
+      "candidates": 887,
+      "exact": 106,
+      "shorter": 517,
+      "unproved": 264,
+      "seconds": 63.2
+    },
+    {
+      "depth": 7,
+      "frontier": 150,
+      "candidates": 867,
+      "exact": 60,
+      "shorter": 527,
+      "unproved": 280,
+      "seconds": 75.9
+    },
+    {
+      "depth": 8,
+      "frontier": 150,
+      "candidates": 880,
+      "exact": 25,
+      "shorter": 470,
+      "unproved": 385,
+      "seconds": 114.9
+    },
+    {
+      "depth": 9,
+      "frontier": 144,
+      "candidates": 837,
+      "exact": 3,
+      "shorter": 421,
+      "unproved": 413,
+      "seconds": 96.4
+    },
+    {
+      "depth": 10,
+      "frontier": 18,
+      "candidates": 108,
+      "exact": 0,
+      "shorter": 46,
+      "unproved": 62,
+      "seconds": 14.1
+    }
+  ],
+  "positions_by_depth": {
+    "1": 1510,
+    "2": 1053,
+    "3": 807,
+    "4": 550,
+    "5": 452,
+    "6": 369,
+    "7": 149,
+    "8": 41,
+    "9": 3
+  },
+  "limits": [
+    "only positions MateProver proves within nodes_per_proof are kept",
+    "positions descend from random checkmates, not composed problems",
+    "report results on this corpus under its own name"
+  ]
+}

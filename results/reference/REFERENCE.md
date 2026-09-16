@@ -426,6 +426,36 @@ unexposed either. Chest 3.19 predates both corpora.
 positions that no engine could have seen, in held-out round 1
 (`rounds/round-1/`) and on that round's development split below.
 
+## Out of sample: held-out round 1 (`rounds/round-1/`)
+
+MateHunter 19 (recommended profile), Stockfish 19 and Huntsman 1 on 4,934
+generated positions, disjoint from matetrack and ChestUCI by construction and
+generated after all three binaries were built: a salted 20% held out (972) and
+the development split (3,962). Budgets and comparisons were committed before any
+engine ran. Finding track, verified claims, one thread; no claim was refuted.
+
+| set, budget | MateHunter 19 | Stockfish 19 | Huntsman 1 | MateHunter vs Stockfish | MateHunter vs Huntsman |
+|---|---:|---:|---:|---|---|
+| held out, 10,000,000 | 963 | 963 | 971 | +5/-5, p = 1.0 | +0/-8, p = 0.0078 |
+| held out, 100,000 | 815 | 872 | 914 | +14/-71, p < 0.0001 | +6/-105, p < 0.0001 |
+| held out, 10,000 | 642 | 767 | 801 | +3/-128, p < 0.0001 | +2/-161, p < 0.0001 |
+| development, 10,000,000 | 3,935 | 3,938 | 3,956 | +12/-15, p = 0.70 | +3/-24, p < 0.0001 |
+| development, 100,000 | 3,320 | 3,570 | 3,727 | +57/-307, p < 0.0001 | +29/-436, p < 0.0001 |
+| development, 10,000 | 2,619 | 3,118 | 3,269 | +25/-524, p < 0.0001 | +10/-660, p < 0.0001 |
+
+1. **The ChestUCI advantage of MateHunter 19 over stock Stockfish 19 does not
+   appear on these positions.** Level at 10,000,000 nodes on both sets; behind at
+   100,000 and 10,000 on both, at p < 0.0001.
+2. **Huntsman 1 leads both engines** at every budget on both sets.
+3. **Not established: why.** Tuning on matetrack, the pool's depth (none deeper
+   than mate in 9, against a ChestUCI gain measured from mate in 10) and the kind
+   of position (descended from random checkmates, which the tablebase pilot
+   suggests can reverse rankings) all remain. `rounds/round-1/CLOSE.md` gives the
+   per-band detail and what would separate them.
+
+Until that is settled, treat the recommended profile, and every MateHunter
+result above, as established on ChestUCI only.
+
 ## Retracted, and why it is recorded
 
 **Minimality: MateProver 41/60** (vs Matefish, before 2026-09-12) is retracted.

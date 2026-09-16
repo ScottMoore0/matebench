@@ -129,7 +129,8 @@ Pre-release. The harness and reference numbers are real and were produced by
 the scripts here. `bench/matebench.py` is the single entry point; `submit` runs a
 submission end to end from its manifest; every fetch
 records its corpus checksum in `corpora/CHECKSUMS.json`; `results/reference/TABLES.md`
-is regenerated from the logs; the held-out design is in `docs/HELDOUT.md`.
+is regenerated from the logs; the held-out design is in `docs/HELDOUT.md`, and
+round 1 of it has run: `rounds/round-1/`.
 Nothing here has been published.
 
 ## Licence
