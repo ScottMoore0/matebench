@@ -6,6 +6,13 @@
     "sha256": "89bb4dc4ac357751e335d725ea9bd909c1852814170a61fd0ffd2d5d6dbd5063",
     "source": "local ChestUCI 5.2 install"
   },
+  "generated": {
+    "file": "generated.epd",
+    "positions": 4934,
+    "recorded": "2026-09-16",
+    "sha256": "16711d754b0d1798b6547c764980fd5dacace334ce3e760a693d1ea4e6607713",
+    "source": "bench/generate_corpus.py; seed and parameters in generated.meta.json"
+  },
   "matetrack": {
     "file": "matetrack.epd",
     "positions": 6528,
