@@ -4,10 +4,14 @@
 
 Any public corpus will be tuned on, and the reference results show exactly
 what that does. On matetrack, which MateHunter was tuned on, MateHunter and
-Huntsman were "indistinguishable" for a week. On ChestUCI, which neither had
-seen, they separate by depth in opposite directions at p = 0.001 and
-p = 0.0005. The public corpora are for development. A leaderboard position
-must come from positions the submitter did not see.
+Huntsman were "indistinguishable" for a week. On ChestUCI they separate by
+depth in opposite directions at p = 0.001 and p = 0.0005, and that was read as
+a held-out result - but 6,526 of ChestUCI's 6,545 positions are also in
+matetrack, so for MateHunter it was not held out at all. A corpus is held out
+only if nobody could have tuned on its positions, whatever the file is called,
+and only a check by position shows that. The public corpora are for
+development. A leaderboard position must come from positions the submitter did
+not see.
 
 ## Mechanism
 
@@ -32,8 +36,11 @@ A round has a **salt**: a secret string chosen by the round's maintainer.
 ## What goes in the pool
 
 - **The generated corpus** first: its terms permit anything and its generator
-  is in the MateProver repository, so a round can grow the pool with positions
-  that have never existed before.
+  is `bench/generate_corpus.py`, so a round can grow the pool with positions
+  that have never existed before. It is disjoint from matetrack and ChestUCI by
+  construction. Its limits are stated in `corpora/PROVENANCE.md`: only
+  positions MateProver proves are kept, they descend from random checkmates,
+  and the pool is shallow.
 - **ChestUCI, supplied by whoever runs or checks the round, never by this
   repository.** Its authors' permission is needed to redistribute it, so nothing
   here ships it. The maintainer runs the round from their own copy of the
@@ -43,7 +50,9 @@ A round has a **salt**: a secret string chosen by the round's maintainer.
   positions by id (`heldout.py --ids`: the first 16 hex digits of the sha256 of
   the position), never by FEN, so publishing a round's results does not publish
   the positions. Where to find the file, and which look-alikes do not match, is
-  in `corpora/PROVENANCE.md`.
+  in `corpora/PROVENANCE.md`. ChestUCI is almost entirely contained in
+  matetrack, so for any engine tuned on matetrack `tuned_on` removes nearly all
+  of it; a round that includes such an engine cannot draw on ChestUCI.
 - **Not matetrack** for any engine that was tuned on it. The manifest's
   `tuned_on` field declares tuning corpora, and `bench/submit.py` drops every
   position of a declared corpus for every arm in the run, so the arms still see

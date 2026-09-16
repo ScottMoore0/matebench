@@ -65,7 +65,9 @@ clock and are not.
 
 ## Finding - MateHunter 18 vs Huntsman, 2026-09-02 (`h2h_chestuci_*.log`, `h2h_deep_*.log`)
 
-ChestUCI corpus (neither engine tuned on it), 10M nodes, 1 thread, paired.
+ChestUCI corpus, 10M nodes, 1 thread, paired. **In-sample for MateHunter:** ChestUCI is
+almost entirely contained in matetrack, which MateHunter was tuned on (see "ChestUCI is
+not independent of matetrack" below).
 
 | band | n | MateHunter | Huntsman | MH only | HS only | p |
 |---|---|---|---|---|---|---|
@@ -84,6 +86,7 @@ MateHunter against itself on the 234 deep positions: +28/−7, p = 0.0005. With
 
 ChestUCI, all 2,477 positions at d10+, 10M nodes, one thread, paired, with
 Huntsman at `MateSearch=true` as in the Stockfish 18 comparison above.
+In-sample for MateHunter: 2,460 of these 2,477 positions are in matetrack.
 
 | positions | MateHunter 19, recommended | MateHunter 19, full evaluator | Huntsman 1 | Stockfish 19 |
 |---|---|---|---|---|
@@ -122,8 +125,8 @@ evaluator gives the same picture: +193/−105 verified (+132/−88 reported at d
 
 ## Finding - MateHunter 19 vs stock Stockfish 19 (`vs_stockfish_2026-09-12.log`)
 
-ChestUCI, all 953 positions at d14+ (neither engine tuned on it), 10M nodes,
-1 thread, paired. MateHunter is a Stockfish 19 derivative on the same source,
+ChestUCI, all 953 positions at d14+, 10M nodes, 1 thread, paired. In-sample for
+MateHunter: 943 of these 953 positions are in matetrack. MateHunter is a Stockfish 19 derivative on the same source,
 network, compiler and flags. With every mate option off it is node-for-node
 identical to stock, and here 343 = 343 with zero discordant positions: the control
 holds over the whole corpus, not just bench.
@@ -170,9 +173,11 @@ holds over the whole corpus, not just bench.
 - Node-budgeted, so speed plays no part in these counts. How speed changes them
   is measured under a clock below.
 
-### Replication, out of sample (`vs_stockfish_d10-13_2026-09-13.log`)
+### Replication on positions the run above did not use (`vs_stockfish_d10-13_2026-09-13.log`)
 
 ChestUCI d10–13, 1,524 positions the run above did not use, same budget and arms.
+This replication is out of sample for the d14+ run only. It is not out of MateHunter's
+tuning data: 1,517 of the 1,524 positions are in matetrack.
 
 | arm | solved | paired |
 |---|---|---|
@@ -378,6 +383,48 @@ Budgets differ between engines, but each engine had the same budget on both
 corpora, so the reversal belongs to the positions. Five-man tables would add
 material variety but would not turn a reversal this large around, so they are
 not needed for this decision.
+
+## ChestUCI is not independent of matetrack (2026-09-16)
+
+Until 2026-09-16 this document and `corpora/PROVENANCE.md` described ChestUCI as a
+corpus neither engine was tuned on, and used it as held-out data for MateHunter. It
+is not. Comparing the first four FEN fields of the two files:
+
+| ChestUCI band | positions | also in matetrack |
+|---|---|---|
+| d1-9 | 4,068 | 4,066 |
+| d10-13 | 1,524 | 1,517 |
+| d14-17 | 449 | 447 |
+| d18-21 | 186 | 184 |
+| d22-25 | 84 | 84 |
+| d26-30 | 65 | 65 |
+| d31+ | 169 | 163 |
+| **all** | **6,545** | **6,526 (99.7%)** |
+
+6,442 of the shared positions carry the same mate length in both files. matetrack
+is built from its own copy of the ChestUCI suite (`ChestUCI_23102018.epd`), which is
+why; `corpora/PROVENANCE.md` already recorded that the two ChestUCI files differ by
+about fifty positions, and missed that matetrack contains nearly all of the rest.
+
+The overlap came to light when `bench/submit.py`, told that MateHunter was tuned on
+matetrack, removed 447 of the 449 ChestUCI positions at d14-17 from a run.
+
+**What it changes.** Every MateHunter result on ChestUCI above is in-sample: the
+MateHunter 18 and 19 comparisons with Huntsman, the comparison with stock Stockfish 19
+and its d10-13 replication, the channel and consumer arms, and the recommended
+profile. None of them shows that the gain carries to positions MateHunter has not
+seen. They remain correct measurements of what they measured, on the positions they
+used, and the verification counts stand: a certified mate is a mate whatever corpus
+it came from.
+
+**What does not change.** Results on engines not tuned on matetrack are not in-sample
+for that reason. matetrack was built to track Stockfish's mate finding, and
+MateProver's certificate corpus is drawn from matetrack, so neither can be called
+unexposed either. Chest 3.19 predates both corpora.
+
+**Re-measured.** MateHunter 19, Stockfish 19 and Huntsman 1 are measured on generated
+positions that no engine could have seen, in held-out round 1
+(`rounds/round-1/`) and on that round's development split below.
 
 ## Retracted, and why it is recorded
 

@@ -61,6 +61,8 @@ them.
     python bench/matebench.py fetch chestuci --chest-dir <ChestUCI install>
     python bench/matebench.py verify-corpora
     python bench/matebench.py submit submission.json --against manifests/huntsman-1.json
+    python bench/matebench.py certify claims.jsonl --positions round.heldout.epd
+    python bench/matebench.py generate --seed <name>
     python bench/matebench.py lint my_measurement.py
     python bench/matebench.py paired --help
     python bench/matebench.py table
@@ -89,6 +91,11 @@ says which.
     bench/certificates.py   checks certificates a submission supplies
     bench/test_submit.py    offline tests for the runner and the certificate check
     manifests/      the reference engines, described as submissions
+    bench/absence.py     checks minimality and absence certificates
+    bench/certify.py     scores tracks 3 and 4 on certificates
+    bench/generate_corpus.py   generates positions no engine has seen
+    docs/CERTIFICATES.md the minimality and absence certificate formats
+    rounds/         held-out rounds: commitment, split, results, disclosure
     corpora/        provenance and fetch script; no third-party data vendored
     results/        reference logs and summary
     docs/           methodology: the measurement protocol and the held-out design

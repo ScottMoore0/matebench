@@ -13,7 +13,7 @@ be tied to the exact corpus bytes it was produced on.
 
     python corpora/fetch_corpora.py matetrack
     python corpora/fetch_corpora.py chestuci --chest-dir "C:/.../ChestUCI_V52"
-    python corpora/fetch_corpora.py generated --mateprover-repo ../mateprover
+    python corpora/fetch_corpora.py generated
     python corpora/fetch_corpora.py verify
 """
 import argparse
@@ -92,18 +92,14 @@ def chestuci(args):
 
 
 def generated(args):
-    repo = Path(args.mateprover_repo)
-    tool = repo / "tools" / "import_problems.py"
-    if not tool.exists():
-        sys.exit("  MateProver repository not found at %s (need tools/)." % repo)
     out = HERE / "generated.epd"
-    print("  The generated corpus is produced by MateProver's retrograde tools; run them from")
-    print("  the MateProver repository and copy the resulting EPD here as generated.epd.")
-    print("  Terms: MIT with this repository. Cost triples per doubling of target depth.")
+    print("  The generated corpus is produced by bench/generate_corpus.py, which steps back from")
+    print("  synthetic checkmates with MateProver and records its seed and parameters in")
+    print("  generated.meta.json. Terms: MIT with this repository. Cost rises steeply with depth.")
     if out.exists():
-        record("generated", out, "MateProver retro tools, " + str(repo))
+        record("generated", out, "bench/generate_corpus.py; seed and parameters in generated.meta.json")
     else:
-        print("  (generated.epd not present yet; nothing recorded)")
+        print("  (generated.epd not present yet: run python bench/generate_corpus.py --seed <name>)")
 
 
 def verify(args):

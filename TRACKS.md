@@ -62,6 +62,14 @@ mate in N−1" means "not found within budget", not "does not exist". A
 `--direct-depth`-style answer is a finding result and scores on track 1, never
 here.
 
+The certificate is `matebench-minimality-1` (docs/CERTIFICATES.md): a mate
+certificate of depth N and an absence certificate for N-1, checked from the
+position by MateProver's checker and `bench/absence.py`, and scored by
+`bench/certify.py`. A claimed shortest mate with no certificate does not score.
+No engine emits these certificates yet, MateProver 0.2.0 included, so the
+minimality figures in the reference results are MateProver's claims, not
+certified results.
+
 The two are **never merged**. A prover's output line carries which claim it is
 making, and the harness keeps the columns apart.
 
@@ -71,6 +79,11 @@ The engine is given a position and a bound and must prove there is no mate
 within it. Scored on certified absences within budget. This is the track that
 distinguishes a prover from a finder, and it is where 99.3% of a prover's work
 goes on the minimality track.
+
+The certificate is `matebench-absence-1` (docs/CERTIFICATES.md): at every
+attacker node every legal move is refuted, with the defence that stops it. It is
+checked by `bench/absence.py` and scored by `bench/certify.py`; a claimed
+absence with no certificate does not score.
 
 ## 5. Other goals
 

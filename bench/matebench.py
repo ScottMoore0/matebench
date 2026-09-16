@@ -28,6 +28,8 @@ COMMANDS = {
     "heldout":        ("bench/heldout.py",         "split a corpus into development and held-out halves by salted hash (docs/HELDOUT.md)", []),
     "lint":           ("bench/lint_measurement.py","pre-flight lint: refuses a script that repeats a known-fatal measurement error", []),
     "submit":         ("bench/submit.py",         "tracks 1-2 for any UCI engine under a submission.json manifest; certificates accepted", []),
+    "certify":        ("bench/certify.py",        "tracks 3-4: score minimality and absence claims on certificates", []),
+    "generate":       ("bench/generate_corpus.py","generate a corpus no engine has seen, by retrograde steps from synthetic mates", []),
     "paired":         ("bench/paired_uci.py",      "tracks 1-2 within a family: two UCI arms, node budget, paired per band", []),
     "vs-prover":      ("bench/vs_prover.py",       "tracks 1-2 across families: a UCI arm against MateProver, wall-clock, claims verified", []),
     "vs-stockfish":   ("bench/vs_stockfish.py",    "MateHunter against stock Stockfish 19 on ChestUCI, with the MateEval channel arms", []),
