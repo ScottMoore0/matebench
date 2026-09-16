@@ -10,6 +10,7 @@ script can always be run directly.
     python bench/matebench.py fetch chestuci --chest-dir "C:/.../ChestUCI_V52"
     python bench/matebench.py verify-corpora
     python bench/matebench.py heldout corpora/chestuci.epd --salt <round salt>
+    python bench/matebench.py submit submission.json --against manifests/huntsman-1.json
     python bench/matebench.py lint my_measurement.py
     python bench/matebench.py paired --help
     python bench/matebench.py table
@@ -26,6 +27,7 @@ COMMANDS = {
     "verify-corpora": ("corpora/fetch_corpora.py", "check every present corpus against corpora/CHECKSUMS.json", ["verify"]),
     "heldout":        ("bench/heldout.py",         "split a corpus into development and held-out halves by salted hash (docs/HELDOUT.md)", []),
     "lint":           ("bench/lint_measurement.py","pre-flight lint: refuses a script that repeats a known-fatal measurement error", []),
+    "submit":         ("bench/submit.py",         "tracks 1-2 for any UCI engine under a submission.json manifest; certificates accepted", []),
     "paired":         ("bench/paired_uci.py",      "tracks 1-2 within a family: two UCI arms, node budget, paired per band", []),
     "vs-prover":      ("bench/vs_prover.py",       "tracks 1-2 across families: a UCI arm against MateProver, wall-clock, claims verified", []),
     "vs-stockfish":   ("bench/vs_stockfish.py",    "MateHunter against stock Stockfish 19 on ChestUCI, with the MateEval channel arms", []),

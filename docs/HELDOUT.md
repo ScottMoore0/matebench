@@ -45,8 +45,11 @@ A round has a **salt**: a secret string chosen by the round's maintainer.
   the positions. Where to find the file, and which look-alikes do not match, is
   in `corpora/PROVENANCE.md`.
 - **Not matetrack** for any engine that was tuned on it. The manifest's
-  `notes` field is where a submitter declares tuning corpora, and a declared
-  corpus is excluded from that submission's held-out pool by position hash.
+  `tuned_on` field declares tuning corpora, and `bench/submit.py` drops every
+  position of a declared corpus for every arm in the run, so the arms still see
+  identical positions. The exclusion is by position, not by file name, so it
+  also removes a declared corpus's positions from any other corpus that
+  contains them.
 - **Not tablebase positions**, whatever their terms. Exact depths come free from
   a DTM tablebase, but a pilot on 3-4 man Gaviota positions
   (`results/reference/dtm_pilot_2026-09-13.log`) reversed the ranking of every

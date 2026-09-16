@@ -1,0 +1,17 @@
+{
+  "name": "Stockfish 19",
+  "binary": "sf19",
+  "sha256": "f267199f486e2ea65c89719b534c502e0d67ca84e269c27aa4504c3d3c82dc69",
+  "source": "https://stockfishchess.org, release 19, built from the release source with MateHunter's compiler and flags",
+  "licence": "GPL-3.0",
+  "base": "Stockfish 19",
+  "family": "stockfish",
+  "uci_options": {
+    "Threads": 1,
+    "Hash": 256
+  },
+  "tracks": ["finding", "speed"],
+  "claims": "within-N",
+  "certificates": "none",
+  "notes": "Stock engine at its defaults apart from one thread and a fixed hash, as in REFERENCE.md. It has no mate options to set."
+}

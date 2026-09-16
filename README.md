@@ -13,18 +13,19 @@ asked to remember.
 
 ## What is different about this benchmark
 
-**Claims are verified, not counted.** On the finding tracks a submission's
-reported mates are re-proved by an independent prover and only the
-certificates score. Every Stockfish-derived mate solver measured so far
-over-claims - reporting a mate longer than the true one, or simply echoing the
-bound it was asked for - and a benchmark that counts claims rewards exactly
-that. A false claim here scores zero, and the submitter can re-run the checker
-themselves.
+**Claims are verified, not counted.** On the finding tracks every mate a
+submission reports is verified before it scores. Every Stockfish-derived mate
+solver measured so far over-claims - reporting a mate longer than the true one,
+or simply echoing the bound it was asked for - and a benchmark that counts
+claims rewards exactly that. A false claim here scores zero, and the submitter
+can re-run the checker themselves.
 
-**The judge is not an opinion.** The verifier is MateProver, whose output is a
-machine-checkable proof certificate re-derived from scratch by a checker
-sharing no code with the engine. A submission cannot be "unlucky" against it;
-it can only be wrong.
+**The judge is not an opinion, and it is not a ceiling.** A claim is verified
+by a machine-checkable proof certificate, checked from scratch by a checker that
+shares no code with any engine. A submission can supply its own certificates,
+from any prover; a claim without one is re-proved by MateProver. So a
+submission cannot be "unlucky" against the verifier - it can only be wrong - and
+an engine that finds mates beyond MateProver's reach can still prove them.
 
 **Configuration is explicit.** Two of the three reference engines ship with
 their mate solver *off* by default (`ProofNumberSearch`, `MateMode`/`MateEval`).
@@ -59,9 +60,14 @@ them.
     python bench/matebench.py --list
     python bench/matebench.py fetch chestuci --chest-dir <ChestUCI install>
     python bench/matebench.py verify-corpora
+    python bench/matebench.py submit submission.json --against manifests/huntsman-1.json
     python bench/matebench.py lint my_measurement.py
     python bench/matebench.py paired --help
     python bench/matebench.py table
+
+`submit` runs any UCI engine described by a manifest, paired against the
+reference engines in `manifests/`; SUBMISSION.md says what the manifest holds
+and what the runner checks.
 
 Each command is a script in `bench/` or `corpora/` and can be run directly;
 the entry point only finds it and passes the arguments through.
@@ -79,6 +85,10 @@ says which.
     bench/          the harness: paired UCI comparison, verify-against-prover,
                     budget derivation, headroom gate, and the measurement lint
     bench/matebench.py   the entry point; `--list` names every command
+    bench/submit.py      the submission runner: any UCI engine, under a manifest
+    bench/certificates.py   checks certificates a submission supplies
+    bench/test_submit.py    offline tests for the runner and the certificate check
+    manifests/      the reference engines, described as submissions
     corpora/        provenance and fetch script; no third-party data vendored
     results/        reference logs and summary
     docs/           methodology: the measurement protocol and the held-out design
@@ -109,7 +119,8 @@ rather than of this harness.
 ## Status
 
 Pre-release. The harness and reference numbers are real and were produced by
-the scripts here. `bench/matebench.py` is the single entry point; every fetch
+the scripts here. `bench/matebench.py` is the single entry point; `submit` runs a
+submission end to end from its manifest; every fetch
 records its corpus checksum in `corpora/CHECKSUMS.json`; `results/reference/TABLES.md`
 is regenerated from the logs; the held-out design is in `docs/HELDOUT.md`.
 Nothing here has been published.

@@ -26,16 +26,24 @@ It reports a mate distance `dm`. The claim is accepted only if:
 - `0 < dm <= N` - a *negative* UCI mate score means the side to move is being
   mated, and is not a solve (taking the absolute value of a mate score voided
   an entire workstream once);
-- MateProver `--direct-depth -z dm` re-proves it within the verification
-  budget, producing a certificate. The reference results used MateProver
-  v0.2.0, or v0.1.0 before 2026-09-13, which searches identically; the README
-  says where to get it and why the build is recorded.
+- it is verified, in one of two ways:
+  - the submission supplies a **certificate** for it, a proof tree in
+    MateProver's certificate format, and MateProver's independent checker
+    (`tools/verify_proof.py`, sharing no code with any engine) accepts it at
+    exactly depth `dm`; or
+  - MateProver `--direct-depth -z dm` re-proves it within the verification
+    budget. The reference results used MateProver v0.2.0, or v0.1.0 before
+    2026-09-13, which searches identically; the README says where to get it and
+    why the build is recorded.
 
+A claim with no certificate, or with one the checker rejects, is re-proved.
 Unverified-within-budget is reported as **unconfirmed**, not as false. The
 verification budget is 1,000,000 nodes: verification cost is bimodal (median
 90K, maximum 20M), a ceiling is spent only on failures, and 1M verified as many
 claims as 4M for a quarter of the wasted work. Raise it if you can show it
-changes the count.
+changes the count. The budget binds only claims without a certificate, so a
+submission whose mates are beyond it can still have them verified by supplying
+certificates (SUBMISSION.md).
 
 Scored per band; bands are d8–12, d13–17, d18–21, d22–25, d26–30, d31+.
 

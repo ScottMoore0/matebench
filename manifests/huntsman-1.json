@@ -1,0 +1,18 @@
+{
+  "name": "Huntsman 1",
+  "binary": "huntsman",
+  "sha256": "79cd07410b59a3ebf3cd4fabbdc2b7b92a26d2d419620403691509282f8f141b",
+  "source": "https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary self-identifies as The Huntsman 1)",
+  "licence": "GPL-3.0",
+  "base": "Stockfish fork",
+  "family": "stockfish",
+  "uci_options": {
+    "Threads": 1,
+    "Hash": 256,
+    "MateSearch": "true"
+  },
+  "tracks": ["finding", "speed"],
+  "claims": "within-N",
+  "certificates": "none",
+  "notes": "MateSearch is its default and is set anyway. Recorded as over-claiming, though none of 298 claims re-proved on 2026-09-14 was refuted (REFERENCE.md)."
+}
