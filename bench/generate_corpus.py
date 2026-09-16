@@ -85,7 +85,7 @@ def random_mate(rng, tries):
                     break
         b.turn = chess.BLACK
         b.castling_rights = chess.BB_EMPTY
-        if b.is_valid() and b.is_checkmate():
+        if b.is_valid() and reachable_material(b) and b.is_checkmate():
             return b
     return None
 
@@ -136,12 +136,30 @@ def shortest(mp, fens, depth, nodes, jobs):
     return result
 
 
+def reachable_material(board):
+    """False when a side has more material than a game can produce.
+
+    Uncaptures add pieces, and python-chess's validity check does not count
+    them, so a walk back can reach positions such as two queens beside eight
+    pawns. Stockfish refuses those outright. A side may have at most 16 pieces,
+    and every piece beyond the starting set must be a promotion, paid for by a
+    missing pawn.
+    """
+    for color in (chess.WHITE, chess.BLACK):
+        count = lambda piece_type: len(board.pieces(piece_type, color))
+        promoted = (max(0, count(chess.QUEEN) - 1) + max(0, count(chess.ROOK) - 2)
+                    + max(0, count(chess.BISHOP) - 2) + max(0, count(chess.KNIGHT) - 2))
+        if count(chess.PAWN) + promoted > 8 or bin(board.occupied_co[color]).count("1") > 16:
+            return False
+    return True
+
+
 def legal_attacker_to_move(fen):
     try:
         b = chess.Board(fen + " 0 1")
     except ValueError:
         return False
-    return b.is_valid() and not b.is_game_over()
+    return b.is_valid() and reachable_material(b) and not b.is_game_over()
 
 
 def excluded_fens(names):
@@ -200,7 +218,8 @@ def main(argv=None):
             options = sorted(set(back[fen]) - seen)
             rng.shuffle(options)
             nxt.extend(options[:a.per_position])
-        found = sorted({f for f in nxt if chess.Board(f + " 0 1").is_valid()})
+        found = sorted({f for f in nxt if chess.Board(f + " 0 1").is_valid()
+                        and reachable_material(chess.Board(f + " 0 1"))})
         rng.shuffle(found)
         found = sorted(found[:a.frontier])
         seen.update(found)

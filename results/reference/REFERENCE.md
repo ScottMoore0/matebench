@@ -453,6 +453,14 @@ engine ran. Finding track, verified claims, one thread; no claim was refuted.
    suggests can reverse rankings) all remain. `rounds/round-1/CLOSE.md` gives the
    per-band detail and what would separate them.
 
+**Depth, up to mate in 8** (`studies/depth/`). A pre-registered follow-up on
+2,428 further generated positions, measured one mate length at a time, found no
+depth at which MateHunter 19 finds more mates than Stockfish 19: at 10,000,000
+nodes +13/-23 at mate in 8 (p = 0.13), behind from mate in 6, and behind at every
+depth from mate in 2 at 100,000 and 10,000 nodes. Huntsman 1 leads both from mate
+in 6. That counts against depth as the explanation up to mate in 8, and says
+nothing about mate in 10 and deeper, which generation has not yet reached.
+
 Until that is settled, treat the recommended profile, and every MateHunter
 result above, as established on ChestUCI only.
 

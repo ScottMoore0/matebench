@@ -1,0 +1,82 @@
+=== MATEBENCH SUBMISSION RUN 2026-09-17 00:00 ===
+  positions   corpora\generated-deep.epd, sha256 9b3f453d045a774ac6bc09dc7babff3be86ee9126535cdac870c8fbb40152250 (not recorded in CHECKSUMS.json)
+              d1-1, 257 positions
+              0 excluded: MateHunter 19 declares tuning on matetrack.epd
+  bands       d1-7 257
+  budget      nodes 100000 per position, 1 thread unless a manifest says otherwise, 12 at a time
+  verifier    mateprover.exe (mateprover 0.2.0), --direct-depth --no-portfolio at 1,000,000 nodes
+
+  arm MateHunter 19  (submission)
+    engine id   MateHunter 19
+    binary      matehunter19  sha256 d246758baf9643e362165a18759165609649207781cbfc6404c7ff97efd4ea30
+    family      stockfish; base Stockfish 19; licence GPL-3.0
+    source      https://github.com/ScottMoore0/matehunter at tag v0.1.0, whose search this development build reproduces (REFERENCE.md)
+    claims      within-N
+    options     Threads=1, Hash=256, MateMode=false, MateEval=true, MateEvalNull=true, MateEvalMain=false, MateEvalQS=false, MateNoRazor=false, MateNoFutility=false, MateNoNull=false, MateEvalOff=0
+    at default  Debug Log File=<empty>, EvalFile=nn-1a298aa575a0.nnue, MateAttackW=100, MateCheckFirst=false, MateCheckOnly=false, MateCheckRelief=0, MateCheckW=180, MateDefendW=30, MateEscapeW=220, MateEvalV2=false, MateExposeW=40, MateKingRing2=false, MateKingSquares=0, MateKingZone=false, MateLearnedMinMoves=0, MateLearnedW=0, MateMaxDefender=0, MateNearW=600, MateNoLMR=false, MateNoRetreat=false, MateOrdering=false, MateScale=8, MateV2File=<empty>, MateWideMinMoves=16, MateWideRelief=0, Move Overhead=10, MultiPV=1, nodestime=0, NumaPolicy=auto, Ponder=false, Skill Level=20, Syzygy50MoveRule=true, SyzygyPath=<empty>, SyzygyProbeDepth=1, SyzygyProbeLimit=7, UCI_Chess960=false, UCI_Elo=1320, UCI_LimitStrength=false, UCI_ShowWDL=false
+    certificates none
+    notes       The recommended profile in REFERENCE.md: correction history as the evaluation, MateMode off, every other mate option set off explicitly. Tuned on matetrack, so matetrack positions are excluded from any pool it runs on.
+
+  arm Stockfish 19  (reference)
+    engine id   Stockfish 19
+    binary      sf19  sha256 f267199f486e2ea65c89719b534c502e0d67ca84e269c27aa4504c3d3c82dc69
+    family      stockfish; base Stockfish 19; licence GPL-3.0
+    source      https://stockfishchess.org, release 19, built from the release source with MateHunter's compiler and flags
+    claims      within-N
+    options     Threads=1, Hash=256
+    at default  Debug Log File=<empty>, EvalFile=nn-1a298aa575a0.nnue, Move Overhead=10, MultiPV=1, nodestime=0, NumaPolicy=auto, Ponder=false, Skill Level=20, Syzygy50MoveRule=true, SyzygyPath=<empty>, SyzygyProbeDepth=1, SyzygyProbeLimit=7, UCI_Chess960=false, UCI_Elo=1320, UCI_LimitStrength=false, UCI_ShowWDL=false
+    certificates none
+    notes       Stock engine at its defaults apart from one thread and a fixed hash, as in REFERENCE.md. It has no mate options to set.
+
+  arm Huntsman 1  (reference)
+    engine id   The Huntsman 1
+    binary      huntsman  sha256 79cd07410b59a3ebf3cd4fabbdc2b7b92a26d2d419620403691509282f8f141b
+    family      stockfish; base Stockfish fork; licence GPL-3.0
+    source      https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary self-identifies as The Huntsman 1)
+    claims      within-N
+    options     Threads=1, Hash=256, MateSearch=true
+    at default  Debug Log File=, EvalFile=nn-6877cd24400e.nnue, Move Overhead=10, MultiPV=1, nodestime=0, Ponder=false, Skill Level=20, Slow Mover=100, Syzygy50MoveRule=true, SyzygyPath=<empty>, SyzygyProbeDepth=1, SyzygyProbeLimit=7, UCI_AnalyseMode=false, UCI_Chess960=false, UCI_Elo=1350, UCI_LimitStrength=false, UCI_ShowWDL=false, Use NNUE=false
+    certificates none
+    notes       MateSearch is its default and is set anyway. Recorded as over-claiming, though none of 298 claims re-proved on 2026-09-14 was refuted (REFERENCE.md).
+
+  positive control: every arm found the mate in one under its own manifest
+  771 searches to run, 0 already in results\depth\state.json
+
+  0 claims to re-prove with MateProver, 257 already proved
+
+  claims and how they were verified
+  arm                           n claimed verified   cert prover  refuted unconfirmed error cert fail   no end
+  MateHunter 19               257     255      255      0    255        0           0     0         0        2
+  Stockfish 19                257     255      255      0    255        0           0     0         0        2
+  Huntsman 1                  257     257      257      0    257        0           0     0         0        0
+
+  MateHunter 19
+    search did not end normally (exited before the search): q2nq1QK/3pN1Rb/3p2Pk/4n1NB/3Q1nR1/4Nnr1/2Q3pn/1nb4b w - -
+    search did not end normally (exited before the search): q2nq1QK/3pN1Rb/3p2pk/4nPNB/3Q1nR1/4Nnr1/6pn/1Qb4b w - -
+
+  Stockfish 19
+    search did not end normally (exited before the search): q2nq1QK/3pN1Rb/3p2Pk/4n1NB/3Q1nR1/4Nnr1/2Q3pn/1nb4b w - -
+    search did not end normally (exited before the search): q2nq1QK/3pN1Rb/3p2pk/4nPNB/3Q1nR1/4Nnr1/6pn/1Qb4b w - -
+
+  verified per band
+  band          n MateHunter Stockfish  Huntsman 1
+  d1-7        257        255        255        257
+
+  MateHunter 19 against Stockfish 19, paired on verified claims
+  band          n      sub      ref sub only ref only        p
+  d1-7        257      255      255        0        0   1.0000
+  all         257      255      255        0        0   1.0000
+  reported claims, for context: sub only 0, ref only 0, p = 1.0000
+  speed on the 255 positions both verified: sub faster on 153, ref faster on 100, p = 0.0010; time ratio ref/sub median 1.25, mean 1.83 (under a node budget, time follows speed per node)
+
+  MateHunter 19 against Huntsman 1, paired on verified claims
+  band          n      sub      ref sub only ref only        p
+  d1-7        257      255      257        0        2   0.5000
+  all         257      255      257        0        2   0.5000
+  reported claims, for context: sub only 0, ref only 2, p = 0.5000
+  speed on the 255 positions both verified: sub faster on 32, ref faster on 220, p = 0.0000; time ratio ref/sub median 0.38, mean 0.91 (under a node budget, time follows speed per node)
+
+  The discordant pairs per band are the result. A pooled total can hide two opposite effects.
+  Unconfirmed claims are not false: supply certificates to have them checked.
+
+=== MATEBENCH SUBMISSION RUN ENDED ===
