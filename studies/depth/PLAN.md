@@ -1,6 +1,6 @@
 # Does MateHunter's advantage grow with depth? Plan
 
-Written 2026-09-17, before any engine ran on the positions below.
+Written 2026-09-16, before any engine ran on the positions below.
 
 ## Why
 
