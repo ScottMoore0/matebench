@@ -108,7 +108,21 @@ is reported and not scored.
 ## Who emits them
 
 `bench/test_certify.py` builds both kinds by exhaustive search for small
-positions, to test the checker. No engine emits them yet, MateProver 0.2.0
-included, so MateProver's own minimality and absence figures in the reference
-results remain its claims, not certified results. A prover that emits these
-certificates is scored on tracks 3 and 4 without anyone having to trust it.
+positions, to test the checker.
+
+MateProver emits both, from the version after 0.2.0: `--absence-proof` and
+`--minimality-proof` print a result line ending in an `absproof` or `minproof`
+certificate, and `bench/certify.py` reads those lines directly as well as JSON
+Lines. On 290 generated positions, mate in 1 to 4, all 290 minimality
+certificates and all 190 absence certificates it emitted verified here, and it
+refused an absence certificate at the shortest mate on all 290. MateProver 0.2.0
+does not emit them, so the minimality figures in the reference results, which
+were measured with 0.2.0, remain its claims, not certified results.
+
+These certificates grow exponentially with the bound: every attacker move is
+answered at every level. MateProver's minimality certificate for a mate in 4 on a
+busy board has a few thousand shared nodes. Certified minimality far deeper than
+that needs a more compact proof than this format.
+
+A prover that emits these certificates is scored on tracks 3 and 4 without anyone
+having to trust it.

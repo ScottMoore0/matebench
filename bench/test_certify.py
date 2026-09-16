@@ -240,6 +240,36 @@ def test_certify_tool():
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def test_mateprover_lines():
+    print("\nMateProver result lines")
+    minimal = minimality_cert(M2A)
+    absent = absence_cert(NOMATE, 2)
+    lines = [
+        "%s; dm 2; minimality ok; nodes 1; searches 0; acs 0.01; minproof %s;" % (M2A, json.dumps(minimal)),
+        "%s; absence 2; ok; nodes 17; searches 16; acn 32; acs 0.02; absproof %s;" % (NOMATE, json.dumps(absent)),
+        "%s; absence 2; mate-exists; nodes 18; searches 20; acn 40; acs 0.02;" % M2A,
+    ]
+    claim = certify.from_mateprover(lines[0])
+    check("a minproof line becomes a minimality claim",
+          claim is not None and claim["claim"] == "minimality" and claim["n"] == 2 and claim["fen"] == M2A, claim)
+    claim = certify.from_mateprover(lines[1])
+    check("an absproof line becomes an absence claim",
+          claim is not None and claim["claim"] == "absence" and claim["n"] == 2, claim)
+    check("a line with no certificate is not a claim", certify.from_mateprover(lines[2]) is None)
+    tmp = Path(tempfile.mkdtemp(prefix="matebench-mplines-"))
+    try:
+        path = tmp / "mateprover.txt"
+        path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        results, unusable = certify.score(str(path), 1 << 26)
+        check("both certificate lines verify",
+              results.get(("minimality", M2A), {}).get("verdict") == "verified"
+              and results.get(("absence", NOMATE), {}).get("verdict") == "verified", results)
+        check("an answer without a certificate is reported as one, not as bad input",
+              len(unusable) == 1 and "answered without a certificate: absence 2; mate-exists" in unusable[0][1], unusable)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def test_lint():
     print("\nmeasurement lint")
     out = subprocess.run([sys.executable, str(HERE / "lint_measurement.py"), str(HERE / "absence.py"),
@@ -254,6 +284,7 @@ if __name__ == "__main__":
     test_references()
     test_minimality()
     test_certify_tool()
+    test_mateprover_lines()
     test_lint()
     failed = [name for name, ok in RESULTS if not ok]
     print("\n%d checks, %d failed" % (len(RESULTS), len(failed)))

@@ -53,6 +53,25 @@ def fen4(text):
     return " ".join(text.split()[:4])
 
 
+# A MateProver result line from --minimality-proof or --absence-proof, as it prints it.
+MP_CLAIM = re.compile(r"; (?:dm (\d+); minimality ok|absence (\d+); ok);.*; (minproof|absproof) (\{.*\});\s*$")
+# The same modes answering without a certificate: mate-exists, inconclusive, too-large, or no mate proved.
+MP_ANSWER = re.compile(r"; ((?:absence \d+; [a-z-]+)|(?:minimality(?: [a-z-]+|; [^;]+)))")
+
+
+def from_mateprover(line):
+    """A claim read from a MateProver certificate line, or None."""
+    m = MP_CLAIM.search(line)
+    if not m:
+        return None
+    try:
+        cert = json.loads(m.group(4))
+    except json.JSONDecodeError:
+        return None
+    return {"fen": fen4(line.split(";", 1)[0]), "claim": "minimality" if m.group(3) == "minproof" else "absence",
+            "n": int(m.group(1) or m.group(2)), "certificate": cert}
+
+
 def load_claims(path, max_bytes):
     """[(line number, claim dict or None, problem)]"""
     out = []
@@ -66,8 +85,15 @@ def load_claims(path, max_bytes):
             try:
                 claim = json.loads(line)
             except json.JSONDecodeError as exc:
-                out.append((number, None, "not JSON (%s)" % exc))
-                continue
+                claim = from_mateprover(line)
+                if claim is None:
+                    answer = MP_ANSWER.search(line)
+                    if answer:
+                        out.append((number, None, "MateProver answered without a certificate: %s"
+                                    % answer.group(1).strip()))
+                    else:
+                        out.append((number, None, "not JSON, and not a MateProver certificate line (%s)" % exc))
+                    continue
             if (not isinstance(claim, dict) or claim.get("claim") not in ("minimality", "absence")
                     or not isinstance(claim.get("n"), int) or not isinstance(claim.get("fen"), str)):
                 out.append((number, None, "needs fen, claim (minimality or absence) and an integer n"))

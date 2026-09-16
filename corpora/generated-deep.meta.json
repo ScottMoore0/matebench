@@ -1,0 +1,50 @@
+{
+  "file": "generated-deep.epd",
+  "sha256": "9b3f453d045a774ac6bc09dc7babff3be86ee9126535cdac870c8fbb40152250",
+  "positions": 2428,
+  "created": "2026-09-16T23:32:52",
+  "seed": "deep-1",
+  "synthetic_checkmates": 60,
+  "max_depth": 14,
+  "frontier": 800,
+  "candidates_per_level": 4000,
+  "per_position": 20,
+  "nodes_per_proof": 8000000,
+  "excluded": {
+    "matetrack.epd": "8ba5712234ba0cb2a1f1b1934872d1d30ba5e01c80482844dccccd4bc2eefd72",
+    "chestuci.epd": "89bb4dc4ac357751e335d725ea9bd909c1852814170a61fd0ffd2d5d6dbd5063"
+  },
+  "mateprover": "mateprover 0.2.0",
+  "start": {
+    "file": "generated.epd",
+    "sha256": "16711d754b0d1798b6547c764980fd5dacace334ce3e760a693d1ea4e6607713",
+    "depth": 7,
+    "positions": 149
+  },
+  "levels": [
+    {
+      "depth": 8,
+      "frontier": 800,
+      "candidates": 4000,
+      "exact": 297,
+      "shorter": 2131,
+      "unproved": 1572,
+      "seconds": 3579.7
+    }
+  ],
+  "positions_by_depth": {
+    "1": 257,
+    "2": 221,
+    "3": 244,
+    "4": 234,
+    "5": 282,
+    "6": 407,
+    "7": 486,
+    "8": 297
+  },
+  "limits": [
+    "only positions MateProver proves within nodes_per_proof are kept",
+    "positions descend from random checkmates, not composed problems",
+    "report results on this corpus under its own name"
+  ]
+}

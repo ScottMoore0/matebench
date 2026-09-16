@@ -66,9 +66,12 @@ The certificate is `matebench-minimality-1` (docs/CERTIFICATES.md): a mate
 certificate of depth N and an absence certificate for N-1, checked from the
 position by MateProver's checker and `bench/absence.py`, and scored by
 `bench/certify.py`. A claimed shortest mate with no certificate does not score.
-No engine emits these certificates yet, MateProver 0.2.0 included, so the
-minimality figures in the reference results are MateProver's claims, not
-certified results.
+MateProver emits them from the version after 0.2.0 (`--minimality-proof`,
+`--absence-proof`), and `bench/certify.py` reads its output directly. The
+minimality figures in the reference results were measured with 0.2.0, which does
+not, so they are MateProver's claims, not certified results. The certificates
+grow exponentially with depth, so certified minimality is practical for short
+mates.
 
 The two are **never merged**. A prover's output line carries which claim it is
 making, and the harness keeps the columns apart.

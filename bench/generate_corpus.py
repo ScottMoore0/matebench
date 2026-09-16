@@ -94,7 +94,10 @@ def run_chunks(argv, lines, jobs, timeout):
     """Run MateProver over `lines` in `jobs` parallel processes; the concatenated output lines."""
     if not lines:
         return []
-    size = max(1, (len(lines) + jobs - 1) // jobs)
+    # Many small chunks, not one per worker: proof cost varies by orders of
+    # magnitude between positions, and one chunk of hard ones would otherwise
+    # hold a whole level on a single core while the others sit idle.
+    size = max(1, (len(lines) + jobs * 16 - 1) // (jobs * 16))
     chunks = [lines[i:i + size] for i in range(0, len(lines), size)]
 
     def one(chunk):
@@ -168,7 +171,13 @@ def main(argv=None):
                     help="corpora the output must be disjoint from")
     ap.add_argument("--jobs", type=int, default=12)
     ap.add_argument("--max-minutes", type=float, default=0, help="stop after the level that passes this; 0 = no limit")
+    ap.add_argument("--start", default="",
+                    help="continue from an existing corpus instead of synthetic checkmates: its positions with "
+                         "bm #<start-depth> are the first frontier, and the walk goes deeper from there")
+    ap.add_argument("--start-depth", type=int, default=0)
     a = ap.parse_args(argv)
+    if bool(a.start) != bool(a.start_depth):
+        sys.exit("--start and --start-depth go together")
 
     mp = config.mateprover()
     version = subprocess.run(mp + ["--version"], capture_output=True, text=True).stdout.strip()
@@ -178,20 +187,58 @@ def main(argv=None):
     print("generating from seed %r with %s; excluding %d positions from %s"
           % (a.seed, version, len(exclude), ", ".join(a.exclude)), flush=True)
 
-    seeds = []
-    while len(seeds) < a.seeds:
-        b = random_mate(rng, 200_000)
-        if b is None:
-            sys.exit("no checkmate found in 200,000 random placements")
-        if fen4(b) not in exclude and fen4(b) not in seeds:
-            seeds.append(fen4(b))
-    print("  %d synthetic checkmates" % len(seeds), flush=True)
-
-    seen = set(seeds) | exclude
     corpus = {}                      # fen -> proved shortest mate
-    frontier = sorted(seeds)         # defender-to-move positions to step back from
     levels = []
-    for depth in range(1, a.max_depth + 1):
+
+    def step_back(exact):
+        """Defender-to-move frontier: one retracted defender move back from `exact`."""
+        exact = list(exact)
+        rng.shuffle(exact)
+        back = predecessors(mp, sorted(exact[:a.frontier]), a.jobs)
+        nxt = []
+        for fen in sorted(back):
+            options = sorted(set(back[fen]) - seen)
+            rng.shuffle(options)
+            nxt.extend(options[:a.per_position])
+        found = sorted({f for f in nxt if chess.Board(f + " 0 1").is_valid()})
+        rng.shuffle(found)
+        found = sorted(found[:a.frontier])
+        seen.update(found)
+        return found
+
+    start_info = None
+    if a.start:
+        # Continue deeper from an existing corpus. Every position already in it
+        # counts as seen, so the output holds only positions it does not.
+        rows = []
+        for line in Path(a.start).read_text(encoding="utf-8-sig", errors="replace").splitlines():
+            m = re.search(r"\bbm\s+#(\d+)", line)
+            if m and not line.startswith("%"):
+                rows.append((" ".join(line.split(";")[0].split(" bm ")[0].split()[:4]), int(m.group(1))))
+        exact0 = sorted(f for f, d in rows if d == a.start_depth)
+        if not exact0:
+            sys.exit("%s has no positions at bm #%d" % (a.start, a.start_depth))
+        seen = {f for f, _ in rows} | exclude
+        start_info = {"file": Path(a.start).name, "sha256": hashlib.sha256(Path(a.start).read_bytes()).hexdigest(),
+                      "depth": a.start_depth, "positions": len(exact0)}
+        print("  continuing from %d positions at mate in %d in %s" % (len(exact0), a.start_depth, a.start),
+              flush=True)
+        frontier = step_back(exact0)
+        first_depth = a.start_depth + 1
+    else:
+        seeds = []
+        while len(seeds) < a.seeds:
+            b = random_mate(rng, 200_000)
+            if b is None:
+                sys.exit("no checkmate found in 200,000 random placements")
+            if fen4(b) not in exclude and fen4(b) not in seeds:
+                seeds.append(fen4(b))
+        print("  %d synthetic checkmates" % len(seeds), flush=True)
+        seen = set(seeds) | exclude
+        frontier = sorted(seeds)     # defender-to-move positions to step back from
+        first_depth = 1
+
+    for depth in range(first_depth, a.max_depth + 1):
         # A level costs roughly three times the one before it. Stop before one
         # that would run past the limit, not after it has.
         if a.max_minutes and levels:
@@ -226,18 +273,7 @@ def main(argv=None):
                                           levels[-1]["shorter"], unproved, levels[-1]["seconds"]), flush=True)
         if not exact or depth == a.max_depth:
             break
-        # Defender-to-move frontier: one retracted defender move back from the exact positions.
-        rng.shuffle(exact)
-        back = predecessors(mp, sorted(exact[:a.frontier]), a.jobs)
-        nxt = []
-        for fen in sorted(back):
-            options = sorted(set(back[fen]) - seen)
-            rng.shuffle(options)
-            nxt.extend(options[:a.per_position])
-        frontier = sorted({f for f in nxt if chess.Board(f + " 0 1").is_valid()})
-        rng.shuffle(frontier)
-        frontier = sorted(frontier[:a.frontier])
-        seen.update(frontier)
+        frontier = step_back(exact)
         if not frontier:
             break
         if a.max_minutes and (time.monotonic() - started) / 60.0 > a.max_minutes:
@@ -262,7 +298,7 @@ def main(argv=None):
         "candidates_per_level": a.candidates, "per_position": a.per_position, "nodes_per_proof": a.nodes,
         "excluded": {name: sha for name, sha in
                      ((n, hashlib.sha256(config.corpus(n).read_bytes()).hexdigest()) for n in a.exclude)},
-        "mateprover": version, "levels": levels, "positions_by_depth": {str(k): v for k, v in sorted(bands.items())},
+        "mateprover": version, "start": start_info, "levels": levels, "positions_by_depth": {str(k): v for k, v in sorted(bands.items())},
         "limits": ["only positions MateProver proves within nodes_per_proof are kept",
                    "positions descend from random checkmates, not composed problems",
                    "report results on this corpus under its own name"],
