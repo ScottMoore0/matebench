@@ -18,7 +18,14 @@ Each of these must print the hash in `OPEN.md`:
 
     python -c "import hashlib; print(hashlib.sha256(b'matebench-round-1-1a285f14b38008d96e63c2c13b3a76bc631ee507dc0cc4248f84981d27ac3ba9').hexdigest())"
     python -c "import hashlib; print(hashlib.sha256(open('corpora/generated.epd','rb').read()).hexdigest())"
-    python -c "import hashlib; print(hashlib.sha256(open('corpora/generated.meta.json','rb').read()).hexdigest())"
+    python -c "import hashlib; b=open('corpora/generated.meta.json','rb').read().replace(b'\r\n', b'\n').replace(b'\n', b'\r\n'); print(hashlib.sha256(b).hexdigest())"
+
+The metadata was written with Windows line endings when its hash was committed,
+and the repository stores text with LF, so the last command restores CRLF before
+hashing; the content is otherwise byte for byte the committed file. Hashed as
+stored, with LF, it is
+`1af7666439776f238e0be677c975a0740a02b44f6b7be92d1edc12b7cad5a54b`. The pool
+was written with LF from the start and needs no such step.
 
 The split, and any run, can then be reproduced:
 
