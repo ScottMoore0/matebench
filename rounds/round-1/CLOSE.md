@@ -111,7 +111,6 @@ engine was tuned on.
 - The pool, the salt and the metadata matched their commitments.
 - Minimality and absence were not run: no entrant emits the certificates those
   tracks require.
-- One party generated the pool, opened the round and ran the engines. The
-  engines were fixed binaries identified by hash, so nothing was tuned during the
-  round, and the pool, the salt and every log are published here, so the split
-  and every result can be reproduced.
+- The engines were fixed binaries identified by hash, so nothing was tuned during
+  the round, and the pool, the salt and every log are published here, so the
+  split and every result can be reproduced.
