@@ -15,13 +15,11 @@ matters, because an engine tuned on a corpus cannot be fairly scored on it.
 
 ## The held-out rule
 
-Any public corpus will be tuned on. The reference results already show what
-that does: on matetrack MateHunter and Huntsman were "indistinguishable" for a
-week; on ChestUCI they are separated by depth in opposite directions at
-p = 0.001 and p = 0.0005. That was read as a held-out result, but ChestUCI is
-almost entirely contained in matetrack, so it is in-sample for MateHunter too:
-a corpus is held out only if nobody could have tuned on its positions,
-whatever the file is called. **Scoring for a leaderboard
+Any public corpus will be tuned on, and these corpora overlap: ChestUCI is
+almost entirely contained in matetrack (6,526 of 6,545 positions), so an engine
+tuned on matetrack is in-sample on ChestUCI as well. A corpus is held out only
+if nobody could have tuned on its positions, whatever the file is called.
+**Scoring for a leaderboard
 must use a rotating held-out set** that submitters do not see in advance; the
 public corpora are for development. The generated set is the natural seed for
 that, because its terms permit anything and its generator,

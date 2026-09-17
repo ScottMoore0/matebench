@@ -3,21 +3,20 @@
 A benchmark for chess mate-solving engines, forks and configurations - built so
 that "my engine is better at mates" is a claim someone else can check.
 
-It exists because a week of careful measurement on two engines produced more
-retractions than results, and every retraction had the same shape: a comparison
-that changed two things at once, an engine run with its mate machinery switched
-off by default, a claimed mate that was never verified, a headline read off a
-pooled total that hid two opposite effects. The harness here encodes each of
-those lessons as a rule the tooling enforces, not a paragraph the reader is
-asked to remember.
+Mate-solving results are easy to get wrong in ways that are hard to see later:
+a claimed mate nobody checked, an engine left at a default that switches its mate
+search off, two things changed in one comparison, a corpus the engine was tuned
+on, a pooled total that hides opposite effects at different depths. Each of those
+is a rule the harness enforces, so that a published number comes with the
+configuration, the positions and the verification needed to re-run it.
 
 ## What is different about this benchmark
 
 **Claims are verified, not counted.** On the finding tracks every mate a
 submission reports is verified before it scores. Stockfish-derived mate solvers
 report mates longer than the shortest one, or echo the bound they were asked
-for, and a benchmark that counts claims rewards exactly that. A false claim here scores zero, and the submitter
-can re-run the checker themselves.
+for, and a benchmark that counts claims rewards exactly that. A false claim
+scores zero, and the submitter can re-run the checker themselves.
 
 **The judge is not an opinion, and it is not a ceiling.** A claim is verified
 by a machine-checkable proof certificate, checked from scratch by a checker that
@@ -45,10 +44,10 @@ ahead of it at equal nodes, and is ahead from about 2 seconds a position.
 Engines from different families are only ever compared under a clock.
 
 **Paired, and reported as discordant pairs.** Every arm sees every position.
-Totals are shown; the discordant pairs and a sign test are the result. A pooled
-total can be two opposite effects cancelling - the reference engines were
-"indistinguishable" at n=30 for a week, and are in fact separated by depth in
-opposite directions at n=400.
+Totals are shown; the discordant pairs and a sign test are the result, per depth
+band. A pooled total can be two opposite effects cancelling: on ChestUCI two of
+the reference engines are close overall and separate in opposite directions with
+depth (`results/reference/REFERENCE.md`).
 
 ## Tracks
 
@@ -63,8 +62,8 @@ See `TRACKS.md`. In one line each:
 | other goals | selfmate, stalemate, helpmate, helpstalemate, selfstalemate | provers only, today |
 | variants | x-check, x-capture, x-escape | provers only, today |
 
-The last four tracks currently have one entrant. That is the point of listing
-them.
+Minimality, absence, other goals and variants have one entrant each so far.
+They are listed so an entrant can aim at them.
 
 ## What it has found
 

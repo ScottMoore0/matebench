@@ -186,12 +186,12 @@ describes all of them.
 
 ## Before you submit
 
-Run `python bench/lint_measurement.py` over any script you changed. It blocks on
-the errors that produced wrong published numbers here: no distance check on a
-mate score, wall-clock where a node budget exists, arms aggregated over
-different position sets, verdict strings with no "not established" branch, a
-Stockfish-fork arm with `MateMode=true`. Each rule cites the retraction it came
-from.
+Run `python bench/lint_measurement.py` over any script you changed. It blocks
+five errors that have produced wrong numbers in this project's own measurements:
+no distance check on a mate score, wall-clock where a node budget exists, arms
+aggregated over different position sets, verdict strings with no "not
+established" branch, and a Stockfish-fork arm with `MateMode=true`. Each rule
+cites the case it came from; `docs/measurement-protocol.md` has them in full.
 
 If you change `bench/submit.py` or `bench/certificates.py`, run
 `python bench/test_submit.py`: it runs the runner against scripted engines that

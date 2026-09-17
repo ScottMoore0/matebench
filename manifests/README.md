@@ -5,11 +5,12 @@ The reference engines as `bench/submit.py` runs them, at the configurations
 
     python bench/matebench.py submit submission.json --against manifests/matehunter-19.json manifests/huntsman-1.json
 
-Each `sha256` is the binary the reference results were measured with. A run
-refuses a binary whose hash differs, so to run these against your own builds,
-copy the manifest, build or download the engine, and put your hash in the copy
-(`submit <manifest> --print-sha256` prints it). Results are keyed by the hash,
-so a rebuilt engine is a different arm, as it should be.
+Each `sha256` is the binary the reference results were measured with, and each
+manifest also records the `bench` node count and a `build` recipe. A binary whose
+hash differs is accepted when its bench matches, as a rebuild of the same search;
+`engines/build.sh` builds all three from public sources, and `engines/README.md`
+records how far a rebuild reproduces the reference numbers. Results are keyed by
+the hash of the binary that ran.
 
 | manifest | engine | where a third party gets it |
 |---|---|---|

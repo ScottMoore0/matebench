@@ -118,5 +118,5 @@ claimed more positions than the exhaustive search at every depth and verified
 fewer; 14-28% of its claims were false shorter mates. Counting claims would have
 ranked it first. See the reference results.
 
-**Unverified solve counts.** See track 1. The number every mate-solver
-benchmark has historically reported is the number this one refuses to.
+**Unverified solve counts.** See track 1: a reported mate scores only once it
+is verified.

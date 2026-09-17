@@ -2,16 +2,13 @@
 
 ## Why
 
-Any public corpus will be tuned on, and the reference results show exactly
-what that does. On matetrack, which MateHunter was tuned on, MateHunter and
-Huntsman were "indistinguishable" for a week. On ChestUCI they separate by
-depth in opposite directions at p = 0.001 and p = 0.0005, and that was read as
-a held-out result - but 6,526 of ChestUCI's 6,545 positions are also in
-matetrack, so for MateHunter it was not held out at all. A corpus is held out
-only if nobody could have tuned on its positions, whatever the file is called,
-and only a check by position shows that. The public corpora are for
-development. A leaderboard position must come from positions the submitter did
-not see.
+Any public corpus will be tuned on, and the public mate corpora are not
+independent of each other: 6,526 of ChestUCI's 6,545 positions are also in
+matetrack, so an engine tuned on matetrack is in-sample on ChestUCI as well.
+A corpus is held out only if nobody could have tuned on its positions, whatever
+the file is called, and only a check position by position shows that. The public
+corpora are for development; a leaderboard position must come from positions the
+submitter did not see.
 
 ## Mechanism
 
