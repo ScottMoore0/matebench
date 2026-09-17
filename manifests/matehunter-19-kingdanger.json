@@ -1,0 +1,32 @@
+{
+  "name": "MateHunter 19 king-danger",
+  "binary": "matehunter19",
+  "sha256": "d246758baf9643e362165a18759165609649207781cbfc6404c7ff97efd4ea30",
+  "source": "https://github.com/ScottMoore0/matehunter at tag v0.1.0, whose search this development build reproduces (REFERENCE.md)",
+  "licence": "GPL-3.0",
+  "base": "Stockfish 19",
+  "family": "stockfish",
+  "uci_options": {
+    "Threads": 1,
+    "Hash": 256,
+    "MateMode": "false",
+    "MateEval": "true",
+    "MateEvalNull": "false",
+    "MateEvalMain": "false",
+    "MateEvalQS": "false",
+    "MateNoRazor": "false",
+    "MateNoFutility": "false",
+    "MateNoNull": "false",
+    "MateEvalOff": 0
+  },
+  "tracks": [
+    "finding",
+    "speed"
+  ],
+  "claims": "within-N",
+  "tuned_on": [
+    "matetrack.epd"
+  ],
+  "certificates": "none",
+  "notes": "The full king-danger evaluator in REFERENCE.md: MateEval on, MateEvalNull off, MateMode off, every other mate option set off explicitly. Same binary as matehunter-19.json. Tuned on matetrack."
+}
