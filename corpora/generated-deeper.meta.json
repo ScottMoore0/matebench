@@ -1,0 +1,72 @@
+{
+  "file": "generated-deeper.epd",
+  "sha256": "bd3a9da6c2556e16ec2c7be1d3e1fbbb4456d2ac877503064118c0754dcf921a",
+  "positions": 8263,
+  "created": "2026-09-17T05:22:37",
+  "seed": "deep-2",
+  "synthetic_checkmates": 60,
+  "max_depth": 14,
+  "frontier": 800,
+  "candidates_per_level": 6000,
+  "per_position": 20,
+  "nodes_per_proof": 16000000,
+  "excluded": {
+    "matetrack.epd": "8ba5712234ba0cb2a1f1b1934872d1d30ba5e01c80482844dccccd4bc2eefd72",
+    "chestuci.epd": "89bb4dc4ac357751e335d725ea9bd909c1852814170a61fd0ffd2d5d6dbd5063",
+    "generated.epd": "16711d754b0d1798b6547c764980fd5dacace334ce3e760a693d1ea4e6607713"
+  },
+  "mateprover": "mateprover 0.2.0",
+  "start": {
+    "file": "generated-deep.epd",
+    "sha256": "9b3f453d045a774ac6bc09dc7babff3be86ee9126535cdac870c8fbb40152250",
+    "depth": 8,
+    "positions": 297
+  },
+  "levels": [
+    {
+      "depth": 9,
+      "frontier": 800,
+      "candidates": 6000,
+      "exact": 177,
+      "shorter": 2916,
+      "unproved": 2907,
+      "seconds": 5793.5
+    },
+    {
+      "depth": 10,
+      "frontier": 800,
+      "candidates": 6000,
+      "exact": 78,
+      "shorter": 2628,
+      "unproved": 3294,
+      "seconds": 6247.2
+    },
+    {
+      "depth": 11,
+      "frontier": 800,
+      "candidates": 6000,
+      "exact": 51,
+      "shorter": 2413,
+      "unproved": 3536,
+      "seconds": 5984.0
+    }
+  ],
+  "positions_by_depth": {
+    "1": 826,
+    "2": 730,
+    "3": 720,
+    "4": 912,
+    "5": 795,
+    "6": 882,
+    "7": 1180,
+    "8": 1225,
+    "9": 689,
+    "10": 253,
+    "11": 51
+  },
+  "limits": [
+    "only positions MateProver proves within nodes_per_proof are kept",
+    "positions descend from random checkmates, not composed problems",
+    "report results on this corpus under its own name"
+  ]
+}
