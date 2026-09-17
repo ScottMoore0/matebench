@@ -120,7 +120,7 @@ says which.
 
 ## Layout
 
-    README.md, TRACKS.md, SUBMISSION.md, CHANGELOG.md
+    README.md, TRACKS.md, SUBMISSION.md, CONTRIBUTING.md, CHANGELOG.md
     bench/          the harness
       matebench.py        the entry point; `--list` names every command
       submit.py           the submission runner: any UCI engine, under a manifest
@@ -135,6 +135,7 @@ says which.
                     their public sources and check each against its manifest
     corpora/        provenance, checksums, the fetch script and the generated
                     corpora; no third-party positions are vendored
+    submissions/    entered results, one directory each, and INDEX.md
     rounds/         held-out rounds: commitment, split, results, disclosure
     studies/        pre-registered studies, each a plan, results and logs:
                     depth/, profile/, clock/
@@ -171,9 +172,14 @@ rather than of this harness.
 Version 0.1.0; see `CHANGELOG.md`. The harness, the reference results, held-out
 round 1 and three pre-registered studies are in the repository, with their logs.
 Not yet public. The reference engines can be rebuilt from public sources
-(`engines/`), and node-budget results reproduce exactly on a rebuild. What a
-public release still needs: a maintainer for held-out rounds who is not also a
-submitter, and a stated way to enter a result.
+(`engines/`), node-budget results reproduce exactly on a rebuild, and
+`CONTRIBUTING.md` states how a result is entered and what the maintainer checks.
+
+**The maintainer of this repository is also a submitter**, which a held-out round
+is not meant to allow. Until that changes, a round derives its salt from a part
+committed by every party, so no party can steer the split alone
+(`CONTRIBUTING.md`, section 7); everything else rests on the published plans,
+hashes and logs, which anyone can re-run.
 
 ## Licence
 

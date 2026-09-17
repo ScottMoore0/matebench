@@ -8,6 +8,12 @@ disclosed when the round closes; see docs/HELDOUT.md.
 
     python bench/heldout.py corpora/chestuci.epd --salt <round salt>
     python bench/heldout.py corpora/chestuci.epd --salt <round salt> --fraction 0.25 --out-dir rounds/2026-10
+    python bench/heldout.py corpora/generated.epd --salt-parts <maintainer secret> <submitter secret>
+
+With `--salt-parts`, the salt is sha256 of the parts joined by newlines, so a
+round whose maintainer is also a submitter can still be run: each party commits
+to sha256 of its own part before the pool exists, every part is published at
+close, and no party can steer the split alone (CONTRIBUTING.md).
 
 Writes <stem>.dev.epd and <stem>.heldout.epd and prints the per-band counts of
 each, so the held-out set's depth profile is on record before any engine runs.
@@ -43,6 +49,11 @@ def position_id(line):
     return hashlib.sha256(fen_key(line).encode("utf-8")).hexdigest()[:16]
 
 
+def salt_from_parts(parts):
+    """One salt from several committed parts, in the order given."""
+    return hashlib.sha256("\n".join(parts).encode("utf-8")).hexdigest()
+
+
 def is_heldout(salt, line, fraction):
     h = hashlib.sha256((salt + "|" + fen_key(line)).encode("utf-8")).digest()
     u = int.from_bytes(h[:8], "big") / float(1 << 64)
@@ -52,13 +63,22 @@ def is_heldout(salt, line, fraction):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("epd")
-    ap.add_argument("--salt", required=True, help="the round's secret salt (commit sha256(salt) first)")
+    ap.add_argument("--salt", default="", help="the round's secret salt (commit sha256(salt) first)")
+    ap.add_argument("--salt-parts", nargs="+", default=[], metavar="PART",
+                    help="one part per party, in the order the round's OPEN.md lists them; the salt is "
+                         "sha256 of the parts joined by newlines")
     ap.add_argument("--fraction", type=float, default=0.2, help="held-out share (default 0.2)")
     ap.add_argument("--out-dir", default="", help="where to write the two files (default: beside the input)")
     ap.add_argument("--ids", action="store_true",
                     help="also write <stem>.heldout.ids: position id, band and stated mate length for each "
                          "held-out position, and nothing that reveals the position itself")
     a = ap.parse_args()
+    if bool(a.salt) == bool(a.salt_parts):
+        sys.exit("give either --salt or --salt-parts, not both")
+    if a.salt_parts:
+        a.salt = salt_from_parts(a.salt_parts)
+        print("  salt from %d parts: sha256 %s" % (len(a.salt_parts), hashlib.sha256(
+            a.salt.encode("utf-8")).hexdigest()))
     if not (0 < a.fraction < 1):
         sys.exit("--fraction must be strictly between 0 and 1")
     src = Path(a.epd)

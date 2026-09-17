@@ -12,6 +12,14 @@ with its reason.
 
 ## Unreleased
 
+- **A stated way to enter a result.** `CONTRIBUTING.md`: what a submission holds,
+  where it goes (`submissions/`), what the maintainer re-runs and rebuilds, how a
+  disagreement is published, and what is refused. With a pull request template
+  and `submissions/INDEX.md`.
+- **Rounds when the maintainer is also a submitter.** `bench/heldout.py
+  --salt-parts` derives the round's salt from one committed part per party, so no
+  party can steer the split alone.
+
 - **The reference engines can be rebuilt from public sources.** `engines/build.sh`
   builds Stockfish 19, MateHunter 19 and Huntsman 1 at pinned commits, with
   MateHunter's public patch, and checks each against its manifest's `bench` node

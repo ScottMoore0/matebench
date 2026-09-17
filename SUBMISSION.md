@@ -1,5 +1,8 @@
 # Submitting an engine or a configuration
 
+This page is the manifest and the runner. `CONTRIBUTING.md` is the process:
+what to send, what the maintainer checks, and how a result is published.
+
 A submission is a UCI engine plus a **manifest**, and `bench/submit.py` runs it:
 
     python bench/matebench.py submit submission.json --against manifests/matehunter-19.json manifests/huntsman-1.json
