@@ -325,7 +325,7 @@ def main(argv=None):
     # LF on every platform: the metadata is hashed into a round's commitment, and a
     # file written with CRLF on Windows hashes differently once git stores it with LF.
     out.with_suffix(".meta.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8", newline="\n")
-    print("wrote %d positions to %s, sha256 %s" % (len(rows), out, digest))
+    print("wrote %d positions to %s, sha256 %s" % (len(rows), Path(out).name, digest))
     print("  by depth: " + ", ".join("d%d %d" % (k, v) for k, v in sorted(bands.items())))
     return 0
 

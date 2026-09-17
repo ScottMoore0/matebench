@@ -97,7 +97,7 @@ def generate(a):
             lines.extend(v)
     out = config.corpus(a.out)
     out.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
-    print("  wrote %d positions to %s" % (len(lines), out))
+    print("  wrote %d positions to %s" % (len(lines), Path(out).name))
 
 
 def run_engine(engine, lines, flags, nodes, par):

@@ -476,6 +476,15 @@ def checksum_note(path):
     return actual, "matches CHECKSUMS.json" if recorded == actual else "DOES NOT MATCH CHECKSUMS.json"
 
 
+def shown(path):
+    """A path as a log should record it: relative to the repository when inside
+    it, else the file name alone, so a log never carries a local directory."""
+    try:
+        return Path(path).resolve().relative_to(config.ROOT.resolve()).as_posix()
+    except (ValueError, OSError):
+        return Path(str(path)).name
+
+
 def band_of(depth):
     for lo, hi in BANDS:
         if lo <= depth <= hi:
@@ -600,7 +609,7 @@ def main(argv=None):
 
     stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     emit("=== MATEBENCH SUBMISSION RUN %s ===" % stamp)
-    emit("  positions   %s, sha256 %s (%s)" % (source, corpus_sha, corpus_note))
+    emit("  positions   %s, sha256 %s (%s)" % (shown(source), corpus_sha, corpus_note))
     emit("              d%d-%s, %d positions%s" % (a.min_depth, "max" if a.max_depth >= 999 else a.max_depth,
                                                    len(pool), (", drawn with seed %r" % a.seed) if a.n else ""))
     for who, name, count in excluded:
@@ -617,10 +626,10 @@ def main(argv=None):
     elif a.movetime:
         emit("  load        not available on this platform; a clock budget needs an idle machine")
     emit("  verifier    %s (%s), --direct-depth --no-portfolio at %s nodes"
-         % (" ".join(prover), version, "{:,}".format(a.verify_nodes)))
+         % (shown(prover[-1]), version, "{:,}".format(a.verify_nodes)))
     if check:
         emit("  certificates checked by %s, sha256 %s, limit %.0f MB"
-             % (check.checker_path, check.checker_sha256, a.max_certificate_mb))
+             % (shown(check.checker_path), check.checker_sha256, a.max_certificate_mb))
     for arm in arms:
         m = arm["manifest"]
         emit("")
@@ -657,7 +666,7 @@ def main(argv=None):
 
     run_key = lambda arm, f, d: "run|%s|%s|%s|%d" % (arm["key"], budget_key, f, d)
     work = [(arm, f, d) for f, d in pool for arm in arms if run_key(arm, f, d) not in st]
-    emit("  %d searches to run, %d already in %s\n" % (len(work), len(pool) * len(arms) - len(work), state_path))
+    emit("  %d searches to run, %d already in %s\n" % (len(work), len(pool) * len(arms) - len(work), shown(state_path)))
 
     def do_search(item):
         arm, f, d = item
