@@ -458,8 +458,12 @@ engine ran. Finding track, verified claims, one thread; no claim was refuted.
 depth at which MateHunter 19 finds more mates than Stockfish 19: at 10,000,000
 nodes +13/-23 at mate in 8 (p = 0.13), behind from mate in 6, and behind at every
 depth from mate in 2 at 100,000 and 10,000 nodes. Huntsman 1 leads both from mate
-in 6. That counts against depth as the explanation up to mate in 8, and says
-nothing about mate in 10 and deeper, which generation has not yet reached.
+in 6. A second pre-registered measurement reached mate in 9 to 11 (993
+positions): at 10,000,000 nodes MateHunter against Stockfish is +50/-69 at mate
+in 9 and +25/-37 at mate in 10 and 11 together (p = 0.16), against +478/-59 on
+ChestUCI at mate in 10 to 13. At no depth from mate in 1 to 11 is MateHunter
+ahead. That counts against depth as the explanation up to mate in 11; mate in 12
+and deeper, and composed problems, are untested (`studies/depth/RESULTS-DEEPER.md`).
 
 Until that is settled, treat the recommended profile, and every MateHunter
 result above, as established on ChestUCI only.
