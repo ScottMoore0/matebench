@@ -170,9 +170,9 @@ rather than of this harness.
 
 Version 0.1.0; see `CHANGELOG.md`. The harness, the reference results, held-out
 round 1 and three pre-registered studies are in the repository, with their logs.
-Not yet public. The reference engines can be rebuilt from public sources
-(`engines/`), node-budget results reproduce exactly on a rebuild, and
-`CONTRIBUTING.md` states how a result is entered and what the maintainer checks.
+The reference engines can be rebuilt from public sources (`engines/`),
+node-budget results reproduce exactly on a rebuild, and `CONTRIBUTING.md` states
+how a result is entered and what the maintainer checks.
 
 ## Licence
 
