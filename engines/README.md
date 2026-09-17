@@ -37,12 +37,11 @@ bench … matches`. A binary with a different search is refused.
 
 `bench` searches a fixed set of positions to a fixed depth with one thread and a
 fixed hash size, and its node count changes with any change to the search, the
-evaluation, the network or the options that reach either. It does not change with
-the compiler or the SIMD target: Stockfish checks exactly that equality across
-architectures in its own CI. On 2026-09-17, on the machine the reference numbers
-came from:
+evaluation, the network or the options that reach either. It should not change
+with the compiler or the SIMD target, and for these three engines that was
+checked on 2026-09-17, on the machine the reference numbers came from:
 
-| measured binary | rebuilt from public sources | bench, both | node-budget searches identical |
+| measured binary | rebuilt from public sources | bench, every build | node-budget searches identical (`x86-64-avx2` rebuild) |
 |---|---|---|---|
 | Stockfish 19: g++ 13.3.0, `x86-64-avx512icl` | `x86-64-avx2`, and again `x86-64-bmi2` | 2,497,913 | 120 of 120 |
 | MateHunter 19, recommended: a development build, g++ 13.3.0, `x86-64-avx512icl` | Stockfish 19 plus the public patch, `x86-64-avx2`, and again `x86-64-bmi2` | 5,314,178 | 120 of 120 |
@@ -51,13 +50,14 @@ came from:
 
 "Identical" means the same final score, node count and best move for every one of
 120 positions from `corpora/generated-deeper.epd` at `go mate N nodes 1000000`.
-The source of the MateHunter development build was also compared file by file:
-the Stockfish 19 base matches all 76 files of the `sf_19` source tree, and the
-base plus the public patch equals the source the release was built from.
+The sources were compared file by file as well: the Stockfish 19 base used for
+these builds matches all 76 files of the `sf_19` source tree, and that base plus
+the public patch equals the source MateHunter's release build came from.
 
-A full runner check agrees: `bench/submit.py` on 60 positions at mate in 9 to 11,
-1,000,000 nodes, all four manifests, gave the same claims, verifications and
-discordant pairs with the `x86-64-bmi2` rebuilds as with the measured binaries.
+The `x86-64-bmi2` rebuilds were checked by bench and by the runner:
+`bench/submit.py` on 60 positions at mate in 9 to 11, 1,000,000 nodes, all four
+manifests, gave the same claims, verifications and discordant pairs with them as
+with the measured binaries.
 
 ## What this does not cover
 
