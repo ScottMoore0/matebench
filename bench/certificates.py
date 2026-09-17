@@ -57,8 +57,8 @@ def checker():
         if not path.exists():
             raise SystemExit(
                 "certificate checker not found: %s\n"
-                "  set MATEBENCH_MATEPROVER_REPO to a MateProver checkout (v0.2.0):\n"
-                "  git clone --branch v0.2.0 https://github.com/ScottMoore0/mateprover" % path)
+                "  set MATEBENCH_MATEPROVER_REPO to a MateProver checkout (v0.3.0 or later):\n"
+                "  git clone --branch v0.3.0 https://github.com/ScottMoore0/mateprover" % path)
         spec = importlib.util.spec_from_file_location("matebench_verify_proof", path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
