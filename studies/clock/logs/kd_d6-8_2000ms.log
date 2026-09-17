@@ -1,0 +1,58 @@
+=== MATEBENCH SUBMISSION RUN 2026-09-17 15:15 ===
+  positions   corpora\generated-deep-6to8-reachable.epd, sha256 5e06cec70d6b8373e40a2809edb8de39926cdf203d3774fa4bbeb7f6a8b47022 (not recorded in CHECKSUMS.json)
+              d6-8, 1171 positions
+              0 excluded: MateHunter 19 king-danger declares tuning on matetrack.epd
+  bands       d1-7 878, d8-12 293
+  budget      movetime (ms) 2000 per position, 1 thread unless a manifest says otherwise, 8 at a time
+  load        not available on this platform; a clock budget needs an idle machine
+  verifier    mateprover.exe (mateprover 0.2.0), --direct-depth --no-portfolio at 1,000,000 nodes
+
+  arm MateHunter 19 king-danger  (submission)
+    engine id   MateHunter 19
+    binary      matehunter19  sha256 d246758baf9643e362165a18759165609649207781cbfc6404c7ff97efd4ea30
+    family      stockfish; base Stockfish 19; licence GPL-3.0
+    source      https://github.com/ScottMoore0/matehunter at tag v0.1.0, whose search this development build reproduces (REFERENCE.md)
+    claims      within-N
+    options     Threads=1, Hash=256, MateMode=false, MateEval=true, MateEvalNull=false, MateEvalMain=false, MateEvalQS=false, MateNoRazor=false, MateNoFutility=false, MateNoNull=false, MateEvalOff=0
+    at default  Debug Log File=<empty>, EvalFile=nn-1a298aa575a0.nnue, MateAttackW=100, MateCheckFirst=false, MateCheckOnly=false, MateCheckRelief=0, MateCheckW=180, MateDefendW=30, MateEscapeW=220, MateEvalV2=false, MateExposeW=40, MateKingRing2=false, MateKingSquares=0, MateKingZone=false, MateLearnedMinMoves=0, MateLearnedW=0, MateMaxDefender=0, MateNearW=600, MateNoLMR=false, MateNoRetreat=false, MateOrdering=false, MateScale=8, MateV2File=<empty>, MateWideMinMoves=16, MateWideRelief=0, Move Overhead=10, MultiPV=1, nodestime=0, NumaPolicy=auto, Ponder=false, Skill Level=20, Syzygy50MoveRule=true, SyzygyPath=<empty>, SyzygyProbeDepth=1, SyzygyProbeLimit=7, UCI_Chess960=false, UCI_Elo=1320, UCI_LimitStrength=false, UCI_ShowWDL=false
+    certificates none
+    notes       The full king-danger evaluator in REFERENCE.md: MateEval on, MateEvalNull off, MateMode off, every other mate option set off explicitly. Same binary as matehunter-19.json. Tuned on matetrack.
+
+  arm Stockfish 19  (reference)
+    engine id   Stockfish 19
+    binary      sf19  sha256 f267199f486e2ea65c89719b534c502e0d67ca84e269c27aa4504c3d3c82dc69
+    family      stockfish; base Stockfish 19; licence GPL-3.0
+    source      https://stockfishchess.org, release 19, built from the release source with MateHunter's compiler and flags
+    claims      within-N
+    options     Threads=1, Hash=256
+    at default  Debug Log File=<empty>, EvalFile=nn-1a298aa575a0.nnue, Move Overhead=10, MultiPV=1, nodestime=0, NumaPolicy=auto, Ponder=false, Skill Level=20, Syzygy50MoveRule=true, SyzygyPath=<empty>, SyzygyProbeDepth=1, SyzygyProbeLimit=7, UCI_Chess960=false, UCI_Elo=1320, UCI_LimitStrength=false, UCI_ShowWDL=false
+    certificates none
+    notes       Stock engine at its defaults apart from one thread and a fixed hash, as in REFERENCE.md. It has no mate options to set.
+
+  positive control: every arm found the mate in one under its own manifest
+  0 searches to run, 2342 already in results\clock\state.json
+
+  0 claims to re-prove with MateProver, 1059 already proved
+
+  claims and how they were verified
+  arm                           n claimed verified   cert prover  refuted unconfirmed error cert fail   no end
+  MateHunter 19 king-dange   1171    1002      941      0    941        0          61     0         0        0
+  Stockfish 19               1171     960      914      0    914        0          46     0         0        0
+
+  verified per band
+  band          n MateHunter Stockfish 
+  d1-7        878        753        741
+  d8-12       293        188        173
+
+  MateHunter 19 king-danger against Stockfish 19, paired on verified claims
+  band          n      sub      ref sub only ref only        p
+  d1-7        878      753      741       47       35   0.2242
+  d8-12       293      188      173       32       17   0.0444
+  all        1171      941      914       79       52   0.0227
+  reported claims, for context: sub only 99, ref only 57, p = 0.0010
+  speed on the 862 positions both verified: sub faster on 464, ref faster on 398, p = 0.0268; time ratio ref/sub median 1.10, mean 2.73
+
+  The discordant pairs per band are the result. A pooled total can hide two opposite effects.
+  Unconfirmed claims are not false: supply certificates to have them checked.
+
+=== MATEBENCH SUBMISSION RUN ENDED ===

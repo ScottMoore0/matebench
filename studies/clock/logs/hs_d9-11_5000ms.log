@@ -1,0 +1,55 @@
+=== MATEBENCH SUBMISSION RUN 2026-09-17 14:37 ===
+  positions   corpora\generated-deeper.epd, sha256 bd3a9da6c2556e16ec2c7be1d3e1fbbb4456d2ac877503064118c0754dcf921a (not recorded in CHECKSUMS.json)
+              d9-11, 993 positions
+  bands       d8-12 993
+  budget      movetime (ms) 5000 per position, 1 thread unless a manifest says otherwise, 8 at a time
+  load        not available on this platform; a clock budget needs an idle machine
+  verifier    mateprover.exe (mateprover 0.2.0), --direct-depth --no-portfolio at 1,000,000 nodes
+
+  arm Huntsman 1  (submission)
+    engine id   The Huntsman 1
+    binary      huntsman  sha256 79cd07410b59a3ebf3cd4fabbdc2b7b92a26d2d419620403691509282f8f141b
+    family      stockfish; base Stockfish fork; licence GPL-3.0
+    source      https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary self-identifies as The Huntsman 1)
+    claims      within-N
+    options     Threads=1, Hash=256, MateSearch=true
+    at default  Debug Log File=, EvalFile=nn-6877cd24400e.nnue, Move Overhead=10, MultiPV=1, nodestime=0, Ponder=false, Skill Level=20, Slow Mover=100, Syzygy50MoveRule=true, SyzygyPath=<empty>, SyzygyProbeDepth=1, SyzygyProbeLimit=7, UCI_AnalyseMode=false, UCI_Chess960=false, UCI_Elo=1350, UCI_LimitStrength=false, UCI_ShowWDL=false, Use NNUE=false
+    certificates none
+    notes       MateSearch is its default and is set anyway. Recorded as over-claiming, though none of 298 claims re-proved on 2026-09-14 was refuted (REFERENCE.md).
+
+  arm Stockfish 19  (reference)
+    engine id   Stockfish 19
+    binary      sf19  sha256 f267199f486e2ea65c89719b534c502e0d67ca84e269c27aa4504c3d3c82dc69
+    family      stockfish; base Stockfish 19; licence GPL-3.0
+    source      https://stockfishchess.org, release 19, built from the release source with MateHunter's compiler and flags
+    claims      within-N
+    options     Threads=1, Hash=256
+    at default  Debug Log File=<empty>, EvalFile=nn-1a298aa575a0.nnue, Move Overhead=10, MultiPV=1, nodestime=0, NumaPolicy=auto, Ponder=false, Skill Level=20, Syzygy50MoveRule=true, SyzygyPath=<empty>, SyzygyProbeDepth=1, SyzygyProbeLimit=7, UCI_Chess960=false, UCI_Elo=1320, UCI_LimitStrength=false, UCI_ShowWDL=false
+    certificates none
+    notes       Stock engine at its defaults apart from one thread and a fixed hash, as in REFERENCE.md. It has no mate options to set.
+
+  positive control: every arm found the mate in one under its own manifest
+  0 searches to run, 1986 already in results\clock\state.json
+
+  0 claims to re-prove with MateProver, 917 already proved
+
+  claims and how they were verified
+  arm                           n claimed verified   cert prover  refuted unconfirmed error cert fail   no end
+  Huntsman 1                  993     874      776      0    776        0          98     0         0        0
+  Stockfish 19                993     661      585      0    585        0          76     0         0        0
+
+  verified per band
+  band          n Huntsman 1 Stockfish 
+  d8-12       993        776        585
+
+  Huntsman 1 against Stockfish 19, paired on verified claims
+  band          n      sub      ref sub only ref only        p
+  d8-12       993      776      585      210       19   0.0000
+  all         993      776      585      210       19   0.0000
+  reported claims, for context: sub only 256, ref only 43, p = 0.0000
+  speed on the 566 positions both verified: sub faster on 452, ref faster on 114, p = 0.0000; time ratio ref/sub median 3.94, mean 13.39
+
+  The discordant pairs per band are the result. A pooled total can hide two opposite effects.
+  Unconfirmed claims are not false: supply certificates to have them checked.
+
+=== MATEBENCH SUBMISSION RUN ENDED ===
