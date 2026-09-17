@@ -131,6 +131,8 @@ says which.
       heldout.py          the salted development / held-out split
       test_*.py           offline tests
     manifests/      the reference engines, described as submissions
+    engines/        build.sh and README.md: build the reference engines from
+                    their public sources and check each against its manifest
     corpora/        provenance, checksums, the fetch script and the generated
                     corpora; no third-party positions are vendored
     rounds/         held-out rounds: commitment, split, results, disclosure
@@ -143,7 +145,8 @@ says which.
 
 ## Requirements
 
-Python 3.10+, `python-chess`, and the engines under test.
+Python 3.10+, `python-chess`, and the engines under test. `engines/build.sh`
+builds the reference engines from source.
 `bench/config.py` reads the paths from environment variables - nothing in the
 harness assumes a particular machine.
 
@@ -167,10 +170,10 @@ rather than of this harness.
 
 Version 0.1.0; see `CHANGELOG.md`. The harness, the reference results, held-out
 round 1 and three pre-registered studies are in the repository, with their logs.
-Not yet public. What a public release still needs: build recipes or binaries for
-the reference engines, so their numbers can be reproduced elsewhere; a
-maintainer for held-out rounds who is not also a submitter; and a stated way to
-enter a result.
+Not yet public. The reference engines can be rebuilt from public sources
+(`engines/`), and node-budget results reproduce exactly on a rebuild. What a
+public release still needs: a maintainer for held-out rounds who is not also a
+submitter, and a stated way to enter a result.
 
 ## Licence
 

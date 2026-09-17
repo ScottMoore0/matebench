@@ -137,6 +137,9 @@ for raw in sys.stdin:
         if mode in ("silent",):
             print("info string evaluation file not found")
         print("bestmove 0000", flush=True)
+    elif line == "bench":
+        # Like Stockfish: the count goes to stderr and depends on the options.
+        print("Nodes searched  : %d" % (1000 + 7 * len(opts["mode"])), file=sys.stderr, flush=True)
     elif line == "quit":
         break
 '''
@@ -242,6 +245,21 @@ def test_arms():
     check("button options are not listed as defaults", "Clear Hash" not in names)
     wrong = submit.load_manifest(manifest("sha.json", sha256="0" * 64))
     check("a sha256 mismatch is refused", "sha256 is" in refused(lambda: submit.prepare_arm(wrong)))
+    honest_bench = 1000 + 7 * len("honest")
+    rebuilt = submit.load_manifest(manifest("rebuilt.json", sha256="0" * 64, bench=honest_bench))
+    check("a sha256 mismatch with a matching bench is accepted as a rebuild",
+          not refused(lambda: submit.prepare_arm(rebuilt))
+          and "rebuild" in submit.prepare_arm(rebuilt)["identity"])
+    offbench = submit.load_manifest(manifest("offbench.json", sha256="0" * 64, bench=honest_bench + 1))
+    check("a sha256 mismatch with a different bench is refused",
+          "not the same search" in refused(lambda: submit.prepare_arm(offbench)))
+    other_opts = submit.load_manifest(manifest("otheropts.json", sha256="0" * 64, bench=honest_bench,
+                                               uci_options={"Threads": 1, "Mode": "liar"}))
+    check("bench is taken under the manifest's own options",
+          "not the same search" in refused(lambda: submit.prepare_arm(other_opts)))
+    check("a matching sha256 needs no bench", arm["identity"] == "sha256 matches the manifest")
+    check("bench must be a positive integer", "bench must be" in refused(
+        lambda: submit.load_manifest(manifest("badbench.json", bench="5314178"))))
     ghost = submit.load_manifest(manifest("ghost.json", uci_options={"MateEval": "true"}))
     check("an option the engine does not advertise is refused",
           "does not advertise MateEval" in refused(lambda: submit.prepare_arm(ghost)))

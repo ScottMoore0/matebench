@@ -10,6 +10,17 @@ A result is not an interface. Reference numbers change when a measurement is
 repeated or corrected, and each change is recorded in `results/reference/REFERENCE.md`
 with its reason.
 
+## Unreleased
+
+- **The reference engines can be rebuilt from public sources.** `engines/build.sh`
+  builds Stockfish 19, MateHunter 19 and Huntsman 1 at pinned commits, with
+  MateHunter's public patch, and checks each against its manifest's `bench` node
+  count. `engines/README.md` records the check: rebuilt for other architectures,
+  every engine gave the same bench and identical node-budget searches, 120 of 120.
+- **Manifests may record `bench` and `build`.** The runner accepts a binary whose
+  sha256 differs from the manifest's when its bench matches, and logs it as a
+  rebuild; before, any hash mismatch refused the run.
+
 ## 0.1.0 - 2026-09-17
 
 **First version.**

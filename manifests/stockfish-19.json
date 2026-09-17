@@ -10,8 +10,20 @@
     "Threads": 1,
     "Hash": 256
   },
-  "tracks": ["finding", "speed"],
+  "tracks": [
+    "finding",
+    "speed"
+  ],
   "claims": "within-N",
   "certificates": "none",
-  "notes": "Stock engine at its defaults apart from one thread and a fixed hash, as in REFERENCE.md. It has no mate options to set."
+  "notes": "Stock engine at its defaults apart from one thread and a fixed hash, as in REFERENCE.md. It has no mate options to set.",
+  "bench": 2497913,
+  "build": {
+    "source": "https://github.com/official-stockfish/Stockfish",
+    "tag": "sf_19",
+    "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+    "network": "nn-1a298aa575a0.nnue (fetched by make)",
+    "make": "cd src && make -j build ARCH=<arch>",
+    "measured": "g++ 13.3.0, ARCH=x86-64-avx512icl; an ARCH=x86-64-avx2 rebuild gives the same bench and identical node-budget searches (engines/README.md)"
+  }
 }

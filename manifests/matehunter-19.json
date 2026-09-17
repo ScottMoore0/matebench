@@ -19,9 +19,25 @@
     "MateNoNull": "false",
     "MateEvalOff": 0
   },
-  "tracks": ["finding", "speed"],
+  "tracks": [
+    "finding",
+    "speed"
+  ],
   "claims": "within-N",
-  "tuned_on": ["matetrack.epd"],
+  "tuned_on": [
+    "matetrack.epd"
+  ],
   "certificates": "none",
-  "notes": "The recommended profile in REFERENCE.md: correction history as the evaluation, MateMode off, every other mate option set off explicitly. Tuned on matetrack, so matetrack positions are excluded from any pool it runs on."
+  "notes": "The recommended profile in REFERENCE.md: correction history as the evaluation, MateMode off, every other mate option set off explicitly. Tuned on matetrack, so matetrack positions are excluded from any pool it runs on.",
+  "bench": 5314178,
+  "build": {
+    "source": "https://github.com/official-stockfish/Stockfish",
+    "tag": "sf_19",
+    "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+    "network": "nn-1a298aa575a0.nnue (fetched by make)",
+    "patch": "https://github.com/ScottMoore0/matehunter/blob/v0.1.0/matehunter.patch",
+    "patch_sha256": "d14cb5c22a513c8eb98c2323b3c0c7b35f92a670d86e8a6036c840c7ef8a821a",
+    "make": "cd src && patch -p1 < matehunter.patch && make -j build ARCH=<arch>",
+    "measured": "a development build (g++ 13.3.0, ARCH=x86-64-avx512icl); Stockfish 19 plus the public patch, built with ARCH=x86-64-avx2, gives the same bench under this manifest's options and identical node-budget searches (engines/README.md)"
+  }
 }

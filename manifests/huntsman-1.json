@@ -11,8 +11,20 @@
     "Hash": 256,
     "MateSearch": "true"
   },
-  "tracks": ["finding", "speed"],
+  "tracks": [
+    "finding",
+    "speed"
+  ],
   "claims": "within-N",
   "certificates": "none",
-  "notes": "MateSearch is its default and is set anyway. Recorded as over-claiming, though none of 298 claims re-proved on 2026-09-14 was refuted (REFERENCE.md)."
+  "notes": "MateSearch is its default and is set anyway. Recorded as over-claiming, though none of 298 claims re-proved on 2026-09-14 was refuted (REFERENCE.md).",
+  "bench": 7468942,
+  "build": {
+    "source": "https://github.com/joergoster/Stockfish-old",
+    "tag": "h1",
+    "commit": "136b800533e57fe7e646a53f7d1f726b635e5cc9",
+    "network": "nn-6877cd24400e.nnue (fetched by make; unused with Use NNUE=false)",
+    "make": "cd src && make -j build ARCH=<arch>",
+    "measured": "g++, ARCH not recorded; an ARCH=x86-64-avx2 rebuild gives the same bench, matching the h1 commit message, and identical node-budget searches (engines/README.md)"
+  }
 }

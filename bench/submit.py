@@ -9,7 +9,10 @@ The manifest is specified in SUBMISSION.md, and reference manifests are in
 manifests/. This script is what makes the rules in SUBMISSION.md and TRACKS.md
 hold for an engine nobody here has seen:
 
-  * The binary is identified by its sha256, and a mismatch stops the run.
+  * The binary is identified by its sha256. A binary whose sha256 differs is
+    accepted only when the manifest records a `bench` node count and the binary
+    reproduces it under the manifest's options: a rebuild of the same source with
+    another compiler or architecture. Anything else stops the run.
   * Every option in `uci_options` is set, and the engine must advertise each one.
     An engine accepts `setoption` for a name it does not know and ignores it, so
     an unadvertised option would run an "on" arm at its default. Options the
@@ -109,6 +112,11 @@ def load_manifest(path):
             argv = cert.get("argv")
             if not isinstance(argv, list) or not argv or not all(isinstance(x, str) for x in argv):
                 raise ManifestError("%s: a certificate command needs a non-empty argv of strings" % path)
+    if "bench" in m and (not isinstance(m["bench"], int) or isinstance(m["bench"], bool) or m["bench"] <= 0):
+        raise ManifestError("%s: bench must be a positive integer, the node count UCI `bench` "
+                            "reports under the manifest's options" % path)
+    if "build" in m and not isinstance(m["build"], dict):
+        raise ManifestError("%s: build must be an object describing how the binary is built" % path)
     tuned = m.get("tuned_on", [])
     if not isinstance(tuned, list) or not all(isinstance(x, str) for x in tuned):
         raise ManifestError("%s: tuned_on must be a list of corpus file names" % path)
@@ -375,16 +383,46 @@ def certificate_by_command(spec, fen, dm):
 
 # ----------------------------------------------------------------------- arms
 
+def bench_nodes(argv, options, timeout=600):
+    """The node count UCI `bench` reports after the given options, or None.
+
+    Stockfish and its derivatives report it on stderr, so both streams are read.
+    The count depends on the source, the network and the options, not on the
+    compiler or the architecture, which is what makes it an identity for a
+    rebuild."""
+    cmds = ["uci"] + ["setoption name %s value %s" % (k, v) for k, v in options.items()] + [
+        "isready", "bench", "quit"]
+    try:
+        r = subprocess.run(argv, input=("\n".join(cmds) + "\n").encode("utf-8"),
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=timeout)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    text = (r.stdout + r.stderr).decode("utf-8", errors="replace")
+    found = re.findall(r"Nodes searched\s*:\s*(\d+)", text)
+    return int(found[-1]) if found else None
+
+
 def prepare_arm(m, launcher=None, probe_timeout=60):
     """Check the binary and the options against the engine itself."""
     hash_path, exec_path = binary_paths(m)
     if not hash_path.exists():
         raise ManifestError("%s: binary not found at %s" % (m["_path"], hash_path))
-    actual = sha256_file(hash_path)
-    if actual.lower() != m["sha256"].lower():
-        raise ManifestError("%s: the binary's sha256 is %s, the manifest says %s"
-                            % (m["_path"], actual, m["sha256"]))
     argv = (config.launcher() if launcher is None else list(launcher)) + [exec_path]
+    actual = sha256_file(hash_path)
+    identity = "sha256 matches the manifest"
+    if actual.lower() != m["sha256"].lower():
+        if "bench" not in m:
+            raise ManifestError("%s: the binary's sha256 is %s, the manifest says %s, and the manifest "
+                                "records no bench node count to identify a rebuild by"
+                                % (m["_path"], actual, m["sha256"]))
+        got = bench_nodes(argv, m["uci_options"])
+        if got != m["bench"]:
+            raise ManifestError("%s: the binary's sha256 is %s, the manifest says %s, and its bench is %s "
+                                "where the manifest says %d: not the same search"
+                                % (m["_path"], actual, m["sha256"], got if got is not None else "not reported",
+                                   m["bench"]))
+        identity = ("a rebuild: sha256 differs from the manifest's %s, bench %d matches"
+                    % (m["sha256"].lower()[:16], got))
     ident, advertised, problem = probe(argv, probe_timeout)
     if problem:
         raise ManifestError("%s: %s" % (m["_path"], problem))
@@ -397,7 +435,7 @@ def prepare_arm(m, launcher=None, probe_timeout=60):
                 if key not in set_names and kind != "button"]
     return {"name": m["name"], "manifest": m, "argv": argv, "ident": ident,
             "options": dict(m["uci_options"]), "defaults": defaults,
-            "family": family_of(m), "sha256": actual.lower()}
+            "family": family_of(m), "sha256": actual.lower(), "identity": identity}
 
 
 def positive_control(arm, budget, timeout):
@@ -635,7 +673,7 @@ def main(argv=None):
         emit("")
         emit("  arm %s%s" % (arm["name"], "  (submission)" if arm is arms[0] else "  (reference)"))
         emit("    engine id   %s" % (arm["ident"] or "(none given)"))
-        emit("    binary      %s  sha256 %s" % (m["binary"], arm["sha256"]))
+        emit("    binary      %s  sha256 %s (%s)" % (m["binary"], arm["sha256"], arm["identity"]))
         emit("    family      %s; base %s; licence %s" % (arm["family"], m["base"], m["licence"]))
         emit("    source      %s" % m["source"])
         emit("    claims      %s%s" % (m["claims"], "  (scored here as within-N: this runner does not score "

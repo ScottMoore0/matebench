@@ -28,5 +28,16 @@
     "matetrack.epd"
   ],
   "certificates": "none",
-  "notes": "The full king-danger evaluator in REFERENCE.md: MateEval on, MateEvalNull off, MateMode off, every other mate option set off explicitly. Same binary as matehunter-19.json. Tuned on matetrack."
+  "notes": "The full king-danger evaluator in REFERENCE.md: MateEval on, MateEvalNull off, MateMode off, every other mate option set off explicitly. Same binary as matehunter-19.json. Tuned on matetrack.",
+  "bench": 5754190,
+  "build": {
+    "source": "https://github.com/official-stockfish/Stockfish",
+    "tag": "sf_19",
+    "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+    "network": "nn-1a298aa575a0.nnue (fetched by make)",
+    "patch": "https://github.com/ScottMoore0/matehunter/blob/v0.1.0/matehunter.patch",
+    "patch_sha256": "d14cb5c22a513c8eb98c2323b3c0c7b35f92a670d86e8a6036c840c7ef8a821a",
+    "make": "cd src && patch -p1 < matehunter.patch && make -j build ARCH=<arch>",
+    "measured": "a development build (g++ 13.3.0, ARCH=x86-64-avx512icl); Stockfish 19 plus the public patch, built with ARCH=x86-64-avx2, gives the same bench under this manifest's options and identical node-budget searches (engines/README.md)"
+  }
 }

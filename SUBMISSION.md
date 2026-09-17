@@ -31,14 +31,25 @@ engines are described by manifests too, in `manifests/`.
   "claims": "within-N",
   "tuned_on": ["matetrack.epd"],
   "certificates": {"channel": "info-string"},
-  "notes": "MateSolver defaults off."
+  "notes": "MateSolver defaults off.",
+  "bench": 4812345,
+  "build": {"source": "https://…", "commit": "…", "make": "cd src && make -j build ARCH=<arch>"}
 }
 ```
 
 - `binary` - a file name in the engine directory (`MATEBENCH_ENGINES`), or an
   absolute path.
-- `sha256` - of that binary. A run refuses a binary whose hash differs, and
-  results are keyed by it. `submit submission.json --print-sha256` prints it.
+- `sha256` - of that binary. Results are keyed by the hash of the binary that
+  ran. `submit submission.json --print-sha256` prints it.
+- `bench` - optional: the node count UCI `bench` reports after the manifest's
+  options are set. With it, a binary whose sha256 differs is accepted when its
+  bench matches, as a rebuild of the same search with another compiler or
+  architecture, and the log says so; without it, or with a different count, a
+  hash mismatch refuses the run. Give it if your engine's `bench` is
+  deterministic, so others can rebuild your submission and reproduce node-budget
+  results.
+- `build` - optional: how to build the binary from source, for a reader.
+  `engines/README.md` shows the reference engines'.
 - `base` and `family` - the family decides the budget. Arms in one family are
   compared under a node limit; a run with arms from more than one family is
   refused unless it uses `--movetime` (see TRACKS.md, Budgets). Without
@@ -111,7 +122,8 @@ scores on minimality.
 ## What the runner does
 
 1. Loads every manifest and refuses one with a missing or malformed field.
-2. Hashes each binary and refuses a mismatch.
+2. Hashes each binary. A mismatch is refused unless the manifest records a
+   `bench` node count and the binary reproduces it under the manifest's options.
 3. Starts each engine, reads its option list, and refuses a manifest option the
    engine does not advertise.
 4. Refuses a node budget across families.
