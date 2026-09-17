@@ -174,12 +174,6 @@ Not yet public. The reference engines can be rebuilt from public sources
 (`engines/`), node-budget results reproduce exactly on a rebuild, and
 `CONTRIBUTING.md` states how a result is entered and what the maintainer checks.
 
-**The maintainer of this repository is also a submitter**, which a held-out round
-is not meant to allow. Until that changes, a round derives its salt from a part
-committed by every party, so no party can steer the split alone
-(`CONTRIBUTING.md`, section 7); everything else rests on the published plans,
-hashes and logs, which anyone can re-run.
-
 ## Licence
 
 MIT, for the harness and documents. Corpora are not included; each has its own

@@ -13,8 +13,8 @@ submitter did not see.
 ## Mechanism
 
 A round has a **salt**: a secret string chosen by the round's maintainer, or,
-when the maintainer is also a submitter, derived from one part committed by each
-party (`CONTRIBUTING.md`, section 7, and `bench/heldout.py --salt-parts`).
+in a round with several parties, derived from one part committed by each of them
+(`CONTRIBUTING.md`, section 7, and `bench/heldout.py --salt-parts`).
 
 1. **Open.** The maintainer publishes `sha256(salt)` and the checksums of the
    round's source corpora (`corpora/CHECKSUMS.json`). Submitters see the

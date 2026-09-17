@@ -16,9 +16,8 @@ with its reason.
   where it goes (`submissions/`), what the maintainer re-runs and rebuilds, how a
   disagreement is published, and what is refused. With a pull request template
   and `submissions/INDEX.md`.
-- **Rounds when the maintainer is also a submitter.** `bench/heldout.py
-  --salt-parts` derives the round's salt from one committed part per party, so no
-  party can steer the split alone.
+- **Rounds with several parties.** `bench/heldout.py --salt-parts` derives the
+  round's salt from one committed part per party, so no party chooses the split.
 
 - **The reference engines can be rebuilt from public sources.** `engines/build.sh`
   builds Stockfish 19, MateHunter 19 and Huntsman 1 at pinned commits, with

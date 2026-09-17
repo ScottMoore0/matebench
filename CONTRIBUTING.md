@@ -92,31 +92,21 @@ hash, so anyone can re-run it. A re-run that disagrees is itself a pull request:
 add `submissions/<engine>-<version>/replications/<your-name>/` with your logs and
 `RUN.md`. Disagreements are recorded next to the original.
 
-## 7. Held-out rounds while the maintainer is also a submitter
+## 7. Held-out rounds with more than one party
 
-`docs/HELDOUT.md` describes a round: the maintainer commits to `sha256(salt)`,
-the salt decides the split, and the salt is published at the close. That assumes
-a maintainer who is not also entering an engine. Today that assumption does not
-hold: round 1 was run by the maintainer of this repository, who also entered
-MateHunter 19, and `rounds/round-1/CLOSE.md` says so.
+`docs/HELDOUT.md` describes a round with one salt: it is committed to as
+`sha256(salt)` before the pool exists, it decides the split, and it is published
+at the close. A round with several parties can split the salt between them, so
+that no one chooses the split:
 
-Until there is an independent maintainer, a round is run like this:
-
-1. **Every party commits.** The maintainer and each submitter publish
-   `sha256(part)` of a secret string of their own, before the pool is generated.
+1. **Every party commits.** Each publishes `sha256(part)` of a secret string of
+   its own, before the pool is generated.
 2. **The salt is all the parts.** At split time,
-   `bench/heldout.py <corpus> --salt-parts <maintainer part> <submitter part> ...`
-   derives the salt as sha256 of the parts joined by newlines, in the order
-   `OPEN.md` lists them. No party can choose the split alone, and any party can
-   check afterwards that its part was used.
+   `bench/heldout.py <corpus> --salt-parts <part> <part> ...` derives the salt as
+   sha256 of the parts joined by newlines, in the order `OPEN.md` lists them. Any
+   party can check afterwards that its part was used.
 3. **Everything is published at the close:** every part, the pool, the metadata,
-   and every log.
-
-This does not make a self-run round independent. It removes the one thing a
-maintainer could otherwise do quietly, which is steer the split. The rest rests
-on what is published: the pre-registered plan, the corpus hash, the engines'
-build recipes, and logs anyone can re-run. Read a self-run round with that in
-mind, and re-run it.
+   and every log, so the split can be reproduced and any run repeated.
 
 ## 8. What will not be accepted
 
