@@ -64,7 +64,7 @@ reproduced by anyone else. The tracks and budgets do not depend on either.
 
 ## Finding, verified - MateProver vs Matefish (`vs_matefish_v020_2026-09-13.log`)
 
-60 positions, d8–16, 10 s each, single-threaded. Claims verified by MateProver
+60 positions, d8-16, 10 s each, single-threaded. Claims verified by MateProver
 `--direct-depth`. Re-measured 2026-09-13 with MateProver 0.2.0; the 2026-09-12
 run with 0.1.0 (`vs_matefish_2026-09-12.log`) used the same protocol, and the
 minimality row of the run before that was not measuring minimality, see the
@@ -79,11 +79,11 @@ retraction below.
 | d16 | 12 | 8 | 7 | 7 |
 | **total** | **60** | **46** | 46 | **42** |
 
-Paired: Matefish +0/−4, 4 discordant, **p = 0.125 - parity, not established
+Paired: Matefish +0/-4, 4 discordant, **p = 0.125 - parity, not established
 either way**. The 0.1.0 run gave 45 and 41 with the same paired result: one d14
 position for each engine sits on the edge of the 10-second clock.
 
-**Minimality: MateProver 14/60**, by band 7/3/3/1/0 across d8–d16; Matefish n/a
+**Minimality: MateProver 14/60**, by band 7/3/3/1/0 across d8-d16; Matefish n/a
 (echoes the bound). The minimality lane runs `--no-portfolio`: a restricted
 lane searches the requested depth directly and cannot establish a shortest
 mate, so leaving the portfolio on spends the budget on lanes that are
@@ -106,15 +106,15 @@ not independent of matetrack" below).
 
 | band | n | MateHunter | Huntsman | MH only | HS only | p |
 |---|---|---|---|---|---|---|
-| d14–17 | 196 | 157 | 147 | 24 | 14 | 0.143 |
-| **d18–21** | 76 | 56 | 42 | 16 | 2 | **0.001** |
-| d22–25 | 30 | 14 | 14 | 6 | 6 | 1.000 |
-| d26–30 (all 65) | 65 | 19 | 28 | 2 | 11 | 0.022 |
+| d14-17 | 196 | 157 | 147 | 24 | 14 | 0.143 |
+| **d18-21** | 76 | 56 | 42 | 16 | 2 | **0.001** |
+| d22-25 | 30 | 14 | 14 | 6 | 6 | 1.000 |
+| d26-30 (all 65) | 65 | 19 | 28 | 2 | 11 | 0.022 |
 | d31+ (all 155) | 155 | 24 | 37 | 6 | 19 | 0.015 |
 
 Two opposite, established effects. **With `MateMode=false`** the deep rows
-become 64 vs 65 (+17/−18, p = 1.0) and the d18–21 lead holds (+15/−2, p = 0.002);
-MateHunter against itself on the 234 deep positions: +28/−7, p = 0.0005. With
+become 64 vs 65 (+17/-18, p = 1.0) and the d18-21 lead holds (+15/-2, p = 0.002);
+MateHunter against itself on the 234 deep positions: +28/-7, p = 0.0005. With
 `MateEval=false` it loses everywhere (154 vs 231 on the 400-sample).
 
 ## Finding - MateHunter 19 vs Huntsman 1 (`vs_huntsman_*_2026-09-14.log`, `verify_claims_*_huntsman_2026-09-14.log`)
@@ -126,11 +126,11 @@ In-sample for MateHunter: 2,460 of these 2,477 positions are in matetrack.
 | positions | MateHunter 19, recommended | MateHunter 19, full evaluator | Huntsman 1 | Stockfish 19 |
 |---|---|---|---|---|
 | d14+, 953 | **590** | 586 | 542 | 343 |
-| d10–13, 1,524 | **1,225** | 1,176 | 1,101 | 757 |
+| d10-13, 1,524 | **1,225** | 1,176 | 1,101 | 757 |
 
-On reported mates, the recommended profile against Huntsman is +131/−83 at d14+
-(p = 0.0013) and +239/−115 at d10–13 (p < 0.0001). By band at d14+: d14–17
-+71/−28, d18–21 +28/−17 (p = 0.14), d22–25 +15/−10, d26–30 +6/−11, d31+ +11/−17,
+On reported mates, the recommended profile against Huntsman is +131/-83 at d14+
+(p = 0.0013) and +239/-115 at d10-13 (p < 0.0001). By band at d14+: d14-17
++71/-28, d18-21 +28/-17 (p = 0.14), d22-25 +15/-10, d26-30 +6/-11, d31+ +11/-17,
 none of the last three below p = 0.3.
 
 **Claims re-proved** (`bench/verify_claims.py`: MateProver 0.2.0 `--direct-depth
@@ -143,10 +143,10 @@ made, and a seeded sample of 100 both made.
 | Huntsman only, 198 | 97 | 0 | 101 |
 | both made, 100 (MateHunter / Huntsman) | 74 / 73 | 0 / 0 | 26 / 27 |
 
-On verified discordant claims only: **+220/−97 (p < 0.0001)** - d10–13 +177/−73,
-d14–17 +31/−8 (p = 0.0003), d18–21 +9/−9, d22+ +3/−7. The full king-danger
-evaluator gives the same picture: +193/−105 verified (+132/−88 reported at d14+,
-+198/−123 at d10–13).
+On verified discordant claims only: **+220/-97 (p < 0.0001)** - d10-13 +177/-73,
+d14-17 +31/-8 (p = 0.0003), d18-21 +9/-9, d22+ +3/-7. The full king-danger
+evaluator gives the same picture: +193/-105 verified (+132/-88 reported at d14+,
++198/-123 at d10-13).
 
 1. **MateHunter 19 is clearly ahead of Huntsman from mate in 10 to 17**, on
    reported and verified claims alike.
@@ -168,10 +168,10 @@ holds over the whole corpus, not just bench.
 
 | band | n | MateHunter 19 | Stockfish 19 | MH only | SF only | p |
 |---|---|---|---|---|---|---|
-| d14–17 | 449 | 349 | 220 | 148 | 19 | <0.0001 |
-| d18–21 | 186 | 123 | 69 | 61 | 7 | <0.0001 |
-| d22–25 | 84 | 53 | 26 | 31 | 4 | <0.0001 |
-| d26–30 | 65 | 26 | 11 | 18 | 3 | 0.0015 |
+| d14-17 | 449 | 349 | 220 | 148 | 19 | <0.0001 |
+| d18-21 | 186 | 123 | 69 | 61 | 7 | <0.0001 |
+| d22-25 | 84 | 53 | 26 | 31 | 4 | <0.0001 |
+| d26-30 | 65 | 26 | 11 | 18 | 3 | 0.0015 |
 | d31+ | 169 | 35 | 17 | 21 | 3 | 0.0003 |
 | **total** | **953** | **586** | **343** | **279** | **36** | **<0.0001** |
 
@@ -188,19 +188,19 @@ holds over the whole corpus, not just bench.
 | **escape squares only** | **635** |
 
 - **A constant evaluation does as well as the full evaluator:** 590 against 586,
-  +68/−64 paired, p = 0.79. Nearly all of the gain over stock comes from *not*
+  +68/-64 paired, p = 0.79. Nearly all of the gain over stock comes from *not*
   using NNUE's game-outcome evaluation, not from knowledge of king danger. The
   earlier account - MateEval works because it ignores material while measuring
   king danger - is half right, and the half that matters is ignoring material.
 - **It is not the pruning MateMode gates.** Switching razoring, futility and
-  null-move pruning off under NNUE gains nothing (330 against 343, +73/−86,
+  null-move pruning off under NNUE gains nothing (330 against 343, +73/-86,
   p = 0.34), so a flat evaluation is not merely disabling those three.
 - **Escape squares beat the full evaluator but not a constant.** At d14+
-  escape-squares-only beat both (+89/−40 over the evaluator; +88/−43 over the
-  constant, p = 0.0001), but the second did NOT replicate at d10–13 (below), so
+  escape-squares-only beat both (+89/-40 over the evaluator; +88/-43 over the
+  constant, p = 0.0001), but the second did NOT replicate at d10-13 (below), so
   it is not a finding.
 - **Neither consumer alone reproduces it.** Main-search-only is level with stock
-  and quiescence-only is slightly worse (+65/−91, p = 0.045). These two arms put
+  and quiescence-only is slightly worse (+65/-91, p = 0.045). These two arms put
   two evaluation scales in one search - bench at depth 13 goes from 2.50M nodes
   for stock to 60.0M for main-search-only - so what they show is that the
   evaluation must be consistent across the search, not which consumer carries
@@ -210,24 +210,24 @@ holds over the whole corpus, not just bench.
 
 ### Replication on positions the run above did not use (`vs_stockfish_d10-13_2026-09-13.log`)
 
-ChestUCI d10–13, 1,524 positions the run above did not use, same budget and arms.
+ChestUCI d10-13, 1,524 positions the run above did not use, same budget and arms.
 This replication is out of sample for the d14+ run only. It is not out of MateHunter's
 tuning data: 1,517 of the 1,524 positions are in matetrack.
 
 | arm | solved | paired |
 |---|---|---|
 | stock Stockfish 19 | 757 | - |
-| NNUE with razoring, futility and null-move pruning off | 730 | +119/−146 vs stock, p = 0.11 |
-| full king-danger evaluator (shipped) | 1,176 | +478/−59 vs stock |
-| escape squares only | 1,210 | +116/−82 vs full evaluator, p = 0.019 |
-| **constant evaluation** | **1,225** | **+520/−52 vs stock; +145/−96 vs full evaluator, p = 0.002** |
+| NNUE with razoring, futility and null-move pruning off | 730 | +119/-146 vs stock, p = 0.11 |
+| full king-danger evaluator (shipped) | 1,176 | +478/-59 vs stock |
+| escape squares only | 1,210 | +116/-82 vs full evaluator, p = 0.019 |
+| **constant evaluation** | **1,225** | **+520/-52 vs stock; +145/-96 vs full evaluator, p = 0.002** |
 
 What replicates, and is therefore the finding:
 
 1. **MateHunter's gain over stock Stockfish 19 is real and large** at both depth
-   ranges: +279/−36 at d14+, +478/−59 at d10–13.
+   ranges: +279/-36 at d14+, +478/-59 at d10-13.
 2. **It comes from replacing NNUE's evaluation with a flat one.** A constant
-   evaluation matches the full evaluator at d14+ and beats it at d10–13. The
+   evaluation matches the full evaluator at d14+ and beats it at d10-13. The
    king-danger terms the fork was built around add nothing, and at shallower depth
    they cost positions.
 3. **It is not razoring, futility or null-move pruning.** Turning those off under
@@ -240,16 +240,16 @@ What replicates, and is therefore the finding:
 The same positions at 5 seconds a position instead of 10M nodes, one thread, 12
 positions at a time on an otherwise idle machine.
 
-| arm | d14+, 953 | d10–13, 1,524 | nps (d14+) |
+| arm | d14+, 953 | d10-13, 1,524 | nps (d14+) |
 |---|---|---|---|
 | stock Stockfish 19 | 324 | 715 | 1.44M |
 | full king-danger evaluator (shipped) | 592 | 1,195 | 2.57M |
 | **constant evaluation** | **606** | **1,244** | 2.80M |
 
 - **The constant evaluation is still at least as good as the full evaluator:**
-  +72/−58 at d14+ (p = 0.25; the d14–17 band alone +37/−20, p = 0.033) and
-  +136/−87 at d10–13 (p = 0.0013).
-- Against stock it is +308/−26 at d14+ and +565/−36 at d10–13.
+  +72/-58 at d14+ (p = 0.25; the d14-17 band alone +37/-20, p = 0.033) and
+  +136/-87 at d10-13 (p = 0.0013).
+- Against stock it is +308/-26 at d14+ and +565/-36 at d10-13.
 - The clock widens the gap over **stock** (both mate-oriented arms search close
   to twice stock's nodes per second), but barely changes the gap between the two
   flat evaluations, which differ in speed by about 9%.
@@ -259,17 +259,17 @@ positions at a time on an otherwise idle machine.
 `MateEvalOff` switches off one consumer of the static evaluation per bit. Every
 switch was run at 10M nodes on d14+ twice: under the constant evaluation
 (against the constant evaluation) and under NNUE (against the all-off control).
-The switches that moved anything were re-run on d10–13.
+The switches that moved anything were re-run on d10-13.
 
-| switched off | constant, d14+ | constant, d10–13 | NNUE, d14+ | NNUE, d10–13 |
+| switched off | constant, d14+ | constant, d10-13 | NNUE, d14+ | NNUE, d10-13 |
 |---|---|---|---|---|
 | nothing | 590 | 1,225 | 343 | 757 |
-| correction history in the static evaluation only | **169** (+5/−426) | **732** (+45/−538) | 293 (+22/−72) | 710 (+60/−107) |
-| correction history everywhere | 159 (+8/−439) | 677 (+48/−596) | 300 (+30/−73) | 689 (+66/−134) |
-| quiet-move futility pruning | 556 (+47/−81, p = 0.003) | 1,181 (+77/−121, p = 0.002) | 288 (+28/−83) | 673 (+66/−150) |
-| improving flags | 542 (+42/−90) | 1,194 (+88/−119, p = 0.037) | 314 (+39/−68, p = 0.007) | 737 (+71/−91, p = 0.14) |
-| aspiration windows | 567 (+64/−87, p = 0.07) | - | 309 (+43/−77, p = 0.002) | 719 (+76/−114, p = 0.007) |
-| each of the other seven | 570–587, none p < 0.05 | - | 323–334 | - |
+| correction history in the static evaluation only | **169** (+5/-426) | **732** (+45/-538) | 293 (+22/-72) | 710 (+60/-107) |
+| correction history everywhere | 159 (+8/-439) | 677 (+48/-596) | 300 (+30/-73) | 689 (+66/-134) |
+| quiet-move futility pruning | 556 (+47/-81, p = 0.003) | 1,181 (+77/-121, p = 0.002) | 288 (+28/-83) | 673 (+66/-150) |
+| improving flags | 542 (+42/-90) | 1,194 (+88/-119, p = 0.037) | 314 (+39/-68, p = 0.007) | 737 (+71/-91, p = 0.14) |
+| aspiration windows | 567 (+64/-87, p = 0.07) | - | 309 (+43/-77, p = 0.002) | 719 (+76/-114, p = 0.007) |
+| each of the other seven | 570-587, none p < 0.05 | - | 323-334 | - |
 
 The other seven are eval-difference move ordering, ProbCut, capture futility,
 move-count pruning, the LMR eval term, quiescence futility and history bonus
@@ -283,7 +283,7 @@ What replicates, and is therefore the finding:
    results differ from the static evaluation, keyed by pawn structure, minor
    pieces, non-pawn material and the preceding moves. Take that term out of the
    static evaluation and the arm falls from 590 to 169 at d14+ and from 1,225 to
-   732 at d10–13 - below stock both times. **A genuinely flat evaluation is
+   732 at d10-13 - below stock both times. **A genuinely flat evaluation is
    worse than NNUE.**
 2. **So MateHunter's gain comes from replacing NNUE's evaluation with one learned
    inside the current search.** Removing correction history from the evaluation
@@ -302,7 +302,7 @@ not a separate measurement.
 ### Recommended profile
 
 **`MateEval=true`, `MateEvalNull=true`, `MateMode=false`**, replacing the full
-king-danger evaluator. It matches the evaluator at d14+ and beats it at d10–13,
+king-danger evaluator. It matches the evaluator at d14+ and beats it at d10-13,
 under a node budget (590 vs 586; 1,225 vs 1,176, p = 0.002) and under a clock
 (606 vs 592; 1,244 vs 1,195, p = 0.0013), and what it does can now be stated
 exactly. Since 2026-09-13 it is also the engine's default (bench at defaults
@@ -332,8 +332,8 @@ whole corpora, both proving the shortest solution, 10 s a position:
   median 90,362 nodes, max 20.4M; 1M verifies as many claims as 4M; derivation
   controlled 6/6 at both ends of the cost range.
 - **Ninth portfolio lane** (`lane9_*.log`): at a real lane budget, 1 rescued
-  position of 45 at both d10–14 and d16–20. The restriction family is exhausted.
-- **Lane-0 weight** (`lane0_sweep_2026-08-30.log`): flat 30–90%.
+  position of 45 at both d10-14 and d16-20. The restriction family is exhausted.
+- **Lane-0 weight** (`lane0_sweep_2026-08-30.log`): flat 30-90%.
 - **Defender-reply pruning** (`beam_experiment_2026-09-04.log`, `bench/beam_experiment.py`):
   MateProver `--beam-defender K` (keep the first K replies in the engine's own
   ordering, unsound, every claim re-proved at 50M nodes) against plain
@@ -392,9 +392,9 @@ equals the tablebase depth on all 24 it finished, none shorter and none longer;
 | MateHunter 19, recommended profile, 10M nodes | 73.3% | 53.8% |
 | Stockfish 19, 10M nodes | 44.4% | **60.3%** |
 
-Paired, MateProver against Stockfish 19 is +851/−196 on ChestUCI and +11/−134
-on the tablebase set; MateHunter against Stockfish 19 is +803/−88 on ChestUCI and
-+30/−64 on the tablebase set.
+Paired, MateProver against Stockfish 19 is +851/-196 on ChestUCI and +11/-134
+on the tablebase set; MateHunter against Stockfish 19 is +803/-88 on ChestUCI and
++30/-64 on the tablebase set.
 
 | material | positions | MateProver | MateHunter | Stockfish 19 |
 |---|---|---|---|---|
@@ -407,8 +407,8 @@ on the tablebase set; MateHunter against Stockfish 19 is +803/−88 on ChestUCI 
 
 1. **The ranking reverses.** Both engines that lead on composed problems trail on
    tablebase endgames, and the engine last on ChestUCI is first here.
-2. **MateProver is hit hardest beyond mate in 13:** 17 of 160 at d14–17 and 0 of
-   120 at d18–21, against MateHunter's 87 and 19. Its source already notes that
+2. **MateProver is hit hardest beyond mate in 13:** 17 of 160 at d14-17 and 0 of
+   120 at d18-21, against MateHunter's 87 and 19. Its source already notes that
    proof numbers carry no signal with this little material; this measures it on
    directmate.
 3. **Stockfish 19's lead is where the defender keeps a piece** (KRvKR, KQvKR),
@@ -559,7 +559,7 @@ this document: a result that is sound for the question a restricted lane IS
 asked, counted against a question it is not.
 
 The +24 finder-lane figure, "MateHunter is behind Huntsman", "Matefish is a
-weak proposer", and the −998 worst position at ply 5 from the ChessDB scans were
+weak proposer", and the -998 worst position at ply 5 from the ChessDB scans were
 each retracted here. Each was a
 two-variable comparison, a default left off, or a bound calibrated on the
 previous ply. They are kept in the logs because the failure shapes are the

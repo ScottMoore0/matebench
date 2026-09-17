@@ -45,7 +45,7 @@ changes the count. The budget binds only claims without a certificate, so a
 submission whose mates are beyond it can still have them verified by supplying
 certificates (SUBMISSION.md).
 
-Scored per band; bands are d8–12, d13–17, d18–21, d22–25, d26–30, d31+.
+Scored per band; bands are d8-12, d13-17, d18-21, d22-25, d26-30, d31+.
 
 ## 2. Speed - time to a verified find
 
@@ -58,7 +58,7 @@ subtracted where it is not negligible; at ~5 ms it usually is.
 
 The submission must state the shortest mate, and the certificate must prove
 that no shorter one exists. Alpha-beta engines cannot enter: an alpha-beta "no
-mate in N−1" means "not found within budget", not "does not exist". A
+mate in N-1" means "not found within budget", not "does not exist". A
 `--direct-depth`-style answer is a finding result and scores on track 1, never
 here.
 
