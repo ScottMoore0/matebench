@@ -13,6 +13,27 @@
     "sha256": "16711d754b0d1798b6547c764980fd5dacace334ce3e760a693d1ea4e6607713",
     "source": "bench/generate_corpus.py; seed and parameters in generated.meta.json"
   },
+  "generated-deep": {
+    "file": "generated-deep.epd",
+    "positions": 2428,
+    "recorded": "2026-09-16",
+    "sha256": "9b3f453d045a774ac6bc09dc7babff3be86ee9126535cdac870c8fbb40152250",
+    "source": "bench/generate_corpus.py; seed and parameters in generated-deep.meta.json"
+  },
+  "generated-deep-6to8-reachable": {
+    "file": "generated-deep-6to8-reachable.epd",
+    "positions": 1171,
+    "recorded": "2026-09-17",
+    "sha256": "5e06cec70d6b8373e40a2809edb8de39926cdf203d3774fa4bbeb7f6a8b47022",
+    "source": "generated-deep.epd at mate in 6 to 8, without positions reachable_material rejects (studies/clock/PLAN.md)"
+  },
+  "generated-deeper": {
+    "file": "generated-deeper.epd",
+    "positions": 8263,
+    "recorded": "2026-09-17",
+    "sha256": "bd3a9da6c2556e16ec2c7be1d3e1fbbb4456d2ac877503064118c0754dcf921a",
+    "source": "bench/generate_corpus.py; seed and parameters in generated-deeper.meta.json"
+  },
   "matetrack": {
     "file": "matetrack.epd",
     "positions": 6528,

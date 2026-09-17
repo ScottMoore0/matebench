@@ -5,6 +5,9 @@ results/*.json
 *.log.tmp
 corpora/*.epd
 !corpora/generated.epd
+!corpora/generated-deep.epd
+!corpora/generated-deeper.epd
+!corpora/generated-deep-6to8-reachable.epd
 corpora/*.jsonl
 !corpora/PROVENANCE.md
 !corpora/fetch_corpora.py
