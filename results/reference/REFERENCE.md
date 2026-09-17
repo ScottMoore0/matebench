@@ -1,9 +1,44 @@
 # Reference results
 
-Every number below was produced by a script in `bench/` and the raw log is in
-this directory, dated. Where a result is *not established* it says so. Read the
-configuration column: two of these engines are measured at settings that are
-not their defaults, because their defaults switch the mate solver off.
+Every number below was produced by a script in `bench/`, and the raw log is in
+this directory or in the study it names, dated. Where a result is *not
+established* it says so. Read the configuration column: Matefish is measured at
+settings that are not its defaults, because its defaults switch its mate solver
+off, and MateHunter 19 has two profiles whose results differ.
+
+## Summary
+
+- **Out of sample, Huntsman 1 is the strongest UCI mate finder measured.** On
+  generated positions no engine was tuned on, up to mate in 11, it leads
+  MateHunter 19 and stock Stockfish 19 at equal nodes from mate in 6, and at every
+  clock from 500 ms to 10 s at p < 0.0001 (+74/-6 against MateHunter's recommended
+  profile at 5 s on mate in 10 and 11).
+- **MateHunter 19 beats stock Stockfish 19 out of sample only under a clock of
+  about 2 seconds or more,** on mate in 9 to 11; never at equal nodes, where its
+  faster search counts for nothing. Below 2 seconds its king-danger evaluator is
+  the better profile.
+- **Every MateHunter result on ChestUCI is in-sample:** 6,526 of ChestUCI's 6,545
+  positions are in matetrack, which MateHunter was tuned on. Its ChestUCI margins
+  (+478/-59 at mate in 10 to 13) are far larger than anything it shows elsewhere.
+- **No claim by any engine was refuted** in any out-of-sample measurement.
+- **MateProver:** level with Matefish on finding (p = 0.125), well ahead of Chest
+  3.19 on selfmate and mate in 10, and weakest on tablebase endgames, where the
+  ranking of all three engines reverses.
+
+## Contents
+
+- Engines and configurations
+- Finding - MateProver vs Matefish
+- Finding - MateHunter 18 vs Huntsman, and MateHunter 19 vs Huntsman 1 (ChestUCI,
+  in-sample for MateHunter)
+- Finding - MateHunter 19 vs stock Stockfish 19 (ChestUCI, in-sample), with the
+  mechanism study and the recommended profile
+- All six goals - MateProver vs Chest 3.19
+- Budgets and gates
+- Tablebase positions as a corpus - pilot
+- ChestUCI is not independent of matetrack
+- Out of sample: generated positions (round 1, depth, clocks and Huntsman)
+- Retracted, and why it is recorded
 
 ## Engines and configurations
 
@@ -19,11 +54,11 @@ reproduced by anyone else. The tracks and budgets do not depend on either.
 
 | engine | base | manifest used | notes |
 |---|---|---|---|
-| MateProver 0.2.0 | own DFPN | defaults; `--direct-depth` on finding tracks, `--iterative-depth` on minimality | emits certificates; MIT, https://github.com/ScottMoore0/mateprover at tag v0.2.0. Search unchanged from 0.1.0: with the portfolio off, output is byte-identical to 0.1.0 on 30 ChestUCI positions in both modes, and `genverify_control` reproduces exactly. With the portfolio on, lanes race, so lines and node counts vary run to run in both versions while solved positions and mate lengths do not |
+| MateProver 0.2.0 | own DFPN | defaults; `--direct-depth` on finding tracks, `--iterative-depth` on minimality | emits certificates; MIT, https://github.com/ScottMoore0/mateprover at tag v0.2.0. Version 0.3.0 adds absence and minimality certificates and leaves the search and the proof checker unchanged, so every result here holds for it. Search unchanged from 0.1.0: with the portfolio off, output is byte-identical to 0.1.0 on 30 ChestUCI positions in both modes, and `genverify_control` reproduces exactly. With the portfolio on, lanes race, so lines and node counts vary run to run in both versions while solved positions and mate lengths do not |
 | MateHunter 18 | Stockfish 18 fork | `MateEval=true`, `MateMode=false` | shipped default as of 2026-09-02; `MateMode=true` costs 21/234 at d26+ |
 | MateHunter 19 | Stockfish 19 fork | `MateEval=true`, `MateMode=false`, every other mate option set off explicitly | port of the 18 fork; with every mate option off it is node-for-node identical to stock (bench 2,497,913). Recommended profile from 2026-09-13 adds `MateEvalNull=true`, and is the engine's default from the same date; see "Recommended profile" |
 | Stockfish 19 | own (NNUE) | defaults with `Threads=1`, `Hash=256` | https://stockfishchess.org; built from the release source with the fork's compiler and flags |
-| Huntsman 1 | Stockfish fork | `MateSearch=true` (its default) | recorded as over-claiming and echoing toward the bound, though none of the 298 of its claims re-proved on 2026-09-14 was refuted; by joergoster, https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary used self-identifies as `The Huntsman 1`) |
+| Huntsman 1 | Stockfish fork | `MateSearch=true` (its default) | recorded as over-claiming and echoing toward the bound, though none of its claims re-proved since 2026-09-14 has been refuted; by joergoster, https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary used self-identifies as `The Huntsman 1`) |
 | Matefish 170826 | Stockfish + PNS | `ProofNumberSearch=true`, `PNS Hash=4096` | **both default off/small**; at defaults it abandons a d14 search in 0.2 s |
 | Chest 3.19 | own | `WinChest.exe`, job on stdin, 2048 MB, `UseDatabase=false` | 1999-era; endgame databases off (they reach ~1% of proof nodes here). **Not `ChestUCI.exe`**: that is the GUI/UCI wrapper, and fed a job it spins with no output, which a harness scores as a timeout |
 
@@ -126,8 +161,8 @@ evaluator gives the same picture: +193/−105 verified (+132/−88 reported at d
 ## Finding - MateHunter 19 vs stock Stockfish 19 (`vs_stockfish_2026-09-12.log`)
 
 ChestUCI, all 953 positions at d14+, 10M nodes, 1 thread, paired. In-sample for
-MateHunter: 943 of these 953 positions are in matetrack. MateHunter is a Stockfish 19 derivative on the same source,
-network, compiler and flags. With every mate option off it is node-for-node
+MateHunter: 943 of these 953 positions are in matetrack. MateHunter is a
+Stockfish 19 derivative on the same source, network, compiler and flags. With every mate option off it is node-for-node
 identical to stock, and here 343 = 343 with zero discordant positions: the control
 holds over the whole corpus, not just bench.
 
@@ -272,13 +307,14 @@ under a node budget (590 vs 586; 1,225 vs 1,176, p = 0.002) and under a clock
 (606 vs 592; 1,244 vs 1,195, p = 0.0013), and what it does can now be stated
 exactly. Since 2026-09-13 it is also the engine's default (bench at defaults
 5,314,178 nodes; with every mate option off, still stock's 2,497,913). The
-harness sets every toggle
-explicitly and so should anyone reproducing these numbers.
+harness sets every toggle explicitly, and so should anyone reproducing these
+numbers. All of this is on ChestUCI, so in-sample; out of sample it is the better
+profile only from about 2 seconds a position (see "Out of sample" below).
 
 ## All six goals - MateProver vs Chest 3.19
 
-From `mateprover/docs/RESULTS.md`, whole corpora, both proving the shortest
-solution, 10 s a position:
+From MateProver's `docs/RESULTS.md` (https://github.com/ScottMoore0/mateprover),
+whole corpora, both proving the shortest solution, 10 s a position:
 
 | goal | corpus | Chest | MateProver |
 |---|---|---|---|
@@ -426,13 +462,21 @@ unexposed either. Chest 3.19 predates both corpora.
 positions that no engine could have seen, in held-out round 1
 (`rounds/round-1/`) and on that round's development split below.
 
-## Out of sample: held-out round 1 (`rounds/round-1/`)
+## Out of sample: generated positions
+
+Every measurement in this section ran on positions generated by
+`bench/generate_corpus.py`: stepped back from random checkmates, each labelled
+with its shortest mate as proved by MateProver, disjoint from matetrack and
+ChestUCI by construction, and generated after every binary measured was built.
+Each measurement's plan, budgets and comparisons were committed before any engine
+ran. Finding track, verified claims, one thread; no claim by any engine was
+refuted.
+
+### Held-out round 1 (`rounds/round-1/`)
 
 MateHunter 19 (recommended profile), Stockfish 19 and Huntsman 1 on 4,934
-generated positions, disjoint from matetrack and ChestUCI by construction and
-generated after all three binaries were built: a salted 20% held out (972) and
-the development split (3,962). Budgets and comparisons were committed before any
-engine ran. Finding track, verified claims, one thread; no claim was refuted.
+positions, mate in 1 to 9: a salted 20% held out (972) and the development split
+(3,962).
 
 | set, budget | MateHunter 19 | Stockfish 19 | Huntsman 1 | MateHunter vs Stockfish | MateHunter vs Huntsman |
 |---|---:|---:|---:|---|---|
@@ -443,39 +487,63 @@ engine ran. Finding track, verified claims, one thread; no claim was refuted.
 | development, 100,000 | 3,320 | 3,570 | 3,727 | +57/-307, p < 0.0001 | +29/-436, p < 0.0001 |
 | development, 10,000 | 2,619 | 3,118 | 3,269 | +25/-524, p < 0.0001 | +10/-660, p < 0.0001 |
 
-1. **The ChestUCI advantage of MateHunter 19 over stock Stockfish 19 does not
-   appear on these positions.** Level at 10,000,000 nodes on both sets; behind at
-   100,000 and 10,000 on both, at p < 0.0001.
-2. **Huntsman 1 leads both engines** at every budget on both sets.
-3. **Not established: why.** Tuning on matetrack, the pool's depth (none deeper
-   than mate in 9, against a ChestUCI gain measured from mate in 10) and the kind
-   of position (descended from random checkmates, which the tablebase pilot
-   suggests can reverse rankings) all remain. `rounds/round-1/CLOSE.md` gives the
-   per-band detail and what would separate them.
+At equal nodes, MateHunter's ChestUCI advantage over stock does not appear: level
+at 10,000,000 nodes on both sets, behind at 100,000 and 10,000 at p < 0.0001.
+Huntsman 1 leads both at every budget. The round left open why: tuning, depth
+(none deeper than mate in 9), the kind of position, or the budget. The studies
+below take depth and budget in turn.
 
-**Depth, up to mate in 8** (`studies/depth/`). A pre-registered follow-up on
-2,428 further generated positions, measured one mate length at a time, found no
-depth at which MateHunter 19 finds more mates than Stockfish 19: at 10,000,000
-nodes +13/-23 at mate in 8 (p = 0.13), behind from mate in 6, and behind at every
-depth from mate in 2 at 100,000 and 10,000 nodes. Huntsman 1 leads both from mate
-in 6. A second pre-registered measurement reached mate in 9 to 11 (993
-positions): at 10,000,000 nodes MateHunter against Stockfish is +50/-69 at mate
-in 9 and +25/-37 at mate in 10 and 11 together (p = 0.16), against +478/-59 on
-ChestUCI at mate in 10 to 13. At no depth from mate in 1 to 11 is MateHunter
-ahead. That counts against depth as the explanation up to mate in 11; mate in 12
-and deeper, and composed problems, are untested (`studies/depth/RESULTS-DEEPER.md`).
+### Depth, at equal nodes (`studies/depth/`)
 
-**Under a clock** (`studies/profile/`). Every result above compares search per
-node, and the recommended profile searches about 2.7 times as many nodes per
-second as Stockfish 19. A pre-registered test at 5,000 ms on the mate in 10 and 11
-positions found it ahead: +39/-20 (p = 0.018), replicated at half the concurrency
-as +42/-20 (p = 0.007), and +86/-40 at mate in 9. At 1,000 ms it is level at mate
-in 6 to 8 and behind at 9 to 11 (+100/-137), where the king-danger evaluator does
-better. So out of sample MateHunter's advantage is real at 5 seconds, far smaller
-than ChestUCI's (about 12% more mates against 74%), and absent at 1 second.
+2,428 further positions at mate in 1 to 8, and 993 at mate in 9 to 11, measured
+one mate length at a time. At 10,000,000 nodes MateHunter 19 is never ahead of
+Stockfish 19: +13/-23 at mate in 8 (p = 0.13), +50/-69 at mate in 9, +25/-37 at
+mate in 10 and 11 together (p = 0.16), against +478/-59 on ChestUCI at mate in 10
+to 13. It is behind at every depth from mate in 2 at 100,000 and 10,000 nodes.
+Huntsman 1 leads both from mate in 6. Depth does not explain the ChestUCI gain up
+to mate in 11. The first corpus held 39 positions no game can reach, which
+Stockfish and MateHunter refuse; the generator now rejects them, and no
+comparison between those two engines changes without them.
 
-Treat MateHunter's ChestUCI margins as in-sample, and its out-of-sample advantage
-as established only at a 5-second clock on generated positions.
+### Under a clock (`studies/profile/`, `studies/clock/`)
+
+Node budgets compare search per node, and MateHunter's recommended profile
+searches about 2.7 times as many nodes per second as Stockfish 19 (4.0M against
+1.5M). At equal time, verified mates:
+
+| positions | clock | Stockfish 19 | recommended | king-danger | Huntsman 1 | recommended vs Stockfish | Huntsman vs recommended |
+|---|---|---:|---:|---:|---:|---|---|
+| mate in 9 to 11, 993 | 500 ms | 293 | 215 | 285 | 630 | +86/-164, p < 0.0001 | +440/-25 |
+| | 1 s | 411 | 374 | 411 | 695 | +100/-137, p = 0.019 | +355/-34 |
+| | 2 s | 473 | 524 | 484 | 741 | +143/-92, p = 0.0011 | +256/-39 |
+| | 5 s | 585 | 650 | 620 | 776 | +125/-60, p < 0.0001 | +157/-31 |
+| | 10 s | 645 | 691 | 670 | 795 | +99/-53, p = 0.0002 | +122/-18 |
+| mate in 10 and 11, 304 | 5 s | 161 | 180 | 181 | 248 | +39/-20, p = 0.018 | **+74/-6** |
+| mate in 6 to 8, 1,171 | 500 ms | 719 | 699 | 749 | 908 | +121/-141, p = 0.24 | +270/-61 |
+| | 1 s | 844 | 844 | 878 | 972 | +103/-103, p = 1.0 | +178/-50 |
+| | 2 s | 914 | 929 | 941 | 1,011 | +87/-72, p = 0.27 | +132/-50 |
+| | 5 s | 984 | 1,003 | 1,014 | 1,049 | +59/-40, p = 0.070 | +70/-24 |
+
+Every Huntsman comparison is p < 0.0001. The 5 s comparison on mate in 10 and 11
+was repeated at half the concurrency with its own cache: recommended against
+Stockfish +42/-20 (p = 0.007).
+
+1. **Huntsman 1 leads every engine at every clock**, and by the widest margin at
+   short clocks. It also led at equal nodes, so its lead is not speed.
+2. **MateHunter's recommended profile overtakes stock at about 2 seconds a
+   position** on mate in 9 to 11, and stays ahead at 5 and 10 s. Below that it is
+   behind. On mate in 6 to 8 it is never significantly ahead.
+3. **The king-danger evaluator is the better profile at 500 ms and 1 s**, and the
+   only one ahead of stock on mate in 6 to 8 (at 1, 2 and 5 s). The recommended
+   profile is better at 2 and 5 s on mate in 9 to 11; at 10 s they are level.
+4. MateHunter's ChestUCI margin under a 5 s clock (1,244 against 715 at mate in 10
+   to 13, 74% more mates) is far larger than its margin here (12% more at mate in
+   10 and 11), so tuning or the kind of position, or both, still accounts for most
+   of it.
+
+Clock results belong to the machine they ran on (AMD Ryzen 9 7945HX, 16 cores,
+WSL2, 8 searches at a time). What remains untested: mate in 12 and deeper, and
+composed problems outside matetrack.
 
 ## Retracted, and why it is recorded
 
@@ -486,12 +554,13 @@ directly and proves "a mate within N", never "the shortest mate is N", and the
 harness counted any reported depth. So the lane that could answer was outrun on
 every position by lanes that could not. The figure was not an overstatement of
 a real measurement; there was no measurement. Re-run with `--no-portfolio` on
-that lane alone, the honest number is 14/60. The failure shape is the one at 98
-and 61: a result that is sound for the question a restricted lane IS asked,
-counted against a question it is not.
+that lane alone, the honest number is 14/60. The failure shape recurs through
+this document: a result that is sound for the question a restricted lane IS
+asked, counted against a question it is not.
 
 The +24 finder-lane figure, "MateHunter is behind Huntsman", "Matefish is a
-weak proposer", and the −998 x=5 record were each retracted here. Each was a
+weak proposer", and the −998 worst position at ply 5 from the ChessDB scans were
+each retracted here. Each was a
 two-variable comparison, a default left off, or a bound calibrated on the
 previous ply. They are kept in the logs because the failure shapes are the
 content of this benchmark's rules.

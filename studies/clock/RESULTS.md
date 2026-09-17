@@ -41,8 +41,8 @@ Every Huntsman comparison in this table is p < 0.0001.
 **Crossover: 2 seconds.** On mate in 9 to 11 the recommended profile is behind
 Stockfish 19 at 500 ms and 1 s, and ahead at 2 s (+143/-92, p = 0.0011), 5 s and
 10 s, and it is not behind at any clock longer than 2 s. By the plan's
-definition the crossover is 2 s, somewhere between 1 and 2 seconds a position on
-this machine.
+definition the crossover is 2 s: on this machine the profiles cross somewhere
+between 1 and 2 seconds a position.
 
 **Profile advice on mate in 9 to 11,** by the plan's rule:
 
