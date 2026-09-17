@@ -465,8 +465,17 @@ ChestUCI at mate in 10 to 13. At no depth from mate in 1 to 11 is MateHunter
 ahead. That counts against depth as the explanation up to mate in 11; mate in 12
 and deeper, and composed problems, are untested (`studies/depth/RESULTS-DEEPER.md`).
 
-Until that is settled, treat the recommended profile, and every MateHunter
-result above, as established on ChestUCI only.
+**Under a clock** (`studies/profile/`). Every result above compares search per
+node, and the recommended profile searches about 2.7 times as many nodes per
+second as Stockfish 19. A pre-registered test at 5,000 ms on the mate in 10 and 11
+positions found it ahead: +39/-20 (p = 0.018), replicated at half the concurrency
+as +42/-20 (p = 0.007), and +86/-40 at mate in 9. At 1,000 ms it is level at mate
+in 6 to 8 and behind at 9 to 11 (+100/-137), where the king-danger evaluator does
+better. So out of sample MateHunter's advantage is real at 5 seconds, far smaller
+than ChestUCI's (about 12% more mates against 74%), and absent at 1 second.
+
+Treat MateHunter's ChestUCI margins as in-sample, and its out-of-sample advantage
+as established only at a 5-second clock on generated positions.
 
 ## Retracted, and why it is recorded
 
