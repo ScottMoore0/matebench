@@ -1,0 +1,30 @@
+{
+  "name": "Huntsman 1 no MateSearch",
+  "binary": "huntsman",
+  "sha256": "79cd07410b59a3ebf3cd4fabbdc2b7b92a26d2d419620403691509282f8f141b",
+  "source": "https://github.com/joergoster/Stockfish-old/releases/tag/h1 (the binary self-identifies as The Huntsman 1)",
+  "licence": "GPL-3.0",
+  "base": "Stockfish fork",
+  "family": "stockfish",
+  "uci_options": {
+    "Threads": 1,
+    "Hash": 256,
+    "MateSearch": "false"
+  },
+  "tracks": [
+    "finding",
+    "speed"
+  ],
+  "claims": "within-N",
+  "certificates": "none",
+  "notes": "Huntsman 1 with MateSearch off: the same old Stockfish search with its ordinary evaluation. The control that separates Huntsman's search from its king-danger evaluation (studies/huntsman/).",
+  "bench": 7016406,
+  "build": {
+    "source": "https://github.com/joergoster/Stockfish-old",
+    "tag": "h1",
+    "commit": "136b800533e57fe7e646a53f7d1f726b635e5cc9",
+    "network": "nn-6877cd24400e.nnue (fetched by make; unused with Use NNUE=false)",
+    "make": "cd src && make -j build ARCH=<arch>",
+    "measured": "g++, ARCH not recorded; an ARCH=x86-64-avx2 rebuild gives the same bench, matching the h1 commit message, and identical node-budget searches (engines/README.md)"
+  }
+}

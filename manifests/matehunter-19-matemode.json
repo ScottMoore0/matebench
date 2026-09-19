@@ -1,0 +1,43 @@
+{
+  "name": "MateHunter 19 MateMode",
+  "binary": "matehunter19",
+  "sha256": "d246758baf9643e362165a18759165609649207781cbfc6404c7ff97efd4ea30",
+  "source": "https://github.com/ScottMoore0/matehunter at tag v0.1.0, whose search this development build reproduces (REFERENCE.md)",
+  "licence": "GPL-3.0",
+  "base": "Stockfish 19",
+  "family": "stockfish",
+  "uci_options": {
+    "Threads": 1,
+    "Hash": 256,
+    "MateMode": "true",
+    "MateEval": "true",
+    "MateEvalNull": "true",
+    "MateEvalMain": "false",
+    "MateEvalQS": "false",
+    "MateNoRazor": "false",
+    "MateNoFutility": "false",
+    "MateNoNull": "false",
+    "MateEvalOff": 0
+  },
+  "tracks": [
+    "finding",
+    "speed"
+  ],
+  "claims": "within-N",
+  "tuned_on": [
+    "matetrack.epd"
+  ],
+  "certificates": "none",
+  "notes": "The recommended profile plus MateMode: razoring, futility and null-move pruning off, one ply of reduction relieved for checks. Tests whether modern pruning is what costs SF19 against Huntsman's older search (studies/huntsman/).",
+  "bench": 6051420,
+  "build": {
+    "source": "https://github.com/official-stockfish/Stockfish",
+    "tag": "sf_19",
+    "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+    "network": "nn-1a298aa575a0.nnue (fetched by make)",
+    "patch": "https://github.com/ScottMoore0/matehunter/blob/v0.1.0/matehunter.patch",
+    "patch_sha256": "d14cb5c22a513c8eb98c2323b3c0c7b35f92a670d86e8a6036c840c7ef8a821a",
+    "make": "cd src && patch -p1 < matehunter.patch && make -j build ARCH=<arch>",
+    "measured": "a development build (g++ 13.3.0, ARCH=x86-64-avx512icl); Stockfish 19 plus the public patch, built with ARCH=x86-64-avx2, gives the same bench under this manifest's options and identical node-budget searches (engines/README.md)"
+  }
+}
